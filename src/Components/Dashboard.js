@@ -18,7 +18,7 @@ function Dashboard() {
         if (!isAdmin) {
           return <Redirect to="/" />;
         }
-        return <div>Dashboard</div>;
+        return <Redirect to="/addproducts" />;
       }}
     />
   );

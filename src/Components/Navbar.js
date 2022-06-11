@@ -6,7 +6,7 @@ import { shoppingCart } from "react-icons-kit/feather/shoppingCart";
 import { auth } from "../Config/Config";
 import { useHistory } from "react-router-dom";
 
-function Navbar({ user, isAdmin }) {
+function Navbar({ user, isAdmin, totalProducts }) {
   const history = useHistory();
   async function handleLogout() {
     await auth.signOut().then(() => {
@@ -70,7 +70,7 @@ function Navbar({ user, isAdmin }) {
               <Link className="navlink" to="/cart">
                 <Icon icon={shoppingCart} size={20} />
               </Link>
-              {/* <span className="cart-indicator">{totalProducts}</span> */}
+              <span className="cart-indicator">{totalProducts}</span>
             </div>
             <div className="btn btn-danger btn-md" onClick={handleLogout}>
               LOGOUT

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Form, Card, Button, Container, Alert } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { auth, fs } from "../Config/Config";
+
 function Signup() {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
