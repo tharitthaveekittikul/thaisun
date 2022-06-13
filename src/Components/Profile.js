@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Form, Card, Button, Container } from "react-bootstrap";
 import { auth, fs } from "../Config/Config";
 import { useHistory } from "react-router-dom";
-import Navbar from "./Navbar"
+import Navbar from "./Navbar";
 function Profile() {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
@@ -11,7 +11,7 @@ function Profile() {
   const postCodeRef = useRef();
   const telRef = useRef();
   const [loading, setLoading] = useState(false);
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,21 +21,21 @@ function Profile() {
 
   const history = useHistory();
 
-  const [user, setUser]=useState(null);
+  const [user, setUser] = useState(null);
 
   // state of totalProducts
-  const [totalProducts, setTotalProducts]=useState(0);
-  // getting cart products   
-  useEffect(()=>{        
-    auth.onAuthStateChanged(user=>{
-        if(user){
-            fs.collection('Cart ' + user.uid).onSnapshot(snapshot=>{
-                const qty = snapshot.docs.length;
-                setTotalProducts(qty);
-            })
-        }
-    })       
-  },[]) 
+  const [totalProducts, setTotalProducts] = useState(0);
+  // getting cart products
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        fs.collection("Cart " + user.uid).onSnapshot((snapshot) => {
+          const qty = snapshot.docs.length;
+          setTotalProducts(qty);
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -44,6 +44,8 @@ function Profile() {
           .doc(user.uid)
           .get()
           .then((snapshot) => {
+            console.log(user);
+            console.log(user.uid);
             setUser(snapshot.data().FirstName);
             setFirstName(snapshot.data().FirstName);
             setLastName(snapshot.data().LastName);
@@ -51,6 +53,7 @@ function Profile() {
             setAddress(snapshot.data().Address);
             setPostCode(snapshot.data().PostCode);
             setTel(snapshot.data().Telephone);
+            setIsAdmin(snapshot.data().isAdmin);
           });
       } else {
         history.push("/login");
@@ -62,7 +65,7 @@ function Profile() {
 
   return (
     <>
-      <Navbar user={user} totalProducts={totalProducts}/>
+      <Navbar user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}

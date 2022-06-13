@@ -11,10 +11,14 @@ function Navbar({ user, isAdmin, totalProducts }) {
   async function handleLogout() {
     await auth.signOut().then(() => {
       localStorage.setItem("isLogIn", "False");
+      localStorage.clear();
+
       history.push("/");
     });
   }
-  localStorage.setItem("isAdmin", isAdmin);
+  if (isAdmin && localStorage.getItem("isLogIn")) {
+    localStorage.setItem("isAdmin", isAdmin);
+  }
 
   return (
     <div className="navbar">

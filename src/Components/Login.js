@@ -39,10 +39,10 @@ function Login() {
             // );
 
             localStorage.setItem("isLogIn", "True");
-
-            setTimeout(() => {
-              history.push("/");
-            }, 2000);
+            history.push("/");
+            // setTimeout(() => {
+            //   history.push("/");
+            // }, 1000);
           }
         })
         .catch((error) => setError(error.message));

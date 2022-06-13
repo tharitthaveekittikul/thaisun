@@ -9,10 +9,11 @@ import Signup from "./Components/Signup";
 import Profile from "./Components/Profile";
 import NotFound from "./Components/NotFound";
 import ForgotPassword from "./Components/ForgotPassword";
-import Dashboard from "./Components/Dashboard";
+import Dashboard from "./Components/Dashboard/Dashboard";
 import PrivateRoute from "./Components/PrivateRoute";
-import AddProducts from "./Components/AddProducts";
-import Cart from "./Components/Cart"
+import AddProducts from "./Components/Dashboard/AddProducts";
+import Cart from "./Components/Cart";
+import AddAdmin from "./Components/Dashboard/AddAdmin";
 
 export const App = () => {
   return (
@@ -25,7 +26,8 @@ export const App = () => {
         <Route path="/forgot-password" component={ForgotPassword}></Route>
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/addproducts" component={AddProducts} />
-        <Route path="/cart" component={Cart}/>  
+        <Route path="/addadmin" component={AddAdmin}></Route>
+        <Route path="/cart" component={Cart} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
