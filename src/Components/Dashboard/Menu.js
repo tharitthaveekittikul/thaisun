@@ -209,6 +209,12 @@ function Menu() {
                 <p>Add Products</p>
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to="/addadmin" className="nav-link">
+                <i className="fas fa-circle nav-icon" />
+                <p>Add Admin</p>
+              </Link>
+            </li>
             <li className="nav-header">LABELS</li>
             <li className="nav-item">
               <a href="#" className="nav-link">

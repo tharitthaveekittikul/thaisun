@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Form, Card, Button, Container } from "react-bootstrap";
+import { Form, Card, Button, Container, Alert } from "react-bootstrap";
 import { auth, fs } from "../Config/Config";
 import { useHistory } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -23,6 +23,9 @@ function Profile() {
 
   const [user, setUser] = useState(null);
 
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+
   // state of totalProducts
   const [totalProducts, setTotalProducts] = useState(0);
   // getting cart products
@@ -44,8 +47,8 @@ function Profile() {
           .doc(user.uid)
           .get()
           .then((snapshot) => {
-            console.log(user);
-            console.log(user.uid);
+            // console.log(user);
+            // console.log(user.uid);
             setUser(snapshot.data().FirstName);
             setFirstName(snapshot.data().FirstName);
             setLastName(snapshot.data().LastName);
@@ -61,7 +64,29 @@ function Profile() {
     });
   }, []);
 
-  async function handleUpdate() {}
+  async function handleUpdate(e) {
+    e.preventDefault();
+    setMessage("");
+    setError("");
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        fs.collection("users")
+          .doc(user.uid)
+          .update({
+            FirstName: firstNameRef.current.value,
+            LastName: lastNameRef.current.value,
+            Address: addressRef.current.value,
+            PostCode: postCodeRef.current.value,
+            Telephone: telRef.current.value,
+          })
+          .then(() => {
+            setMessage("Your profile has been updated.");
+          });
+      } else {
+        setError("Cannot update your profile.");
+      }
+    });
+  }
 
   return (
     <>
@@ -71,6 +96,8 @@ function Profile() {
         style={{ minHeight: "100vh" }}
       >
         <div className="w-100" style={{ maxWidth: "400px" }}>
+          {message ? <Alert variant="success">{message}</Alert> : ""}
+          {error ? <Alert variant="danger">{error}</Alert> : ""}
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Profile</h2>
@@ -81,7 +108,7 @@ function Profile() {
                     type="text"
                     ref={firstNameRef}
                     required
-                    value={firstName}
+                    defaultValue={firstName}
                   />
                 </Form.Group>
 
@@ -91,7 +118,7 @@ function Profile() {
                     type="text"
                     ref={lastNameRef}
                     required
-                    value={lastName}
+                    defaultValue={lastName}
                   />
                 </Form.Group>
 
@@ -101,7 +128,7 @@ function Profile() {
                     type="email"
                     ref={emailRef}
                     required
-                    value={email}
+                    defaultValue={email}
                     readOnly
                   />
                 </Form.Group>
@@ -112,7 +139,7 @@ function Profile() {
                     type="text"
                     ref={addressRef}
                     required
-                    value={address}
+                    defaultValue={address}
                   />
                 </Form.Group>
 
@@ -122,13 +149,18 @@ function Profile() {
                     type="text"
                     ref={postCodeRef}
                     required
-                    value={postCode}
+                    defaultValue={postCode}
                   />
                 </Form.Group>
 
                 <Form.Group id="tel" className="mb-3">
                   <Form.Label>Telephone</Form.Label>
-                  <Form.Control type="tel" ref={telRef} required value={tel} />
+                  <Form.Control
+                    type="tel"
+                    ref={telRef}
+                    required
+                    defaultValue={tel}
+                  />
                 </Form.Group>
 
                 <Button disabled={loading} className="w-100" type="submit">

@@ -5,6 +5,8 @@ import { Icon } from "react-icons-kit";
 import { shoppingCart } from "react-icons-kit/feather/shoppingCart";
 import { auth } from "../Config/Config";
 import { useHistory } from "react-router-dom";
+import Pickup from "./Pickup";
+import Delivery from "./Delivery";
 
 function Navbar({ user, isAdmin, totalProducts }) {
   const history = useHistory();
@@ -43,6 +45,12 @@ function Navbar({ user, isAdmin, totalProducts }) {
         {!user ? (
           <>
             <div>
+              <Pickup />
+            </div>
+            <div>
+              <Delivery />
+            </div>
+            <div>
               <Link className="navlink" to="/signup">
                 SIGN UP
               </Link>
@@ -64,6 +72,13 @@ function Navbar({ user, isAdmin, totalProducts }) {
             ) : (
               <></>
             )}
+
+            <div>
+              <Pickup />
+            </div>
+            <div>
+              <Delivery />
+            </div>
 
             <div>
               <Link className="navlink" to="/profile">

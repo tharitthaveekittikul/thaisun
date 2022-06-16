@@ -69,13 +69,31 @@ function AddAdmin() {
   return (
     <>
       <div>All User</div>
-      {message ? <Alert variant="success">{message}</Alert> : ""}
-      {error ? <Alert variant="danger">{error}</Alert> : ""}
+      {users.length > 0 ? (
+        users.map((user) => (
+          <>
+            <div key={user.key}>
+              Name = {user.FirstName} {user.LastName}, <br /> Uid = {user.key}
+              ,
+              <br />
+              Email = {user.Email}, <br />
+              isAdmin = {user.isAdmin.toString()}
+            </div>
+
+            <hr />
+          </>
+        ))
+      ) : (
+        <div> No User </div>
+      )}
+
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
       >
         <div className="w-100" style={{ maxWidth: "400px" }}>
+          {message ? <Alert variant="success">{message}</Alert> : ""}
+          {error ? <Alert variant="danger">{error}</Alert> : ""}
           <Card>
             <Card.Body>
               <h2 className="text-center mb-4">Add Admin</h2>
@@ -96,23 +114,6 @@ function AddAdmin() {
           </Card>
         </div>
       </Container>
-      {users.length > 0 ? (
-        users.map((user) => (
-          <>
-            <div key={user.key}>
-              Name = {user.FirstName} {user.LastName}, <br /> Uid = {user.key}
-              ,
-              <br />
-              Email = {user.Email}, <br />
-              isAdmin = {user.isAdmin.toString()}
-            </div>
-
-            <hr />
-          </>
-        ))
-      ) : (
-        <div> No User </div>
-      )}
     </>
   );
 }
