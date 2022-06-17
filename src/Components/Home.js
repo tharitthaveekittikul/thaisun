@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Navbar from "./Navbar";
 import Products from "./Products";
 import { auth, fs } from "../Config/Config";
 import IndividualFilteredProduct from "./IndividualFilteredProduct";
+import CartProducts from "./CartProducts"
+import { Button, Table } from "react-bootstrap";
+import {Icon} from 'react-icons-kit'
+import {plus} from 'react-icons-kit/feather/plus'
+import {ic_delete} from 'react-icons-kit/md/ic_delete'
+import {minus} from 'react-icons-kit/feather/minus'
 
 export default function Home(props) {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -149,6 +155,109 @@ export default function Home(props) {
     setFilteredProducts([]);
   };
 
+
+
+
+  // state of cart products
+  const [cartProducts, setCartProducts]=useState([]);
+
+  // getting cart products from firestore collection and updating the state
+  useEffect(()=>{
+      auth.onAuthStateChanged(user=>{
+          if(user){
+              fs.collection('Cart ' + user.uid).onSnapshot(snapshot=>{
+                  const newCartProduct = snapshot.docs.map((doc)=>({
+                      ID: doc.id,
+                      ...doc.data(),
+                  }));
+                  setCartProducts(newCartProduct);                    
+              })
+          }
+          else{
+              console.log('user is not signed in to retrieve cart');
+          }
+      })
+  },[])
+  
+  // getting the qty from cartProducts in a seperate array
+  const qty = cartProducts.map(cartProduct=>{
+      return cartProduct.qty;
+  })
+
+  // reducing the qty in a single value
+  const reducerOfQty = (accumulator, currentValue)=>accumulator+currentValue;
+
+  const totalQty = qty.reduce(reducerOfQty,0);
+
+  // console.log(totalQty);
+
+  // getting the TotalProductPrice from cartProducts in a seperate array
+  const price = cartProducts.map((cartProduct)=>{
+      return cartProduct.TotalProductPrice;
+  })
+
+  // reducing the price in a single value
+  const reducerOfPrice = (accumulator,currentValue)=>accumulator+currentValue;
+
+  const totalPrice = price.reduce(reducerOfPrice,0);
+  
+  // cart product increase function
+  const cartProductIncrease=(cartProduct)=>{
+      console.log(cartProduct);
+      Product=cartProduct;
+      Product.qty=Product.qty+1;
+      Product.TotalProductPrice=Product.qty*Product.price;
+      // updating in database
+      auth.onAuthStateChanged(user=>{
+          if(user){
+              fs.collection('Cart ' + user.uid).doc(cartProduct.ID).update(Product).then(()=>{
+                  console.log('increment added');
+              })
+          }
+          else{
+              console.log('user is not logged in to increment');
+          }
+      })
+  }
+
+  // cart product decrease functionality
+  const cartProductDecrease =(cartProduct)=>{
+      console.log(cartProduct);
+      Product=cartProduct;
+      if(Product.qty > 1){
+          Product.qty=Product.qty-1;
+          Product.TotalProductPrice=Product.qty*Product.price;
+           // updating in database
+          auth.onAuthStateChanged(user=>{
+              if(user){
+                  fs.collection('Cart ' + user.uid).doc(cartProduct.ID).update(Product).then(()=>{
+                      console.log('decrement');
+                  })
+              }
+              else{
+                  console.log('user is not logged in to decrement');
+              }
+          })
+      }
+  }
+
+  const handleCartProductDelete=(cartProduct)=>{
+    auth.onAuthStateChanged(user=>{
+        if(user){
+            fs.collection('Cart ' + user.uid).doc(cartProduct.ID).delete().then(()=>{
+                console.log('successfully deleted');
+            })
+        }
+        else{
+          console.log('user is not logged in to decrement');
+        }
+    })
+}
+
+  const handleClickIncrease = useCallback(e=>cartProductIncrease(e));
+  const handleClickDecrease = useCallback(e=>cartProductDecrease(e));
+  const handleClickDelete = useCallback(e=>handleCartProductDelete(e));
+
   return (
     <>
       <Navbar user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
@@ -199,6 +308,40 @@ export default function Home(props) {
             )}
           </>
         )}
+        <div>
+          <div className='cart-summary-box'>
+            <h5>Your Basket</h5>
+            <table>
+              <tbody>
+                {cartProducts.map(cartProduct => {
+                  return (
+                    <tr>
+                      <td>
+                        <div className='action-btns minus' onClick={e => handleClickDecrease(cartProduct)} >
+                          <Icon icon={minus} size={20}/>
+                        </div></td>
+                      <td>{cartProduct.qty}</td>
+                      <td>
+                        <div className='action-btns plus' onClick={e => handleClickIncrease(cartProduct)}>
+                          <Icon icon={plus} size={20}/>
+                        </div></td>
+                      <td>{cartProduct.title}</td>
+                      <td>£{cartProduct.price*cartProduct.qty}</td>
+                      <td>
+                        <div className='action-btns plus' onClick={e => handleClickDelete(cartProduct)}>
+                          <Icon icon={ic_delete} size={20}/>
+                        </div></td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <br></br>
+            <div style={{justifyContent:'flex-end'}}>
+              Total Cost: <span>£{totalPrice}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

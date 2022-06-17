@@ -403,3 +403,29 @@
 .Groceries {
   color: #e00a02;
 }
+
+/* cart summary */
+.cart-summary-box {
+  width: 400px;
+  margin: 30px auto;
+  border: 1px solid #b9b5b5;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.cart-summary-box h5 {
+  display: flex;
+  border-bottom: 1px solid #e00a02;
+  text-align: center;
+  padding: 0px;
+}
+
+.cart-summary-box div {
+  display: flex;
+  flex-direction: row;
+}
+
+.cart-summary-box table tbody tr td {
+  flex-direction: row;
+}
