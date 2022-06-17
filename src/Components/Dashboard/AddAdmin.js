@@ -2,6 +2,19 @@ import React, { useEffect, useState, useRef } from "react";
 import { auth, fs } from "../../Config/Config";
 import { Button, Alert, Container, Card, Form } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
+import DataTable from "./DataTable";
+
+const columns = [
+  { field: "key", headerName: "UID", width: 300 },
+  { field: "FirstName", headerName: "First Name", width: 150 },
+  { field: "LastName", headerName: "Last Name", width: 150 },
+  { field: "Email", headerName: "E-mail", width: 250 },
+  { field: "isAdmin", headerName: "isAdmin", width: 150 },
+];
+
+const userTableStyles = {
+  height: "650px",
+};
 
 function AddAdmin() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
@@ -12,7 +25,8 @@ function AddAdmin() {
   const [message, setMessage] = useState("");
   // const [uid, setUid] = useState("");
   const [sendEmail, setSendEmail] = useState(false);
-  const uidRef = useRef();
+  const AuidRef = useRef();
+  const RuidRef = useRef();
 
   useEffect(() => {
     const getUserFormFirebase = [];
@@ -26,6 +40,7 @@ function AddAdmin() {
     return () => subscriber();
   }, []);
 
+  // console.log(users);
   if (loading) {
     return <h1>loading firebase data...</h1>;
   }
@@ -46,7 +61,7 @@ function AddAdmin() {
       setLoading(true);
 
       fs.collection("users")
-        .doc(uidRef.current.value)
+        .doc(AuidRef.current.value)
         .update({
           isAdmin: true,
         })
@@ -56,11 +71,37 @@ function AddAdmin() {
             window.location.reload(false);
           }, 2000);
         })
-        .catch(() => {
+        .catch((error) => {
           setError("Failed to add Admin");
         });
-    } catch {
+    } catch (error) {
       setError("Failed to add Admin");
+    }
+    setLoading(false);
+  }
+  async function handleRemoveAdmin(e) {
+    e.preventDefault();
+    try {
+      setMessage("");
+      setError("");
+      setLoading(true);
+
+      fs.collection("users")
+        .doc(RuidRef.current.value)
+        .update({
+          isAdmin: false,
+        })
+        .then(() => {
+          setMessage("Remove Admin Successful");
+          setTimeout(() => {
+            window.location.reload(false);
+          }, 2000);
+        })
+        .catch(() => {
+          setError("Failed to remove Admin");
+        });
+    } catch {
+      setError("Failed to remove Admin");
     }
     setLoading(false);
   }
@@ -68,45 +109,59 @@ function AddAdmin() {
   // Note user.key = uid
   return (
     <>
-      <div>All User</div>
-      {users.length > 0 ? (
-        users.map((user) => (
-          <>
-            <div key={user.key}>
-              Name = {user.FirstName} {user.LastName}, <br /> Uid = {user.key}
-              ,
-              <br />
-              Email = {user.Email}, <br />
-              isAdmin = {user.isAdmin.toString()}
-            </div>
-
-            <hr />
-          </>
-        ))
-      ) : (
-        <div> No User </div>
-      )}
-
+      <DataTable
+        rows={users}
+        columns={columns}
+        loading={!users.length}
+        sx={userTableStyles}
+      />
+      {message ? <Alert variant="success">{message}</Alert> : ""}
+      {error ? <Alert variant="danger">{error}</Alert> : ""}
       <Container
-        className="d-flex align-items-center justify-content-center"
+        className="d-flex justify-content-center"
         style={{ minHeight: "100vh" }}
       >
-        <div className="w-100" style={{ maxWidth: "400px" }}>
-          {message ? <Alert variant="success">{message}</Alert> : ""}
-          {error ? <Alert variant="danger">{error}</Alert> : ""}
+        <div className="w-100 my-5" style={{ maxWidth: "400px" }}>
           <Card>
             <Card.Body>
-              <h2 className="text-center mb-4">Add Admin</h2>
+              <h2 className="text-center mb-4 align-items-center justify-content-center ">
+                Add Admin
+              </h2>
               {/* {error && <Alert variant="danger">{error}</Alert>}
               {message && <Alert variant="success">{message}</Alert>} */}
               {sendEmail ? null : (
                 <Form onSubmit={handleAddAdmin}>
                   <Form.Group id="uid" className="mb-3">
                     <Form.Label>UID</Form.Label>
-                    <Form.Control type="text" ref={uidRef} required />
+                    <Form.Control type="text" ref={AuidRef} required />
                   </Form.Group>
                   <Button disabled={loading} className="w-100" type="submit">
                     Add
+                  </Button>
+                </Form>
+              )}
+            </Card.Body>
+          </Card>
+        </div>
+        <div className="d-flex mx-5 my-5" style={{ height: "300px" }}>
+          <div className="vr"></div>
+        </div>
+        <div className="w-100 my-5" style={{ maxWidth: "400px" }}>
+          <Card>
+            <Card.Body>
+              <h2 className="text-center mb-4 align-items-center justify-content-center ">
+                Remove Admin
+              </h2>
+              {/* {error && <Alert variant="danger">{error}</Alert>}
+              {message && <Alert variant="success">{message}</Alert>} */}
+              {sendEmail ? null : (
+                <Form onSubmit={handleRemoveAdmin}>
+                  <Form.Group id="uid" className="mb-3">
+                    <Form.Label>UID</Form.Label>
+                    <Form.Control type="text" ref={RuidRef} required />
+                  </Form.Group>
+                  <Button disabled={loading} className="w-100" type="submit">
+                    Remove
                   </Button>
                 </Form>
               )}

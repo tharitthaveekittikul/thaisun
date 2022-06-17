@@ -48,6 +48,8 @@ function Delivery() {
   }
 
   function handlePickup() {
+    localStorage.setItem("Delivery", false);
+    localStorage.setItem("Pickup", true);
     handleClose();
     history.push("/");
   }
