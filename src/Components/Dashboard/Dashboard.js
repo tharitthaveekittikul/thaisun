@@ -23,7 +23,7 @@ function Dashboard() {
           return <Redirect to="/" />;
         }
         return (
-          <div>
+          <div className="wrapper">
             {/* Dashboard
             <Link to="/addproducts">Add Product</Link>
             <Link to="/addadmin"></Link> */}
