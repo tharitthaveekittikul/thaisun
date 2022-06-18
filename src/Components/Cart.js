@@ -132,8 +132,23 @@ export default function Cart() {
                     console.log('user is not logged in to decrement');
                 }
             })
+        } else if (Product.qty == 1){
+            handleCartProductDelete(cartProduct)
         }
     }
+
+    const handleCartProductDelete=(cartProduct)=>{
+        auth.onAuthStateChanged(user=>{
+            if(user){
+                fs.collection('Cart ' + user.uid).doc(cartProduct.ID).delete().then(()=>{
+                    console.log('successfully deleted');
+                })
+            }
+            else{
+              console.log('user is not logged in to decrement');
+            }
+        })
+      }
 
      // state of totalProducts
      const [totalProducts, setTotalProducts]=useState(0);
@@ -223,7 +238,9 @@ export default function Cart() {
                 </div>
             )}
             {cartProducts.length < 1 && (
-                <div className='container-fluid'>No products to show</div>
+                <div>
+                    <div style={{justifyContent:'center',display:'flex'}}>Basket is empty.</div>
+                </div>
             ) }
 
             {showModal===true&&(

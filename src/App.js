@@ -14,6 +14,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 import AddProducts from "./Components/Dashboard/AddProducts";
 import Cart from "./Components/Cart";
 import AddAdmin from "./Components/Dashboard/AddAdmin";
+import Method from "./Components/Method";
 
 export const App = () => {
   return (
@@ -22,12 +23,13 @@ export const App = () => {
         <Route exact path="/" component={Home} />
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/profile" component={Profile}></Route>
-        <Route path="/forgot-password" component={ForgotPassword}></Route>
+        <Route path="/profile" component={Profile} />
+        <Route path="/forgot-password" component={ForgotPassword} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/addproducts" component={AddProducts} />
-        <Route path="/addadmin" component={AddAdmin}></Route>
+        <Route path="/addadmin" component={AddAdmin} />
         <Route path="/cart" component={Cart} />
+        <Route path="/method" component={Method} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

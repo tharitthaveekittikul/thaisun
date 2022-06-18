@@ -85,7 +85,7 @@ function Delivery() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleDelivery}>
+      <Button onClick={handleDelivery}>
         Delivery
       </Button>
 

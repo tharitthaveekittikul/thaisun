@@ -9,6 +9,8 @@ import {Icon} from 'react-icons-kit'
 import {plus} from 'react-icons-kit/feather/plus'
 import {ic_delete} from 'react-icons-kit/md/ic_delete'
 import {minus} from 'react-icons-kit/feather/minus'
+import Delivery from "./Delivery";
+import Pickup from "./Pickup";
 
 export default function Home(props) {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -238,6 +240,8 @@ export default function Home(props) {
                   console.log('user is not logged in to decrement');
               }
           })
+      } else if (Product.qty == 1){
+        handleCartProductDelete(cartProduct)
       }
   }
 
@@ -252,7 +256,7 @@ export default function Home(props) {
           console.log('user is not logged in to decrement');
         }
     })
-}
+  }
 
   const handleClickIncrease = useCallback(e=>cartProductIncrease(e));
   const handleClickDecrease = useCallback(e=>cartProductDecrease(e));
@@ -309,7 +313,20 @@ export default function Home(props) {
           </>
         )}
         <div>
+          <div className="method-home-container">
+            <div className="method-home">
+              <Delivery/>
+            </div>
+            <div className="method-home">
+              <Pickup/>
+            </div>
+          </div>
           <div className='cart-summary-box'>
+            {localStorage.getItem('Pickup') ? 
+            <h6>Pickup</h6>
+            :
+            <h6>Delivery</h6>
+            }
             <h5>Your Basket</h5>
             <table>
               <tbody>
