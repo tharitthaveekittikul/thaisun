@@ -15,6 +15,7 @@ import AddProducts from "./Components/Dashboard/AddProducts";
 import Cart from "./Components/Cart";
 import AddAdmin from "./Components/Dashboard/AddAdmin";
 import Method from "./Components/Method";
+import Receipt from "./Components/Receipt/Receipt";
 
 export const App = () => {
   return (
@@ -30,6 +31,7 @@ export const App = () => {
         <Route path="/addadmin" component={AddAdmin} />
         <Route path="/cart" component={Cart} />
         <Route path="/method" component={Method} />
+        <Route path="/receipt" component={Receipt} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

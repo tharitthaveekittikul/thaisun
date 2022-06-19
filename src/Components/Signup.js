@@ -41,7 +41,6 @@ function Signup() {
               FirstName: firstNameRef.current.value,
               LastName: lastNameRef.current.value,
               Email: emailRef.current.value,
-              Password: passwordRef.current.value,
               Address: addressRef.current.value,
               PostCode: postCodeRef.current.value,
               Telephone: telRef.current.value,
