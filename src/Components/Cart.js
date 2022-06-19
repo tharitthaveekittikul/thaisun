@@ -2,30 +2,14 @@ import React,{useState, useEffect} from 'react'
 import Navbar from './Navbar'
 import {auth,fs} from '../Config/Config'
 import CartProducts from './CartProducts';
-import StripeCheckout from 'react-stripe-checkout';
-import axios from 'axios';
-import {useHistory} from 'react-router-dom'
 
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Modal from './Modal';
+import { Button, Modal } from 'react-bootstrap';
 
-toast.configure();
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import Paypal from "./Paypal"
+
 
 export default function Cart() { 
-    
-    // show modal state
-    const [showModal, setShowModal]=useState(false);
-
-    // trigger modal
-    const triggerModal=()=>{
-        setShowModal(true);
-    }
-
-    // hide modal
-    const hideModal=()=>{
-        setShowModal(false);
-    }
          
     // getting current user function
     function GetCurrentUser(){
@@ -91,7 +75,7 @@ export default function Cart() {
     // reducing the price in a single value
     const reducerOfPrice = (accumulator,currentValue)=>accumulator+currentValue;
 
-    const totalPrice = price.reduce(reducerOfPrice,0);
+    const totalPrice = Number(price.reduce(reducerOfPrice,0)).toFixed(2);
 
     // global variable
     let Product;
@@ -162,43 +146,16 @@ export default function Cart() {
                  })
              }
          })       
-     },[])
+    },[])
      
-     // charging payment
-     const history = useHistory();
-     const handleToken = async(token)=>{
-        //  console.log(token);
-        const cart = {name: 'All Products', totalPrice}
-        const response = await axios.post('http://localhost:8080/checkout',{
-            token,
-            cart
-        })
-        console.log(response);
-        let {status}=response.data;
-        console.log(status);
-        if(status==='success'){
-            history.push('/');
-            toast.success('Your order has been placed successfully', {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: undefined,
-              });
-              
-              const uid = auth.currentUser.uid;
-              const carts = await fs.collection('Cart ' + uid).get();
-              for(var snap of carts.docs){
-                  fs.collection('Cart ' + uid).doc(snap.id).delete();
-              }
-        }
-        else{
-            alert('Something went wrong in checkout');
-        }
-     }
+    const [checkout, setCheckOut] = useState(false);
    
+    const totalDiscount = Number(10).toFixed(2)
+
+    const totalCost = Number(totalPrice - totalDiscount).toFixed(2)
+
+    const [modalShow, setModalShow] = useState(false);
+
     return (
         <>
             <Navbar user={user} totalProducts={totalProducts} />           
@@ -216,24 +173,20 @@ export default function Cart() {
                         <h5>Cart Summary</h5>
                         <br></br>
                         <div>
-                        Total No of Products: <span>{totalQty}</span>
+                        Subtotal: <span>£{totalPrice}</span>
                         </div>
                         <div>
-                        Total Price to Pay: <span>$ {totalPrice}</span>
+                        Discount: <span>£{totalDiscount}</span>
                         </div>
-                        <br></br>
-                        <StripeCheckout
-                            stripeKey='pk_test_51Hhu6bK4kL4WRmvGEUkTmdFw1lUtTAnadBSDb0eXGuA2JJGrntIBdm10llYu5RbPbLbaS1My74Rgdi0n5ePYIGB600p3V4GKmK'
-                            token={handleToken}
-                            billingAddress
-                            shippingAddress
-                            name='All Products'
-                            amount={totalPrice * 100}
-                        ></StripeCheckout> 
-                         <h6 className='text-center'
-                        style={{marginTop: 7+'px'}}>OR</h6>
-                        <button className='btn btn-secondary btn-md' 
-                        onClick={()=>triggerModal()}>Cash on Delivery</button>                                                                                                                                             
+                        <div style={{fontWeight:'bold'}}>
+                        Total: <span>£{totalCost}</span>
+                        </div>
+                        <br></br> 
+                        <div style={{justifyContent:'center'}}>
+                        <Button variant="primary" onClick={() => setModalShow(true)}>
+                            Choose Payment
+                        </Button>
+                        </div>                                                                                                                                          
                     </div>                                    
                 </div>
             )}
@@ -241,14 +194,42 @@ export default function Cart() {
                 <div>
                     <div style={{justifyContent:'center',display:'flex'}}>Basket is empty.</div>
                 </div>
-            ) }
+            ) }        
 
-            {showModal===true&&(
-                <Modal TotalPrice={totalPrice} totalQty={totalQty}
-                    hideModal={hideModal}
-                />
-            )}          
-                            
+            <Modal
+                show={modalShow}
+                onHide={()=>setModalShow(false)}
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                >
+                <PayPalScriptProvider
+        options={{ "client-id": "Ae_AV83W1SSK0CvJI9xvcXwN1axVGhThI4_-I54A3JwbEfhTbTz3StFW_7zuEbXMeYSd40DF67dXPBQQ&currency=GBP" }}
+      >
+        <PayPalButtons
+          createOrder={(data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  amount: {
+                    value: Number(totalCost).toFixed(2),
+                  },
+                },
+              ],
+            });
+          }}
+          onApprove={async (data, actions) => {
+            return actions.order.capture().then(function(details) {
+                // This function shows a transaction success message to your buyer.
+                alert('Transaction completed by ' + details.payer.name.given_name);
+                console.log(details)
+            });
+          }}
+          onCancel={(data, actions) => {
+            console.log('cancel=======')
+          }}
+        />
+      </PayPalScriptProvider>
+            </Modal>            
         </>
     )
 }
