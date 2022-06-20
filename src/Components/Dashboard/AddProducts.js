@@ -188,7 +188,7 @@ export default function AddProducts() {
                 description,
                 category,
                 price: Number(price),
-                url,
+                img: url,
                 addOn: inputFields,
               })
               .then(() => {

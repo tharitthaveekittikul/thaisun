@@ -13,9 +13,10 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import PrivateRoute from "./Components/PrivateRoute";
 import AddProducts from "./Components/Dashboard/AddProducts";
 import Cart from "./Components/Cart";
-import AddAdmin from "./Components/Dashboard/AddAdmin";
+import ManageAdmin from "./Components/Dashboard/ManageAdmin";
 import Method from "./Components/Method";
 import Receipt from "./Components/Receipt/Receipt";
+import ManageProducts from "./Components/Dashboard/ManageProducts";
 
 export const App = () => {
   return (
@@ -28,10 +29,11 @@ export const App = () => {
         <Route path="/forgot-password" component={ForgotPassword} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/addproducts" component={AddProducts} />
-        <Route path="/addadmin" component={AddAdmin} />
+        <Route path="/manageadmin" component={ManageAdmin} />
         <Route path="/cart" component={Cart} />
         <Route path="/method" component={Method} />
         <Route path="/receipt" component={Receipt} />
+        <Route path="/manageproducts" component={ManageProducts} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

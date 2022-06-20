@@ -11,7 +11,7 @@ const userTableStyles = {
   height: "650px",
 };
 
-function AddAdmin() {
+function ManageAdmin() {
   const columns = [
     { field: "key", headerName: "UID", width: 300 },
     { field: "FirstName", headerName: "First Name", width: 150 },
@@ -278,4 +278,4 @@ function AddAdmin() {
   );
 }
 
-export default AddAdmin;
+export default ManageAdmin;

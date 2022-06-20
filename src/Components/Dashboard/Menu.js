@@ -202,7 +202,13 @@ function Menu() {
                 </p>
               </a>
             </li>
-            <li className="nav-header">ADDING</li>
+            <li className="nav-header">Manage</li>
+            <li className="nav-item">
+              <Link to="/manageproducts" className="nav-link">
+                <i className="fas fa-circle nav-icon" />
+                <p>Manage Products</p>
+              </Link>
+            </li>
             <li className="nav-item">
               <Link to="/addproducts" className="nav-link">
                 <i className="fas fa-circle nav-icon" />
@@ -210,9 +216,9 @@ function Menu() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/addadmin" className="nav-link">
+              <Link to="/manageadmin" className="nav-link">
                 <i className="fas fa-circle nav-icon" />
-                <p>Add Admin</p>
+                <p>Manage Admin</p>
               </Link>
             </li>
             <li className="nav-header">LABELS</li>

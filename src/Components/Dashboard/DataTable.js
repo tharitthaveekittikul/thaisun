@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
-const DataTable = ({ rows, columns, loading, sx }) => {
+const DataTable = ({ rows, columns, loading, sx, handleRowEditCommit }) => {
   const [pageSize, setPageSize] = useState(5);
   return (
     <DataGrid
@@ -9,6 +9,7 @@ const DataTable = ({ rows, columns, loading, sx }) => {
       columns={columns}
       loading={loading}
       sx={sx}
+      onCellEditCommit={handleRowEditCommit}
       //   checkboxSelection
       pagination
       pageSize={pageSize}
