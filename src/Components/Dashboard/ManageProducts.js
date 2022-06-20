@@ -2,42 +2,45 @@ import React, { useState, useEffect, useRef } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Menu from "./Menu";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { Button, Alert, Container, Card, Form } from "react-bootstrap";
 import { auth, fs } from "../../Config/Config";
 import DataTable from "./DataTable";
+import EditProducts from "./EditProducts";
 
 const userTableStyles = {
   height: "775px",
 };
 
 function ManageProducts() {
+  const history = useHistory();
   const columns = [
     { field: "key", headerName: "UID", width: 250 },
-    { field: "title", headerName: "Title", width: 200, editable: true },
+    { field: "title", headerName: "Title", width: 200 },
     {
       field: "description",
       headerName: "Description",
       width: 200,
-      editable: true,
     },
     { field: "category", headerName: "Category", width: 250 },
-    { field: "price", headerName: "Price", width: 100, editable: true },
+    { field: "price", headerName: "Price", width: 100 },
     {
-      field: "update",
-      headerName: "Update",
+      field: "edit",
+      headerName: "Edit",
       renderCell: (cellValues) => {
         return (
           <div>
             <Button
               color="error"
               variant="success"
-              onClick={() => {
-                console.log(cellValues.id);
-                handleUpdateButton(cellValues.id);
-              }}
+              // onClick={() => {
+              //   // console.log(cellValues.id);
+              //   // handleUpdateButton(cellValues.id);
+              //   handleEditButton(cellValues.id);
+              // }}
+              onClick={() => handleEditButton(cellValues.id)}
             >
-              Update
+              Edit
             </Button>
           </div>
         );
@@ -83,6 +86,15 @@ function ManageProducts() {
       setPrice(params.value);
     }
   }, []);
+
+  function handleEditButton(uid) {
+    history.push({
+      pathname: "/editproducts",
+      state: {
+        uid: uid,
+      },
+    });
+  }
 
   useEffect(() => {
     const getProductFromFirebase = [];

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Receipt.css";
 import logo from "../../Images/thaisunlogo.png";
 import { auth, fs } from "../../Config/Config";
+import { Redirect } from "react-router-dom";
 
 function Receipt() {
   function handlePrint() {
@@ -10,6 +11,7 @@ function Receipt() {
   const [totalProducts, setTotalProducts] = useState("");
   const [carts, setCarts] = useState();
   const [totalPrice, setTotalPrice] = useState(parseFloat(0));
+  const isLogIn = localStorage.getItem("isLogIn") === "True";
 
   useEffect(() => {
     const getCartFormFirebase = [];
@@ -36,6 +38,9 @@ function Receipt() {
       }
     });
   }, []);
+  if (!isLogIn) {
+    return <Redirect to="/login" />;
+  }
 
   if (carts) {
     return (

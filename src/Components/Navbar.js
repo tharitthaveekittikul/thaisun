@@ -71,7 +71,7 @@ function Navbar({ user, isAdmin, totalProducts }) {
               </Link>
             </div>
             <div className="cart-menu-btn">
-              <Link className="navlink" to="/cart">
+              <Link className="navlink" to="/checkout">
                 <Icon icon={shoppingCart} size={20} />
               </Link>
               <span className="cart-indicator">{totalProducts}</span>

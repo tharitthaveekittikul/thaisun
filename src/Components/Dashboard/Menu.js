@@ -216,6 +216,12 @@ function Menu() {
               </Link>
             </li>
             <li className="nav-item">
+              <Link to="/manageaddons" className="nav-link">
+                <i className="fas fa-circle nav-icon" />
+                <p>Manage Add-on</p>
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link to="/manageadmin" className="nav-link">
                 <i className="fas fa-circle nav-icon" />
                 <p>Manage Admin</p>

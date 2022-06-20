@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { storage, fs } from "../../Config/Config";
 import Header from "./Header";
@@ -7,7 +7,11 @@ import Footer from "./Footer";
 import { Icon } from "react-icons-kit";
 import { plus } from "react-icons-kit/feather/plus";
 import { minus } from "react-icons-kit/feather/minus";
-export default function AddProducts() {
+import { useLocation, useHistory } from "react-router-dom";
+
+export default function EditProducts() {
+  const location = useLocation();
+  const history = useHistory();
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
   const [title, setTitle] = useState("");
@@ -20,6 +24,7 @@ export default function AddProducts() {
 
   const [successMsg, setSuccessMsg] = useState("");
   const [uploadError, setUploadError] = useState("");
+  const [UpdateImg, setUpdateImg] = useState(false);
 
   const types = ["image/jpg", "image/jpeg", "image/png", "image/PNG"];
 
@@ -34,6 +39,24 @@ export default function AddProducts() {
       ],
     },
   ]);
+  console.log(location.state.uid);
+  const uidProducts = location.state.uid;
+  useEffect(() => {
+    fs.collection("Products")
+      .doc(uidProducts)
+      .get()
+      .then((snapshot) => {
+        // console.log(user);
+        // console.log(user.uid);
+        setTitle(snapshot.data().title);
+        setDescription(snapshot.data().description);
+        setPrice(snapshot.data().price);
+        setCategory(snapshot.data().category);
+        setImage(snapshot.data().img);
+        setInputFields(snapshot.data().addOn);
+      });
+  }, []);
+  console.log(image);
 
   const titleRef = useRef([]);
 
@@ -154,8 +177,10 @@ export default function AddProducts() {
       if (selectedFile && types.includes(selectedFile.type)) {
         setImage(selectedFile);
         setImageError("");
+        setUpdateImg(true);
       } else {
         setImage(null);
+        setUpdateImg(false);
         setImageError("please select a valid image file type (png or jpg)");
       }
     } else {
@@ -163,51 +188,82 @@ export default function AddProducts() {
     }
   };
 
-  const handleAddProducts = (e) => {
+  const handleUpdateProducts = (e) => {
     e.preventDefault();
     // console.log(title, description, price);
     // console.log(image);
-    const uploadTask = storage.ref(`product-images/${image.name}`).put(image);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(progress);
-      },
-      (error) => setUploadError(error.message),
-      () => {
-        storage
-          .ref("product-images")
-          .child(image.name)
-          .getDownloadURL()
-          .then((url) => {
-            fs.collection("Products")
-              .add({
-                title,
-                description,
-                category,
-                price: Number(price),
-                img: url,
-                addOn: inputFields,
-              })
-              .then(() => {
-                setSuccessMsg("Product added successfully");
-                setTitle("");
-                setDescription("");
-                setCategory("");
-                setPrice("");
-                document.getElementById("file").value = "";
-                setImageError("");
-                setUploadError("");
-                setTimeout(() => {
-                  setSuccessMsg("");
-                }, 2000);
-              })
-              .catch((error) => setUploadError(error.message));
-          });
-      }
-    );
+    if (UpdateImg) {
+      const uploadTask = storage.ref(`product-images/${image.name}`).put(image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(progress);
+        },
+        (error) => setUploadError(error.message),
+        () => {
+          storage
+            .ref("product-images")
+            .child(image.name)
+            .getDownloadURL()
+            .then((url) => {
+              fs.collection("Products")
+                .doc(uidProducts)
+                .update({
+                  title,
+                  description,
+                  category,
+                  price: Number(price),
+                  img: url,
+                  addOn: inputFields,
+                })
+                .then(() => {
+                  setSuccessMsg("Product update successfully");
+                  setTitle("");
+                  setDescription("");
+                  setCategory("");
+                  setPrice("");
+                  document.getElementById("file").value = "";
+                  setImageError("");
+                  setUploadError("");
+                  setImage(null);
+                  setTimeout(() => {
+                    setSuccessMsg("");
+                    history.push("/manageproducts");
+                  }, 2000);
+                })
+                .catch((error) => setUploadError(error.message));
+            });
+        }
+      );
+    } else {
+      fs.collection("Products")
+        .doc(uidProducts)
+        .update({
+          title,
+          description,
+          category,
+          price: Number(price),
+          addOn: inputFields,
+        })
+        .then(() => {
+          setSuccessMsg("Product update successfully");
+          setTitle("");
+          setDescription("");
+          setCategory("");
+          setPrice("");
+          document.getElementById("file").value = "";
+          setImageError("");
+          setUploadError("");
+          setImage(null);
+          setTimeout(() => {
+            setSuccessMsg("");
+            history.push("/manageproducts");
+          }, 2000);
+        })
+        .catch((error) => setUploadError(error.message));
+    }
   };
 
   if (!isLogIn) {
@@ -226,7 +282,7 @@ export default function AddProducts() {
       <div className="container">
         <br></br>
         <br></br>
-        <h1>Add Products</h1>
+        <h1>Edit Products</h1>
         <hr></hr>
         {successMsg && (
           <>
@@ -237,7 +293,7 @@ export default function AddProducts() {
         <form
           autoComplete="off"
           className="form-group"
-          onSubmit={handleAddProducts}
+          onSubmit={handleUpdateProducts}
         >
           <label>Product Title</label>
           <input
@@ -286,11 +342,11 @@ export default function AddProducts() {
           </select>
           <br></br>
           <label>Upload Product Image</label>
+          {UpdateImg ? <></> : <img src={image} width="300px" height="300px" />}
           <input
             type="file"
             id="file"
             className="form-control"
-            required
             onChange={handleProductImg}
           ></input>
           <br></br>
@@ -356,7 +412,7 @@ export default function AddProducts() {
           <br></br>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button type="submit" className="btn btn-success btn-md">
-              SUBMIT
+              Update
             </button>
           </div>
         </form>

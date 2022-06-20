@@ -45,6 +45,7 @@ function Signup() {
               PostCode: postCodeRef.current.value,
               Telephone: telRef.current.value,
               isAdmin: false,
+              Coupons: [],
             })
             .then(async () => {
               setSuccess(
