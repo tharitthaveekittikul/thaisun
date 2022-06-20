@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Redirect } from "react-router-dom";
 import { storage, fs } from "../../Config/Config";
 import Header from "./Header";
 import Menu from "./Menu";
 import Footer from "./Footer";
+import { Icon } from "react-icons-kit";
+import { plus } from "react-icons-kit/feather/plus";
+import { minus } from "react-icons-kit/feather/minus";
 export default function AddProducts() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
@@ -19,6 +22,132 @@ export default function AddProducts() {
   const [uploadError, setUploadError] = useState("");
 
   const types = ["image/jpg", "image/jpeg", "image/png", "image/PNG"];
+
+  const [inputFields, setInputFields] = useState([
+    {
+      title: "",
+      menu: [
+        {
+          menuName: "",
+          price: 0,
+        },
+      ],
+    },
+  ]);
+
+  const titleRef = useRef([]);
+
+  const handleChangeTitle = (index, event) => {
+    // console.log(index, event.target.value);
+    const values = [...inputFields];
+    values[index]["title"] = event.target.value;
+    setInputFields(values);
+    console.log(inputFields);
+  };
+
+  const handleChangeMenu = (index, index_child, event) => {
+    // console.log(index, event.target.value);
+    const values = [...inputFields];
+    values[index]["menu"][index_child][event.target.name] = event.target.value;
+    setInputFields(values);
+    console.log(inputFields);
+  };
+
+  const handleAddTitle = () => {
+    setInputFields([
+      ...inputFields,
+      {
+        title: "",
+        menu: [
+          {
+            menuName: "",
+            price: 0,
+          },
+        ],
+      },
+    ]);
+  };
+
+  const handleRemoveTitle = (index) => {
+    const values = [...inputFields];
+    values.splice(index, 1);
+    setInputFields(values);
+  };
+
+  const handleAddMenu = (index) => {
+    // console.log(inputFields[index].menu[0]);
+    // console.log(titleRef.current[index].value);
+    if (inputFields.length == 1) {
+      setInputFields([
+        {
+          title: titleRef.current[index].value,
+          menu: [
+            ...inputFields[index].menu,
+            {
+              menuName: "",
+              price: 0,
+            },
+          ],
+        },
+      ]);
+    } else {
+      const values = [...inputFields];
+      // console.log(values);
+      values.push({
+        title: titleRef.current[index].value,
+        menu: [
+          ...inputFields[index].menu,
+          {
+            menuName: "",
+            price: 0,
+          },
+        ],
+      });
+      values.splice(index, 1);
+      setInputFields(values);
+    }
+  };
+
+  const handleRemoveMenu = (index, index_child) => {
+    const values = inputFields[index].menu;
+    // console.log(values);
+    values.splice(index_child, 1);
+    // console.log(values);
+    if (inputFields.length == 1) {
+      setInputFields([
+        {
+          title: titleRef.current[index].value,
+          menu: values,
+        },
+      ]);
+    } else {
+      const all = [
+        ...inputFields,
+        {
+          title: titleRef.current[index].value,
+          menu: values,
+        },
+      ];
+      setInputFields(all);
+      all.splice(index, 1);
+      setInputFields(all);
+    }
+    // setInputFields();
+    // setInputFields(values);
+    // setInputFields([
+    //   {
+    //     title: titleRef.current[index].value,
+    //     menu: values,
+    //   },
+    // ]);
+
+    // ดูตัวแปร object กับ array ของ menu ใหม่ด้วย
+    // console.log(index_child);
+    // values.splice(index_child, 1);
+    // console.log(values);
+    // setInputFields(values);
+  };
+
   const handleProductImg = (e) => {
     let selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -60,6 +189,7 @@ export default function AddProducts() {
                 category,
                 price: Number(price),
                 url,
+                addOn: inputFields,
               })
               .then(() => {
                 setSuccessMsg("Product added successfully");
@@ -163,7 +293,60 @@ export default function AddProducts() {
             required
             onChange={handleProductImg}
           ></input>
-
+          <br></br>
+          <label>Add Add-on</label>
+          {inputFields.map((titleField, index) => (
+            <div key={index}>
+              <input
+                className="form-control"
+                type="text"
+                name="title"
+                value={titleField.title}
+                ref={(el) => (titleRef.current[index] = el)}
+                onChange={(event) => handleChangeTitle(index, event)}
+              />
+              {titleField.menu.map((menuField, index_child) => (
+                <div key={index_child} className="d-flex">
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="menuName"
+                    value={menuField.menuName}
+                    onChange={(event) =>
+                      handleChangeMenu(index, index_child, event)
+                    }
+                    autoFocus
+                  />
+                  <input
+                    className="form-control"
+                    type="number"
+                    name="price"
+                    value={menuField.price}
+                    onChange={(event) =>
+                      handleChangeMenu(index, index_child, event)
+                    }
+                  />
+                  <Icon
+                    icon={plus}
+                    size={20}
+                    onClick={() => handleAddMenu(index)}
+                  />
+                  <Icon
+                    icon={minus}
+                    size={20}
+                    onClick={() => handleRemoveMenu(index, index_child)}
+                  />
+                </div>
+              ))}
+              <Icon icon={plus} size={20} onClick={() => handleAddTitle()} />
+              <Icon
+                icon={minus}
+                size={20}
+                onClick={() => handleRemoveTitle(index)}
+              />
+              <hr />
+            </div>
+          ))}
           {imageError && (
             <>
               <br></br>
