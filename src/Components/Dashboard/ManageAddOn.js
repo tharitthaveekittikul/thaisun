@@ -32,9 +32,8 @@ function ManageAddOn() {
       >
         {message ? <Alert variant="success">{message}</Alert> : ""}
         {error ? <Alert variant="danger">{error}</Alert> : ""}
-
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 }
