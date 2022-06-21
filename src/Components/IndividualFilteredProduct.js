@@ -11,7 +11,7 @@ export default function IndividualFilteredProduct({
   return (
     <div className="product">
       <div className="product-img">
-        <img src={individualFilteredProduct.url} alt="product-img" />
+        <img src={individualFilteredProduct.img} alt="product-img" />
       </div>
       <div className="product-text title">
         {individualFilteredProduct.title}

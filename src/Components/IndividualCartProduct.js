@@ -33,7 +33,7 @@ export default function IndividualCartProduct({
   return (
     <div className="product">
       <div className="product-img">
-        <img src={cartProduct.url} alt="product-img" />
+        <img src={cartProduct.img} alt="product-img" />
       </div>
       <div className="product-text title">{cartProduct.title}</div>
       <div className="product-text description">{cartProduct.description}</div>

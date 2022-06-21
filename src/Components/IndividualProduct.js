@@ -8,7 +8,7 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
   return (
     <div className="product">
       <div className="product-img">
-        <img src={individualProduct.url} alt="product-img" />
+        <img src={individualProduct.img} alt="product-img" />
       </div>
       <div className="product-text title">{individualProduct.title}</div>
       <div className="product-text description">
