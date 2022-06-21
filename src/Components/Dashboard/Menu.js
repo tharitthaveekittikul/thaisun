@@ -216,6 +216,12 @@ function Menu() {
               </Link>
             </li>
             <li className="nav-item">
+              <Link to="/managecategory" className="nav-link">
+                <i className="fas fa-circle nav-icon" />
+                <p>Manage Category</p>
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link to="/fixedaddon" className="nav-link">
                 <i className="fas fa-circle nav-icon" />
                 <p>Fixed Add-on</p>
@@ -225,6 +231,12 @@ function Menu() {
               <Link to="/manageaddons" className="nav-link">
                 <i className="fas fa-circle nav-icon" />
                 <p>Manage Add-on</p>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/managecoupon" className="nav-link">
+                <i className="fas fa-circle nav-icon" />
+                <p>Manage Coupon</p>
               </Link>
             </li>
             <li className="nav-item">

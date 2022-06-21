@@ -21,6 +21,7 @@ import ManageAddOn from "./Components/Dashboard/ManageAddOn";
 import EditProducts from "./Components/Dashboard/EditProducts";
 import AddCategory from "./Components/Dashboard/AddCategory";
 import FixedAddOn from "./Components/Dashboard/FixedAddOn";
+import AddCoupon from "./Components/Dashboard/AddCoupon"
 
 export const App = () => {
   return (
@@ -40,8 +41,9 @@ export const App = () => {
         <Route path="/manageproducts" component={ManageProducts} />
         <Route path="/manageaddons" component={ManageAddOn} />
         <Route path="/editproducts" component={EditProducts} />
-        <Route path="/addcategory" component={AddCategory} />
+        <Route path="/managecategory" component={AddCategory} />
         <Route path="/fixedaddon" component={FixedAddOn} />
+        <Route path="/managecoupon" component={AddCoupon} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
