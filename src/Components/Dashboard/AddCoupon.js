@@ -25,6 +25,7 @@ import FormLabel from '@mui/material/FormLabel';
         { field: "expireddate", headerName: "Expired Date", width: 150 },
         { field: "type", headerName: "Discount Type", width: 150 },
         { field: "value", headerName: "Discount Value", width: 150 },
+        { field: "minimum", headerName: "Minimum Total", width: 150 },
         {
         field: "remove",
         headerName: "Remove",
@@ -61,6 +62,9 @@ import FormLabel from '@mui/material/FormLabel';
     const percentRef = useRef();
     const [percent, setPercent] = useState(1)
     const [gName, setgName] = useState('')
+    const minimumRef = useRef();
+    const [minimum, setMinimum] = useState(0)
+    const [minState, setMinState] = useState(false)
 
     useEffect(() => {
         const getCouponFromFirebase = [];
@@ -101,12 +105,21 @@ import FormLabel from '@mui/material/FormLabel';
             value = percent
         }
 
+        let min = ''
+
+        if(minState == false){
+            min = '-'
+        } else {
+            min = Number(minimumRef.current.value)
+        }
+
         fs.collection("coupon")
             .add({
             coupon: couponRef.current.value,
             expireddate: expired,
             type: couponType,
-            value: value
+            value: value,
+            minimum: min,
             })
             .then(() => {
             setMessage("Add Coupon Successful");
@@ -188,13 +201,27 @@ import FormLabel from '@mui/material/FormLabel';
         setgName(result)
     }
 
+    function handleMinimumChange(event){
+        if (event.target.value == 'yes'){
+            setMinState(true)
+        }
+        else if (event.target.value == 'no'){
+            setMinState(false)
+        }
+    }
+    
+    function handleNameChange(event){
+        event.preventDefault()
+        setgName(event.target.value)
+    }
+
     return (
         <div className="wrapper">
         <Header />
         <Menu />
         <div
             style={{
-            maxWidth: "1100px",
+            maxWidth: "1200px",
             margin: "auto",
             marginTop: "50px",
             }}
@@ -223,8 +250,8 @@ import FormLabel from '@mui/material/FormLabel';
                 {sendEmail ? null : (
                     <Form onSubmit={handleAddCoupon}>
                         <Form.Group id="uid" className="mb-3">
-                            <Form.Label>Coupon</Form.Label>
-                            <Form.Control type="text" ref={couponRef} value={gName} required defaultValue={null}/>
+                            <FormLabel>Coupon</FormLabel>
+                            <Form.Control type="text" ref={couponRef} value={gName} defaultValue={''} required onChange={handleNameChange}/>
                             <div className="text-center">
                             <Button className="w-50" style={{marginBottom:'10px',marginTop:'10px'}} onClick={generateName}>
                                 Generate Coupon
@@ -248,7 +275,7 @@ import FormLabel from '@mui/material/FormLabel';
                                 : null
                                 }
                             </div>
-                            <div>
+                            <div  style={{marginTop:'20px'}}>
                                 <FormControl>
                                     <FormLabel>Discount Type?</FormLabel>
                                     <RadioGroup
@@ -264,17 +291,38 @@ import FormLabel from '@mui/material/FormLabel';
                                 {type ?
                                 (
                                 <div>
-                                    <Form.Label>Fixed Discount Number</Form.Label>
+                                    <FormLabel>Fixed Discount Number</FormLabel>
                                     <Form.Control type="number" ref={fixedRef} required />
                                 </div>
                                 )
                                 :
                                 (
                                 <div>
-                                    <Form.Label>Percent Discount Number 1-100</Form.Label>
+                                    <FormLabel>Percent Discount Number 1-100</FormLabel>
                                     <Form.Control type="number" value={percent} onChange={handlePercentChange} required min={1} max={100} defaultValue={1}/>
                                 </div>
                                 )}
+                            </div>
+                            <div style={{marginTop:'20px'}}>
+                                <FormControl>
+                                    <FormLabel>Minimum Total To Use Coupon?</FormLabel>
+                                    <RadioGroup
+                                        aria-labelledby="demo-controlled-radio-buttons-group"
+                                        name="controlled-radio-buttons-group"
+                                        defaultValue="no"
+                                        onChange={handleMinimumChange}
+                                    >
+                                        <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                                        <FormControlLabel value="no" control={<Radio />} label="No" />
+                                    </RadioGroup>
+                                </FormControl>
+                                {minState ? 
+                                <div>
+                                    <FormLabel>Minimum number</FormLabel>
+                                    <Form.Control type="number" ref={minimumRef} required />
+                                </div> 
+                                : null
+                                }
                             </div>
                         </Form.Group>
                         <Button disabled={loading} className="w-100" type="submit">

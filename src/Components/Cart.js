@@ -93,7 +93,7 @@ export default function Cart() {
 
   useEffect(() => {
     setTotalCost(Number(totalPrice).toFixed(2));
-  }, totalPrice);
+  }, [totalPrice]);
 
   // global variable
   let Product;
@@ -183,6 +183,8 @@ export default function Cart() {
   const [couponFs, setCouponFs] = useState(null);
   const [couponCount, setCouponCount] = useState(0);
 
+  const [minimum, setMinimum] = useState('')
+
   useEffect(() => {
     const getCouponFromFirebase = [];
     const subscriber = fs.collection("coupon").onSnapshot((querySnapshot) => {
@@ -195,11 +197,15 @@ export default function Cart() {
   }, []);
 
   const handleCouponInput = (e) => {
+    var stateTemp = false;
     setCouponCount(1);
     setError("");
     setMessage("");
-    setCouponState(false);
+    setCouponState(null);
     setAlreadyUseCheck(false);
+    setMinimum('');
+    setTotalCost(totalPrice);
+    setCouponType(false);
 
     e.preventDefault();
     let couponInput = couponInputRef.current.value;
@@ -219,8 +225,25 @@ export default function Cart() {
           //ไปต่อ หา coupon ว่ามีที่ตรงมั้ย
           for (let i = 0; i < couponFs.length; i++) {
             if (couponFs[i].coupon == couponInput) {
-              setCouponState(true);
+              console.log(couponFs[i].minimum)
+              if ( couponFs[i].minimum == '-' ){
+                setMinimum(0)
+                stateTemp = true;
+                console.log('- minimummmmmmmm')
+                setCouponState(true);
+              } else {
+                setMinimum(Number(couponFs[i].minimum))
+                stateTemp = true;
+                console.log('have minimummmmmmmmmmmmmmmmm')
+                setCouponState(true);
+              }
             }
+          }
+          if (stateTemp){
+          } else {
+            console.log('statetemp falseeeeeeeeee')
+            setMinimum(0)
+            setCouponState(false);
           }
         }
       });
@@ -229,29 +252,45 @@ export default function Cart() {
   const [totalDiscount, setTotalDiscount] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
 
+  const [couponType, setCouponType] = useState(false);
+
   useEffect(() => {
-    if (couponState) {
+    console.log('coupon check')
+    console.log(totalCost, minimum, couponState)
+    if (couponState && totalCost > minimum) {
       //คูปองมี ใช้ได้
       setMessage("Coupon activated.");
-      handleDiscount();
+      handleDiscount(true);
+    } else if ( couponState && totalCost < minimum ) {
+      setError("Your total is not reaching the minimum.");;
+      handleDiscount(false)
     } else if (couponState == false && couponCount == 1) {
       //ไม่มีในระบบ บอกไม่มีจ้า
       setError("This coupon is not exist.");
-      setTotalDiscount(0);
+      handleDiscount(true);
     }
   }, [couponState]);
 
-  const handleDiscount = () => {
+  const handleDiscount = (check) => {
     let couponInput = couponInputRef.current.value;
+    console.log(check)
     for (let i = 0; i < couponFs.length; i++) {
       if (couponFs[i].coupon == couponInput) {
         let discount = Number(couponFs[i].value).toFixed(2);
-        console.log(discount);
-        setTotalDiscount(discount);
-        if (Number(totalPrice - Number(discount)) < 0) {
-          setTotalCost(0);
-        } else {
-          setTotalCost(Number(totalPrice - Number(discount)).toFixed(2));
+        if (couponFs[i].type == 'fixed' && check == true){
+          setTotalDiscount(discount);
+          setCouponType(true);
+          if (Number(totalPrice - Number(discount)) < 0) {
+            setTotalCost(0);
+          } else {
+            setTotalCost(Number(totalPrice - Number(discount)).toFixed(2));
+          }
+        } else if (couponFs[i].type == 'percent' && check == true) {
+          setCouponType(true);
+          setTotalDiscount(Number(totalPrice*((100-Number(discount))/100)).toFixed(2));
+          setTotalCost(Number(totalPrice*(Number(discount)/100)).toFixed(2))
+        } else if (check == false){
+          setTotalDiscount(0);
         }
       }
     }
@@ -271,17 +310,21 @@ export default function Cart() {
               cartProductDecrease={cartProductDecrease}
             />
           </div>
-          <Form onSubmit={handleCouponInput}>
+          <Form onSubmit={handleCouponInput} style={{width:'300px', justifyContent:'center',flexDirection:'column',display:'flex',margin:'1px auto'}}>
             <Form.Group id="coupon" className="mb-3"></Form.Group>
             <Form.Label>Have Coupon?</Form.Label>
-            <Form.Control
-              type="text"
-              ref={couponInputRef}
-              defaultValue={null}
-            />
-            <Button className="w-100" type="submit">
-              Add
-            </Button>
+            <div style={{flexDirection:'row',display:'flex'}}>
+              <Form.Control
+                type="text"
+                ref={couponInputRef}
+                defaultValue={null}
+              />
+              <div>
+                <Button variant="primary" type="submit">
+                  Add
+                </Button>
+              </div>
+            </div>
             {message ? <Alert variant="success">{message}</Alert> : ""}
             {error ? <Alert variant="danger">{error}</Alert> : ""}
           </Form>
@@ -291,7 +334,7 @@ export default function Cart() {
             <div>
               Subtotal: <span>£{totalPrice}</span>
             </div>
-            {couponState ? (
+            {couponType ? (
               <div>
                 Discount: <span>-£{totalDiscount}</span>
               </div>
