@@ -9,17 +9,23 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [optionUse, setOptionUse] = useState([]);
+  const [options, setOptions] = useState();
+  const [addOnUse, setAddOnUse] = useState();
+  const [instruction, setInstruction] = useState("");
   const [product, setProduct] = useState({
     ID: individualProduct.ID,
     option: [],
+    addOn: [],
     title: individualProduct.title,
     description: individualProduct.description,
     price: individualProduct.price,
     category: individualProduct.category,
     img: individualProduct.img,
+    instruction: instruction,
   });
-  const [optionUse, setOptionUse] = useState([]);
-  const [options, setOptions] = useState();
+  // console.log(individualProduct);
+
   useEffect(() => {
     fs.collection("Products")
       .doc(individualProduct.ID)
@@ -33,11 +39,31 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
   // console.log(product);
   const handleAddToCart = () => {
     handleClose();
-    addToCart(individualProduct);
+    addToCart(product);
   };
 
+  useEffect(() => {
+    try {
+      setProduct({
+        ID: individualProduct.ID,
+        option: optionUse,
+        addOn: addOnUse,
+        title: individualProduct.title,
+        description: individualProduct.description,
+        price: individualProduct.price,
+        category: individualProduct.category,
+        img: individualProduct.img,
+        instruction: instruction,
+      });
+    } catch {}
+  }, [optionUse, addOnUse, instruction]);
+
   const handleOption = (data) => {
-    setOptionUse(data);
+    setOptionUse(data); // options
+  };
+
+  const handleAddOn = (data) => {
+    setAddOnUse(data); //addOnUse
   };
 
   return (
@@ -62,7 +88,20 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
             individualProduct={individualProduct}
             handleOption={handleOption}
           />
-          <FixAdd />
+          <FixAdd handleAddOn={handleAddOn} />
+          <Form>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Special Instructions</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(event) => setInstruction(event.target.value)}
+                placeholder="Eg. If you arrive, please ring the bell."
+              />
+            </Form.Group>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button

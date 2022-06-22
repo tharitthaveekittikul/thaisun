@@ -11,12 +11,7 @@ import FormLabel from "@mui/material/FormLabel";
 function Option({ individualProduct, handleOption }) {
   const titleList = [];
   const [options, setOptions] = useState();
-  const [optionUse, setOptionUse] = useState([
-    {
-      title: "",
-      menu: "",
-    },
-  ]);
+  const [optionUse, setOptionUse] = useState([]);
 
   useEffect(() => {
     fs.collection("Products")
@@ -27,35 +22,25 @@ function Option({ individualProduct, handleOption }) {
       });
   }, []);
 
-  const handleCheck = useCallback((index, menuName) => {
-    console.log(optionUse[index]);
-    console.log(menuName);
-    try {
-      return optionUse[index].menu === menuName;
-    } catch {
-      return false;
-    }
-  }, []);
-
   useEffect(() => {
     handleOption(optionUse);
-    console.log(optionUse);
+    // console.log(optionUse);
   }, [optionUse]);
 
-  const handleChange = (e, index) => {
+  const handleChange = (e, index, price) => {
     // console.log(e.target.value);
     // console.log(index);
     // console.log(titleList[index]);
+    // console.log(options);
 
     if (optionUse.length == 0) {
       console.log("First");
-      const values = {};
-      setOptionUse([
-        {
-          title: titleList[index],
-          menu: e.target.value,
-        },
-      ]);
+      const values = {
+        title: titleList[index],
+        menu: e.target.value,
+        price: price,
+      };
+      setOptionUse([values]);
     }
     if (optionUse.length > 0) {
       //   console.log(optionUse[index].title);
@@ -67,29 +52,35 @@ function Option({ individualProduct, handleOption }) {
       //   console.log(titles);
 
       if (!titles.includes(titleList[index])) {
-        console.log("No same");
+        console.log("Not same");
         setOptionUse([
           ...optionUse,
           {
             title: titleList[index],
             menu: e.target.value,
+            price: price,
           },
         ]);
       } else {
         console.log("Same");
         const same = optionUse;
-
-        setOptionUse([
-          {
-            title: titleList[index],
-            menu: e.target.value,
-          },
-        ]);
+        const same_title = options[index].title;
+        for (let i = 0; i < same.length; i++) {
+          if (same[i].title == same_title) {
+            same[i] = {
+              title: titleList[index],
+              menu: e.target.value,
+              price: price,
+            };
+          }
+        }
+        setOptionUse(same);
+        // console.log(optionUse);
       }
     }
   };
 
-  //   console.log(optionUse);
+  // console.log(optionUse);
   if (options) {
     return (
       <>
@@ -105,13 +96,18 @@ function Option({ individualProduct, handleOption }) {
                     <RadioGroup
                       aria-labelledby="demo-controlled-radio-buttons-group"
                       name="controlled-radio-buttons-group"
-                      onChange={(event) => handleChange(event, index)}
                     >
                       {/* {console.log(optionUse[index])} */}
                       {option.menu.map((menuField, index_child) => (
                         <FormControlLabel
                           value={menuField.menuName}
-                          control={<Radio />}
+                          control={
+                            <Radio
+                              onChange={(event) =>
+                                handleChange(event, index, menuField.price)
+                              }
+                            />
+                          }
                           label={
                             menuField.menuName +
                             " (£" +

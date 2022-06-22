@@ -359,7 +359,41 @@ export default function Home(props) {
                           <Icon icon={plus} size={20} />
                         </div>
                       </td>
-                      <td>{cartProduct.title}</td>
+                      {console.log(cartProduct)}
+                      <td>
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            paddingTop: "10px",
+                            paddingBottom: "0",
+                            margin: "0",
+                          }}
+                        >
+                          {cartProduct.title}
+                        </p>
+                        {cartProduct.option.map((option) => (
+                          <p
+                            style={{
+                              padding: "0",
+                              margin: "0",
+                              textIndent: "10px",
+                            }}
+                          >
+                            {option.menu}
+                          </p>
+                        ))}
+                        {cartProduct.addOn.map((addOn) => (
+                          <p
+                            style={{
+                              padding: "0",
+                              margin: "0",
+                              textIndent: "10px",
+                            }}
+                          >
+                            {addOn.menu}
+                          </p>
+                        ))}
+                      </td>
                       <td>£{cartProduct.price * cartProduct.qty}</td>
                       <td>
                         <div
