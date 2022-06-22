@@ -53,7 +53,7 @@ export default function EditProducts() {
         setPrice(snapshot.data().price);
         setCategory(snapshot.data().category);
         setImage(snapshot.data().img);
-        setInputFields(snapshot.data().addOn);
+        setInputFields(snapshot.data().option);
       });
   }, []);
   console.log(image);

@@ -189,7 +189,7 @@ export default function AddProducts() {
                 category,
                 price: Number(price),
                 img: url,
-                addOn: inputFields,
+                option: inputFields,
               })
               .then(() => {
                 setSuccessMsg("Product added successfully");
