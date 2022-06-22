@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "./Navbar";
 import { auth, fs } from "../Config/Config";
 import CartProducts from "./CartProducts";
 
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Form, Alert } from "react-bootstrap";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import Paypal from "./Paypal";
+import { gridColumnsTotalWidthSelector } from "@mui/x-data-grid";
 
 export default function Cart() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
@@ -29,9 +30,20 @@ export default function Cart() {
     }, []);
     return user;
   }
+  function GetUserUid() {
+    const [uid, setUid] = useState(null);
+    useEffect(() => {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          setUid(user.uid);
+        }
+      });
+    }, []);
+    return uid;
+  }
 
   const user = GetCurrentUser();
-  // console.log(user);
+  const uid = GetUserUid();
 
   // state of cart products
   const [cartProducts, setCartProducts] = useState([]);
@@ -78,6 +90,10 @@ export default function Cart() {
     accumulator + currentValue;
 
   const totalPrice = Number(price.reduce(reducerOfPrice, 0)).toFixed(2);
+  
+  useEffect(()=>{
+    setTotalCost(Number(totalPrice).toFixed(2))
+  },totalPrice)
 
   // global variable
   let Product;
@@ -156,13 +172,84 @@ export default function Cart() {
     });
   }, []);
 
-  const [checkout, setCheckOut] = useState(false);
-
-  const totalDiscount = Number(10).toFixed(2);
-
-  const totalCost = Number(totalPrice - totalDiscount).toFixed(2);
-
   const [modalShow, setModalShow] = useState(false);
+
+  const couponInputRef = useRef();
+  const [couponState, setCouponState] = useState(null)
+  const [alreadyUseCheck, setAlreadyUseCheck] = useState(false)
+
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [couponFs, setCouponFs] = useState(null);
+  const [couponCount, setCouponCount] = useState(0)
+
+  useEffect(() => {
+    const getCouponFromFirebase = [];
+    const subscriber = fs.collection("coupon").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        getCouponFromFirebase.push({ ...doc.data(), key: doc.id });
+      });
+      setCouponFs(getCouponFromFirebase);
+    })
+    return () => subscriber();
+  }, []);
+
+  const handleCouponInput = (e) => {
+    setCouponCount(1)
+    setError("")
+    setMessage("")
+    setCouponState(false)
+    setAlreadyUseCheck(false)
+
+    e.preventDefault();
+    let couponInput = couponInputRef.current.value
+    fs.collection('users').doc(uid).get().then(userSnapshot=>{
+      for ( let j = 0 ; j < userSnapshot.data().Coupons.length ; j++ ) {
+        if (  userSnapshot.data().Coupons[j] == couponInput ) {
+          setAlreadyUseCheck(true)
+        }
+      }
+      if (alreadyUseCheck == true){ //already use
+        setError('You already use this coupon.')
+      } else { //ไปต่อ หา coupon ว่ามีที่ตรงมั้ย
+        for (let i = 0 ; i < couponFs.length ; i++){
+          if (couponFs[i].coupon == couponInput){
+            setCouponState(true)
+          }
+        }
+      }
+    })
+  }
+
+  const [totalDiscount, setTotalDiscount] = useState(0)
+  const [totalCost, setTotalCost] = useState(0)
+
+  useEffect(() => {
+    if (couponState){ //คูปองมี ใช้ได้
+      setMessage('Coupon activated.')
+      handleDiscount()
+    } else if (couponState == false && couponCount == 1){ //ไม่มีในระบบ บอกไม่มีจ้า
+      setError('This coupon is not exist.')
+      setTotalDiscount(0)
+    }
+  }, [couponState]);
+
+  const handleDiscount = () => {
+    let couponInput = couponInputRef.current.value
+    for (let i = 0 ; i < couponFs.length ; i++){
+      if (couponFs[i].coupon == couponInput){
+        let discount = Number(couponFs[i].value).toFixed(2)
+        console.log(discount)
+        setTotalDiscount(discount)
+        if (Number(totalPrice - Number(discount)) < 0) {
+          setTotalCost(0)
+        } else {
+          setTotalCost(Number(totalPrice - Number(discount)).toFixed(2))
+        }
+      }
+    }
+  }
+
 
   return (
     <>
@@ -178,15 +265,27 @@ export default function Cart() {
               cartProductDecrease={cartProductDecrease}
             />
           </div>
+          <Form onSubmit={handleCouponInput}>
+            <Form.Group id="coupon" className="mb-3"></Form.Group>
+            <Form.Label>Have Coupon?</Form.Label>
+            <Form.Control type="text" ref={couponInputRef} defaultValue={null}/>
+            <Button className="w-100" type="submit">
+              Add
+            </Button>
+            {message ? <Alert variant="success">{message}</Alert> : ""}
+            {error ? <Alert variant="danger">{error}</Alert> : ""}
+          </Form>
           <div className="summary-box">
             <h5>Order Summary</h5>
             <br></br>
             <div>
               Subtotal: <span>£{totalPrice}</span>
             </div>
+            {couponState ? 
             <div>
-              Discount: <span>£{totalDiscount}</span>
-            </div>
+              Discount: <span>-£{totalDiscount}</span>
+            </div> 
+            : null}
             <div style={{ fontWeight: "bold" }}>
               Total: <span>£{totalCost}</span>
             </div>

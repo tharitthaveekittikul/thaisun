@@ -71,12 +71,9 @@ import FormLabel from '@mui/material/FormLabel';
         setCoupon(getCouponFromFirebase);
         setLoading(false);
         });
+        console.log(getCouponFromFirebase)
         return () => subscriber();
     }, []);
-
-    useEffect(() => {
-        console.log(percent)
-    },[percent])
 
     function handleAddCoupon(e) {
         e.preventDefault();
