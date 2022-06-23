@@ -6,10 +6,10 @@ import CartProducts from "./CartProducts";
 import { Button, Modal, Form, Alert } from "react-bootstrap";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import Paypal from "./Paypal";
-import { gridColumnsTotalWidthSelector } from "@mui/x-data-grid";
+import { useHistory } from "react-router-dom";
 
 export default function Cart() {
+  const history = useHistory();
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   // getting current user function
   function GetCurrentUser() {
@@ -103,7 +103,7 @@ export default function Cart() {
     // console.log(cartProduct);
     Product = cartProduct;
     Product.qty = Product.qty + 1;
-    Product.TotalProductPrice = Product.qty * Product.price;
+    Product.TotalProductPrice = Product.qty * Product.priceWithAddon;
     // updating in database
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -124,7 +124,7 @@ export default function Cart() {
     Product = cartProduct;
     if (Product.qty > 1) {
       Product.qty = Product.qty - 1;
-      Product.TotalProductPrice = Product.qty * Product.price;
+      Product.TotalProductPrice = Product.qty * Product.priceWithAddon;
       // updating in database
       auth.onAuthStateChanged((user) => {
         if (user) {
@@ -183,7 +183,7 @@ export default function Cart() {
   const [couponFs, setCouponFs] = useState(null);
   const [couponCount, setCouponCount] = useState(0);
 
-  const [minimum, setMinimum] = useState('')
+  const [minimum, setMinimum] = useState("");
 
   useEffect(() => {
     const getCouponFromFirebase = [];
@@ -196,6 +196,8 @@ export default function Cart() {
     return () => subscriber();
   }, []);
 
+  const [couponSuccess, setCouponSuccess] = useState("");
+
   const handleCouponInput = (e) => {
     var stateTemp = false;
     setCouponCount(1);
@@ -203,7 +205,7 @@ export default function Cart() {
     setMessage("");
     setCouponState(null);
     setAlreadyUseCheck(false);
-    setMinimum('');
+    setMinimum("");
     setTotalCost(totalPrice);
     setCouponType(false);
 
@@ -225,24 +227,26 @@ export default function Cart() {
           //ไปต่อ หา coupon ว่ามีที่ตรงมั้ย
           for (let i = 0; i < couponFs.length; i++) {
             if (couponFs[i].coupon == couponInput) {
-              console.log(couponFs[i].minimum)
-              if ( couponFs[i].minimum == '-' ){
-                setMinimum(0)
+              console.log(couponFs[i].minimum);
+              if (couponFs[i].minimum == "-") {
+                setMinimum(0);
                 stateTemp = true;
-                console.log('- minimummmmmmmm')
+                console.log("- minimummmmmmmm");
+                setCouponSuccess(couponInput);
                 setCouponState(true);
               } else {
-                setMinimum(Number(couponFs[i].minimum))
+                setMinimum(Number(couponFs[i].minimum));
                 stateTemp = true;
-                console.log('have minimummmmmmmmmmmmmmmmm')
+                console.log("have minimummmmmmmmmmmmmmmmm");
+                setCouponSuccess(couponInput);
                 setCouponState(true);
               }
             }
           }
-          if (stateTemp){
+          if (stateTemp) {
           } else {
-            console.log('statetemp falseeeeeeeeee')
-            setMinimum(0)
+            console.log("statetemp falseeeeeeeeee");
+            setMinimum(0);
             setCouponState(false);
           }
         }
@@ -255,15 +259,15 @@ export default function Cart() {
   const [couponType, setCouponType] = useState(false);
 
   useEffect(() => {
-    console.log('coupon check')
-    console.log(totalCost, minimum, couponState)
+    console.log("coupon check");
+    console.log(totalCost, minimum, couponState);
     if (couponState && totalCost > minimum) {
       //คูปองมี ใช้ได้
       setMessage("Coupon activated.");
       handleDiscount(true);
-    } else if ( couponState && totalCost < minimum ) {
-      setError("Your total is not reaching the minimum.");;
-      handleDiscount(false)
+    } else if (couponState && totalCost < minimum) {
+      setError("Your total is not reaching the minimum.");
+      handleDiscount(false);
     } else if (couponState == false && couponCount == 1) {
       //ไม่มีในระบบ บอกไม่มีจ้า
       setError("This coupon is not exist.");
@@ -273,11 +277,11 @@ export default function Cart() {
 
   const handleDiscount = (check) => {
     let couponInput = couponInputRef.current.value;
-    console.log(check)
+    console.log(check);
     for (let i = 0; i < couponFs.length; i++) {
       if (couponFs[i].coupon == couponInput) {
         let discount = Number(couponFs[i].value).toFixed(2);
-        if (couponFs[i].type == 'fixed' && check == true){
+        if (couponFs[i].type == "fixed" && check == true) {
           setTotalDiscount(discount);
           setCouponType(true);
           if (Number(totalPrice - Number(discount)) < 0) {
@@ -285,15 +289,34 @@ export default function Cart() {
           } else {
             setTotalCost(Number(totalPrice - Number(discount)).toFixed(2));
           }
-        } else if (couponFs[i].type == 'percent' && check == true) {
+        } else if (couponFs[i].type == "percent" && check == true) {
           setCouponType(true);
-          setTotalDiscount(Number(totalPrice*((100-Number(discount))/100)).toFixed(2));
-          setTotalCost(Number(totalPrice*(Number(discount)/100)).toFixed(2))
-        } else if (check == false){
+          setTotalDiscount(
+            Number(totalPrice * ((100 - Number(discount)) / 100)).toFixed(2)
+          );
+          setTotalCost(
+            Number(totalPrice * (Number(discount) / 100)).toFixed(2)
+          );
+        } else if (check == false) {
           setTotalDiscount(0);
         }
       }
     }
+  };
+
+  const handleCheckout = () => {
+    console.log(cartProducts);
+    history.push({
+      pathname: "/checkout",
+      state: {
+        cartProducts: cartProducts,
+        Coupon: couponSuccess,
+        Subtotal: Number(totalPrice).toFixed(2),
+        Discount: Number(totalDiscount).toFixed(2),
+        Total: Number(totalCost).toFixed(2),
+        onCheck: true,
+      },
+    });
   };
 
   return (
@@ -301,53 +324,76 @@ export default function Cart() {
       <Navbar user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
       <br></br>
       {cartProducts.length > 0 && (
-        <div className="container-fluid">
-          <h1 className="text-center">My Order</h1>
-          <div className="products-box cart">
-            <CartProducts
-              cartProducts={cartProducts}
-              cartProductIncrease={cartProductIncrease}
-              cartProductDecrease={cartProductDecrease}
-            />
+        <div className="wrap cf">
+          <div className="heading cf">
+            <h1>My Cart</h1>
           </div>
-          <Form onSubmit={handleCouponInput} style={{width:'300px', justifyContent:'center',flexDirection:'column',display:'flex',margin:'1px auto'}}>
-            <Form.Group id="coupon" className="mb-3"></Form.Group>
-            <Form.Label>Have Coupon?</Form.Label>
-            <div style={{flexDirection:'row',display:'flex'}}>
-              <Form.Control
-                type="text"
-                ref={couponInputRef}
-                defaultValue={null}
+          <div className="cart">
+            <ul className="cartWrap">
+              <CartProducts
+                cartProducts={cartProducts}
+                cartProductIncrease={cartProductIncrease}
+                cartProductDecrease={cartProductDecrease}
               />
-              <div>
-                <Button variant="primary" type="submit">
-                  Add
+            </ul>
+          </div>
+          <div className="promoCode">
+            <Form
+              onSubmit={handleCouponInput}
+              style={{
+                width: "300px",
+                justifyContent: "center",
+                flexDirection: "column",
+                display: "flex",
+                margin: "1px auto",
+              }}
+            >
+              <Form.Group id="coupon" className="mb-3"></Form.Group>
+              <Form.Label>Have Coupon?</Form.Label>
+              <div style={{ flexDirection: "row", display: "flex" }}>
+                <Form.Control
+                  type="text"
+                  ref={couponInputRef}
+                  defaultValue={null}
+                />
+                <div>
+                  <Button variant="primary" type="submit">
+                    Add
+                  </Button>
+                </div>
+              </div>
+              {message ? <Alert variant="success">{message}</Alert> : ""}
+              {error ? <Alert variant="danger">{error}</Alert> : ""}
+            </Form>
+          </div>
+          <div className="subtotal cf">
+            <ul>
+              <li className="totalRow">
+                <span className="label">Subtotal</span>
+                <span className="value">£{Number(totalPrice).toFixed(2)}</span>
+              </li>
+              {couponType ? (
+                <li className="totalRow">
+                  <span className="label">Discount</span>
+                  <span className="value">
+                    £{Number(totalDiscount).toFixed(2)}
+                  </span>
+                </li>
+              ) : null}
+              <li className="totalRow">
+                <span className="label">Shipping</span>
+                <span className="value">£KJ</span>
+              </li>
+              <li className="totalRow final">
+                <span className="label">Total</span>
+                <span className="value">£{Number(totalCost).toFixed(2)}</span>
+              </li>
+              <li className="totalRow">
+                <Button className="btn continue" onClick={handleCheckout}>
+                  Checkout
                 </Button>
-              </div>
-            </div>
-            {message ? <Alert variant="success">{message}</Alert> : ""}
-            {error ? <Alert variant="danger">{error}</Alert> : ""}
-          </Form>
-          <div className="summary-box">
-            <h5>Order Summary</h5>
-            <br></br>
-            <div>
-              Subtotal: <span>£{totalPrice}</span>
-            </div>
-            {couponType ? (
-              <div>
-                Discount: <span>-£{totalDiscount}</span>
-              </div>
-            ) : null}
-            <div style={{ fontWeight: "bold" }}>
-              Total: <span>£{totalCost}</span>
-            </div>
-            <br></br>
-            <div style={{ justifyContent: "center" }}>
-              <Button variant="primary" onClick={() => setModalShow(true)}>
-                Choose Payment
-              </Button>
-            </div>
+              </li>
+            </ul>
           </div>
         </div>
       )}

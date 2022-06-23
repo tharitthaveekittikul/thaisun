@@ -21,7 +21,9 @@ import ManageAddOn from "./Components/Dashboard/ManageAddOn";
 import EditProducts from "./Components/Dashboard/EditProducts";
 import AddCategory from "./Components/Dashboard/AddCategory";
 import FixedAddOn from "./Components/Dashboard/FixedAddOn";
-import AddCoupon from "./Components/Dashboard/AddCoupon"
+import AddCoupon from "./Components/Dashboard/AddCoupon";
+import CartTest from "./Components/CartTest";
+import Checkout from "./Components/Checkout";
 
 export const App = () => {
   return (
@@ -35,7 +37,7 @@ export const App = () => {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/addproducts" component={AddProducts} />
         <Route path="/manageadmin" component={ManageAdmin} />
-        <Route path="/checkout" component={Cart} />
+        <Route path="/order" component={Cart} />
         <Route path="/method" component={Method} />
         <Route path="/receipt" component={Receipt} />
         <Route path="/manageproducts" component={ManageProducts} />
@@ -44,6 +46,8 @@ export const App = () => {
         <Route path="/managecategory" component={AddCategory} />
         <Route path="/fixedaddon" component={FixedAddOn} />
         <Route path="/managecoupon" component={AddCoupon} />
+        <Route path="/carttest" component={CartTest} />
+        <Route path="/checkout" component={Checkout} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

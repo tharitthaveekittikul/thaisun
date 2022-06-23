@@ -29,7 +29,7 @@ export default function Home(props) {
   }
   const history = useHistory();
   const handleCheckout = () => {
-    history.push("/checkout");
+    history.push("/order");
   };
 
   const uid = GetUserUid();
@@ -101,28 +101,29 @@ export default function Home(props) {
   // add to cart
   const addToCart = (product) => {
     if (uid !== null) {
-      let totalProductPrice = 0
+      let totalProductPrice = 0;
       if (product.option) {
-        if (product.option.length > 0){
-          for (let i = 0 ; i < product.option.length ; i++) {
-            totalProductPrice += Number(product.option[i].price)
-            console.log(product.option[i].menu,product.option[i].price)
+        if (product.option.length > 0) {
+          for (let i = 0; i < product.option.length; i++) {
+            totalProductPrice += Number(product.option[i].price);
+            console.log(product.option[i].menu, product.option[i].price);
           }
         }
       }
       if (product.addOn) {
-        if (product.addOn.length > 0){
-          for (let j = 0 ; j < product.addOn.length ; j++) {
-            totalProductPrice += Number(product.addOn[j].price)
-            console.log(product.addOn[j].menu,product.addOn[j].price)
+        if (product.addOn.length > 0) {
+          for (let j = 0; j < product.addOn.length; j++) {
+            totalProductPrice += Number(product.addOn[j].price);
+            console.log(product.addOn[j].menu, product.addOn[j].price);
           }
         }
       }
-      console.log('==============')
+      console.log("==============");
       Product = product;
       Product["qty"] = 1;
-      Product["priceWithAddon"] = Product.price+totalProductPrice
-      Product["TotalProductPrice"] = (Product.qty * (Product.price+totalProductPrice));
+      Product["priceWithAddon"] = Product.price + totalProductPrice;
+      Product["TotalProductPrice"] =
+        Product.qty * (Product.price + totalProductPrice);
       fs.collection("Cart " + uid)
         .add(Product)
         .then(() => {
@@ -443,7 +444,12 @@ export default function Home(props) {
                           </p>
                         ))}
                       </td>
-                      <td>£{Number(cartProduct.priceWithAddon * cartProduct.qty).toFixed(2)}</td>
+                      <td>
+                        £
+                        {Number(
+                          cartProduct.priceWithAddon * cartProduct.qty
+                        ).toFixed(2)}
+                      </td>
                       <td>
                         <div
                           className="action-btns plus"
@@ -473,7 +479,7 @@ export default function Home(props) {
                 }}
                 onClick={handleCheckout}
               >
-                CHECKOUT
+                My Order
               </div>{" "}
             </div>
           </div>

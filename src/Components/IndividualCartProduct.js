@@ -31,32 +31,66 @@ export default function IndividualCartProduct({
   };
 
   return (
-    <div className="product">
-      <div className="product-img">
-        <img src={cartProduct.img} alt="product-img" />
-      </div>
-      <div className="product-text title">{cartProduct.title}</div>
-      <div className="product-text description">{cartProduct.description}</div>
-      <div className="product-text price">£ {cartProduct.price}</div>
-      <span>Quantity</span>
-      <div className="product-text quantity-box">
-        <div className="action-btns minus" onClick={handleCartProductDecrease}>
-          <Icon icon={minus} size={20} />
+    <li className="items odd">
+      <div className="infoWrap">
+        <div className="cartSection">
+          <img
+            src="http://lorempixel.com/output/technics-q-c-300-300-4.jpg"
+            alt
+            className="itemImg"
+          />
+          <h3>{cartProduct.title}</h3>
+          {cartProduct.option.map((option) => (
+            <p
+              style={{
+                padding: "0",
+                margin: "0",
+                textIndent: "10px",
+              }}
+            >
+              {option.menu}
+            </p>
+          ))}
+          {cartProduct.addOn.map((addOn) => (
+            <p
+              style={{
+                padding: "0",
+                margin: "0",
+                textIndent: "10px",
+              }}
+            >
+              {addOn.menu}
+            </p>
+          ))}
+          <br></br>
+          <p>{cartProduct.instruction}</p>
+          <br></br>
+          <p>
+            <span
+              className="action-btns minus"
+              onClick={handleCartProductDecrease}
+            >
+              <Icon icon={minus} size={20} />
+            </span>
+            <span style={{}}>{cartProduct.qty}</span>
+            <span
+              className="action-btns plus"
+              onClick={handleCartProductIncrease}
+            >
+              <Icon icon={plus} size={20} />
+            </span>{" "}
+            x ${Number(cartProduct.priceWithAddon).toFixed(2)}
+          </p>
         </div>
-        <div>{cartProduct.qty}</div>
-        <div className="action-btns plus" onClick={handleCartProductIncrease}>
-          <Icon icon={plus} size={20} />
+        <div className="prodTotal cartSection">
+          <p>{Number(cartProduct.TotalProductPrice).toFixed(2)}</p>
+        </div>
+        <div className="cartSection removeWrap">
+          <a className="remove" onClick={handleCartProductDelete}>
+            x
+          </a>
         </div>
       </div>
-      <div className="product-text cart-price">
-        £ {Number(cartProduct.TotalProductPrice).toFixed(2)}
-      </div>
-      <div
-        className="btn btn-danger btn-md cart-btn"
-        onClick={handleCartProductDelete}
-      >
-        DELETE
-      </div>
-    </div>
+    </li>
   );
 }
