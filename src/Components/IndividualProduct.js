@@ -98,7 +98,7 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
               <Form.Control
                 type="text"
                 onChange={(event) => setInstruction(event.target.value)}
-                placeholder="Eg. If you arrive, please ring the bell."
+                placeholder="Eg. Food allergies, food strength etc..."
               />
             </Form.Group>
           </Form>

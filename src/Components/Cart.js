@@ -54,7 +54,7 @@ export default function Cart() {
       if (user) {
         fs.collection("Cart " + user.uid).onSnapshot((snapshot) => {
           const newCartProduct = snapshot.docs.map((doc) => ({
-            ID: doc.id,
+            DOC_ID: doc.id,
             ...doc.data(),
           }));
           setCartProducts(newCartProduct);
@@ -108,7 +108,7 @@ export default function Cart() {
     auth.onAuthStateChanged((user) => {
       if (user) {
         fs.collection("Cart " + user.uid)
-          .doc(cartProduct.ID)
+          .doc(cartProduct.DOC_ID)
           .update(Product)
           .then(() => {
             console.log("increment added");
@@ -129,7 +129,7 @@ export default function Cart() {
       auth.onAuthStateChanged((user) => {
         if (user) {
           fs.collection("Cart " + user.uid)
-            .doc(cartProduct.ID)
+            .doc(cartProduct.DOC_ID)
             .update(Product)
             .then(() => {
               console.log("decrement");
@@ -147,7 +147,7 @@ export default function Cart() {
     auth.onAuthStateChanged((user) => {
       if (user) {
         fs.collection("Cart " + user.uid)
-          .doc(cartProduct.ID)
+          .doc(cartProduct.DOC_ID)
           .delete()
           .then(() => {
             console.log("successfully deleted");

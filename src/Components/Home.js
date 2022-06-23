@@ -101,10 +101,28 @@ export default function Home(props) {
   // add to cart
   const addToCart = (product) => {
     if (uid !== null) {
-      // console.log(product);
+      let totalProductPrice = 0
+      if (product.option) {
+        if (product.option.length > 0){
+          for (let i = 0 ; i < product.option.length ; i++) {
+            totalProductPrice += Number(product.option[i].price)
+            console.log(product.option[i].menu,product.option[i].price)
+          }
+        }
+      }
+      if (product.addOn) {
+        if (product.addOn.length > 0){
+          for (let j = 0 ; j < product.addOn.length ; j++) {
+            totalProductPrice += Number(product.addOn[j].price)
+            console.log(product.addOn[j].menu,product.addOn[j].price)
+          }
+        }
+      }
+      console.log('==============')
       Product = product;
       Product["qty"] = 1;
-      Product["TotalProductPrice"] = Product.qty * Product.price;
+      Product["priceWithAddon"] = Product.price+totalProductPrice
+      Product["TotalProductPrice"] = (Product.qty * (Product.price+totalProductPrice));
       fs.collection("Cart " + uid)
         .add(Product)
         .then(() => {
@@ -233,7 +251,7 @@ export default function Home(props) {
     console.log(cartProduct);
     Product = cartProduct;
     Product.qty = Product.qty + 1;
-    Product.TotalProductPrice = Product.qty * Product.price;
+    Product.TotalProductPrice = Product.qty * Product.priceWithAddon;
     // updating in database
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -255,7 +273,7 @@ export default function Home(props) {
     Product = cartProduct;
     if (Product.qty > 1) {
       Product.qty = Product.qty - 1;
-      Product.TotalProductPrice = Product.qty * Product.price;
+      Product.TotalProductPrice = Product.qty * Product.priceWithAddon;
       // updating in database
       auth.onAuthStateChanged((user) => {
         if (user) {
@@ -425,7 +443,7 @@ export default function Home(props) {
                           </p>
                         ))}
                       </td>
-                      <td>£{cartProduct.price * cartProduct.qty}</td>
+                      <td>£{Number(cartProduct.priceWithAddon * cartProduct.qty).toFixed(2)}</td>
                       <td>
                         <div
                           className="action-btns plus"
@@ -441,7 +459,7 @@ export default function Home(props) {
             </table>
             <br></br>
             <div style={{ justifyContent: "flex-end" }}>
-              Total Cost: <span>£{totalPrice}</span>
+              Total Cost: <span>£{Number(totalPrice).toFixed(2)}</span>
             </div>
             <div style={{ justifyContent: "center", marginTop: "20px" }}>
               {" "}

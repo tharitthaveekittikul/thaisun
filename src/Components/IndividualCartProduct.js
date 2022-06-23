@@ -21,7 +21,7 @@ export default function IndividualCartProduct({
     auth.onAuthStateChanged((user) => {
       if (user) {
         fs.collection("Cart " + user.uid)
-          .doc(cartProduct.ID)
+          .doc(cartProduct.DOC_ID)
           .delete()
           .then(() => {
             console.log("successfully deleted");
@@ -49,7 +49,7 @@ export default function IndividualCartProduct({
         </div>
       </div>
       <div className="product-text cart-price">
-        £ {cartProduct.TotalProductPrice}
+        £ {Number(cartProduct.TotalProductPrice).toFixed(2)}
       </div>
       <div
         className="btn btn-danger btn-md cart-btn"
