@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { storage, fs } from "../../Config/Config";
 import Header from "./Header";
@@ -20,8 +20,26 @@ export default function AddProducts() {
 
   const [successMsg, setSuccessMsg] = useState("");
   const [uploadError, setUploadError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const types = ["image/jpg", "image/jpeg", "image/png", "image/PNG"];
+
+  const [categoryFs, setCategoryFs] = useState();
+  const [categoryUID, setCategoryUID] = useState("");
+  const [countCategory, setCountCategory] = useState(0);
+  const categoryRef = useRef();
+
+  useEffect(() => {
+    const getCategoryFormFirebase = [];
+    const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        getCategoryFormFirebase.push({ ...doc.data(), key: doc.id });
+      });
+      setCategoryFs(getCategoryFormFirebase);
+      setLoading(false);
+    });
+    return () => subscriber();
+  }, []);
 
   const [inputFields, setInputFields] = useState([
     {
@@ -187,11 +205,18 @@ export default function AddProducts() {
                 title,
                 description,
                 category,
+                categoryID: categoryUID,
                 price: Number(price),
                 img: url,
                 option: inputFields,
               })
               .then(() => {
+                console.log(countCategory);
+                fs.collection("category")
+                  .doc(categoryUID)
+                  .update({
+                    countUse: countCategory + 1,
+                  });
                 setSuccessMsg("Product added successfully");
                 setTitle("");
                 setDescription("");
@@ -209,6 +234,39 @@ export default function AddProducts() {
       }
     );
   };
+
+  function handleChangeCategory(e) {
+    let values = e.target.value;
+    values = values.split(",");
+    console.log(values);
+    setCategory(values[1]);
+    setCategoryUID(values[0]);
+    fs.collection("category")
+      .doc(values[0])
+      .get()
+      .then((snapshot) => {
+        setCountCategory(snapshot.data().countUse);
+      });
+  }
+
+  let getCategory;
+  if (categoryFs) {
+    getCategory = categoryFs.map((category, index) => {
+      return (
+        <option
+          key={index}
+          value={[category.key, category.category]}
+          ref={categoryRef}
+        >
+          {category.category}
+        </option>
+      );
+    });
+  } else {
+    getCategory = () => {
+      return <></>;
+    };
+  }
 
   if (!isLogIn) {
     return <Redirect to="/login" />;
@@ -270,19 +328,20 @@ export default function AddProducts() {
           <select
             className="form-control"
             required
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => {
+              handleChangeCategory(e);
+            }}
           >
+            {console.log(category)}
+            {console.log(categoryUID)}
             <option value="">Select Product Category</option>
-            <option>Electronic Devices</option>
-            <option>Mobile Accessories</option>
-            <option>TV & Home Appliances</option>
-            <option>Sports & outdoors</option>
-            <option>Health & Beauty</option>
-            <option>Home & Lifestyle</option>
-            <option>Men's Fashion</option>
-            <option>Watches, bags & Jewellery</option>
-            <option>Groceries</option>
+            {loading ? (
+              <>
+                <option></option>
+              </>
+            ) : (
+              <>{getCategory}</>
+            )}
           </select>
           <br></br>
           <label>Upload Product Image</label>

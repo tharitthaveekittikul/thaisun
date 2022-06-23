@@ -13,8 +13,9 @@ const userTableStyles = {
 
 function AddCategory() {
   const columns = [
-    { field: "key", headerName: "UID", width: 300 },
+    { field: "key", headerName: "UID", width: 250 },
     { field: "category", headerName: "Category", width: 300 },
+    { field: "countUse", headerName: "Use", width: 100 },
     {
       field: "remove",
       headerName: "Remove",
@@ -66,6 +67,9 @@ function AddCategory() {
       fs.collection("category")
         .add({
           category: categoryRef.current.value,
+          id: categoryRef.current.value,
+          text: categoryRef.current.value,
+          countUse: 0,
         })
         .then(() => {
           setMessage("Add Category Successful");
@@ -118,7 +122,7 @@ function AddCategory() {
       <Menu />
       <div
         style={{
-          maxWidth: "800px",
+          maxWidth: "900px",
           margin: "auto",
           marginTop: "50px",
         }}

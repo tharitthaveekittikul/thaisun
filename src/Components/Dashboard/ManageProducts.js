@@ -108,38 +108,35 @@ function ManageProducts() {
     return () => subscriber();
   }, []);
 
-  async function handleUpdateButton(uid) {
-    try {
-      setMessage("");
-      setError("");
-      setLoading(true);
+  const [categoryID, setCategoryID] = useState();
 
-      console.log(title);
-      console.log(description);
-      console.log(price);
+  const [countUsed, setCountUsed] = useState();
 
-      fs.collection("Products")
-        .doc(uid)
-        .update({
-          title: title,
-          description: description,
-          price: price,
-        })
-        .then(() => {
-          setMessage("Update Products Successful");
-          setTimeout(() => {
-            window.location.reload(false);
-          }, 2000);
-        })
-        .catch((error) => {
-          setError("Failed to update products");
-        });
-    } catch (error) {
-      console.log(error.message);
-      setError("Failed to update products");
-    }
-    setLoading(false);
-  }
+  useEffect(() => {
+    console.log(categoryID);
+  }, [categoryID]);
+
+  useEffect(() => {
+    fs.collection("category")
+      .doc(categoryID)
+      .get()
+      .then((snapshot) => {
+        console.log(categoryID);
+        setCountUsed(snapshot.data().countUse);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    console.log(countUsed);
+  }, [categoryID, countUsed]);
+
+  useEffect(() => {
+    fs.collection("category")
+      .doc(categoryID)
+      .update({
+        countUse: countUsed - 1,
+      });
+  }, [message]); // refer to message change
 
   async function handleRemoveButton(uid) {
     try {
@@ -149,15 +146,22 @@ function ManageProducts() {
 
       fs.collection("Products")
         .doc(uid)
-        .delete()
-        .then(() => {
-          setMessage("Remove Products Successful");
-          setTimeout(() => {
-            window.location.reload(false);
-          }, 2000);
+        .get()
+        .then((snapshot) => {
+          setCategoryID(snapshot.data().categoryID);
+          fs.collection("Products")
+            .doc(uid)
+            .delete()
+            .then(() => {
+              setMessage("Remove Products Successful");
+              window.location.reload(false);
+            })
+            .catch(() => {
+              setError("Failed to remove products");
+            });
         })
-        .catch(() => {
-          setError("Failed to remove products");
+        .catch((error) => {
+          console.log(error.message);
         });
     } catch {
       setError("Failed to remove products");

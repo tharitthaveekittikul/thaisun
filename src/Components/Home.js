@@ -106,8 +106,7 @@ export default function Home(props) {
       Product["qty"] = 1;
       Product["TotalProductPrice"] = Product.qty * Product.price;
       fs.collection("Cart " + uid)
-        .doc(product.ID)
-        .set(Product)
+        .add(Product)
         .then(() => {
           console.log("successfully added to cart");
         });
@@ -116,18 +115,35 @@ export default function Home(props) {
     }
   };
 
+  const [categoryFs, setCategoryFs] = useState();
+
+  useEffect(() => {
+    const getCategoryFromFirebase = [];
+    const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        getCategoryFromFirebase.push({ ...doc.data(), key: doc.id });
+      });
+      setCategoryFs(getCategoryFromFirebase);
+    });
+    return () => subscriber();
+  }, []);
+
   // categories list rendering using span tag
-  const [spans] = useState([
-    { id: "ElectronicDevices", text: "Electronic Devices" },
-    { id: "MobileAccessories", text: "Mobile Accessories" },
-    { id: "TVAndHomeAppliances", text: "TV & Home Appliances" },
-    { id: "SportsAndOutdoors", text: "Sports & outdoors" },
-    { id: "HealthAndBeauty", text: "Health & Beauty" },
-    { id: "HomeAndLifestyle", text: "Home & Lifestyle" },
-    { id: "MensFashion", text: `Men's Fashion` },
-    { id: "WatchesBagsAndJewellery", text: `Watches, bags & Jewellery` },
-    { id: "Groceries", text: "Groceries" },
-  ]);
+  // const [spans] = useState([
+  //   { id: "ElectronicDevices", text: "Electronic Devices" },
+  //   { id: "MobileAccessories", text: "Mobile Accessories" },
+  //   { id: "TVAndHomeAppliances", text: "TV & Home Appliances" },
+  //   { id: "SportsAndOutdoors", text: "Sports & outdoors" },
+  //   { id: "HealthAndBeauty", text: "Health & Beauty" },
+  //   { id: "HomeAndLifestyle", text: "Home & Lifestyle" },
+  //   { id: "MensFashion", text: `Men's Fashion` },
+  //   { id: "WatchesBagsAndJewellery", text: `Watches, bags & Jewellery` },
+  //   { id: "Groceries", text: "Groceries" },
+  // ]);
+  useEffect(() => {
+    setSpan(categoryFs);
+  }, [categoryFs]);
+  const [spans, setSpan] = useState([]);
 
   // active class state
   const [active, setActive] = useState("");
@@ -147,7 +163,7 @@ export default function Home(props) {
 
   // filter function
   const filterFunction = (text) => {
-    if (products.length > 1) {
+    if (products.length >= 1) {
       const filter = products.filter((product) => product.category === text);
       setFilteredProducts(filter);
     } else {
@@ -169,11 +185,13 @@ export default function Home(props) {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
+        console.log(cartProducts);
         fs.collection("Cart " + user.uid).onSnapshot((snapshot) => {
           const newCartProduct = snapshot.docs.map((doc) => ({
-            ID: doc.id,
+            DOC_ID: doc.id,
             ...doc.data(),
           }));
+          // console.log(newCartProduct);
           setCartProducts(newCartProduct);
         });
       } else {
@@ -181,6 +199,10 @@ export default function Home(props) {
       }
     });
   }, []);
+
+  useEffect(() => {
+    console.log(cartProducts);
+  }, [cartProducts]);
 
   // getting the qty from cartProducts in a seperate array
   const qty = cartProducts.map((cartProduct) => {
@@ -216,7 +238,7 @@ export default function Home(props) {
     auth.onAuthStateChanged((user) => {
       if (user) {
         fs.collection("Cart " + user.uid)
-          .doc(cartProduct.ID)
+          .doc(cartProduct.DOC_ID)
           .update(Product)
           .then(() => {
             console.log("increment added");
@@ -238,7 +260,7 @@ export default function Home(props) {
       auth.onAuthStateChanged((user) => {
         if (user) {
           fs.collection("Cart " + user.uid)
-            .doc(cartProduct.ID)
+            .doc(cartProduct.DOC_ID)
             .update(Product)
             .then(() => {
               console.log("decrement");
@@ -256,7 +278,7 @@ export default function Home(props) {
     auth.onAuthStateChanged((user) => {
       if (user) {
         fs.collection("Cart " + user.uid)
-          .doc(cartProduct.ID)
+          .doc(cartProduct.DOC_ID)
           .delete()
           .then(() => {
             console.log("successfully deleted");
@@ -278,16 +300,22 @@ export default function Home(props) {
       <div className="container-fluid filter-products-main-box">
         <div className="filter-box">
           <h6>Filter by category</h6>
-          {spans.map((individualSpan, index) => (
-            <span
-              key={index}
-              id={individualSpan.id}
-              onClick={() => handleChange(individualSpan)}
-              className={individualSpan.id === active ? active : "deactive"}
-            >
-              {individualSpan.text}
-            </span>
-          ))}
+          {spans ? (
+            <>
+              {spans.map((individualSpan, index) => (
+                <span
+                  key={index}
+                  id={individualSpan.id}
+                  onClick={() => handleChange(individualSpan)}
+                  className={individualSpan.id === active ? active : "deactive"}
+                >
+                  {individualSpan.text}
+                </span>
+              ))}
+            </>
+          ) : (
+            <></>
+          )}
         </div>
         {filteredProducts.length > 0 && (
           <div className="my-products">
@@ -340,6 +368,9 @@ export default function Home(props) {
             <table>
               <tbody>
                 {cartProducts.map((cartProduct) => {
+                  {
+                    console.log(cartProducts);
+                  }
                   return (
                     <tr>
                       <td>
