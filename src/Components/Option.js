@@ -24,15 +24,74 @@ function Option({ individualProduct, handleOption }) {
 
   useEffect(() => {
     handleOption(optionUse);
-    // console.log(optionUse);
+    console.log(optionUse);
   }, [optionUse]);
+
+  useEffect(() => {
+    try {
+      console.log(options);
+      if (options.length == 1) {
+        console.log("1");
+        setOptionUse([
+          {
+            title: options[0].title,
+            menu: options[0].menu[0].menuName,
+            price: options[0].menu[0].price,
+          },
+        ]);
+      } else if (options.length > 1) {
+        console.log("2");
+        for (let i = 0; i < options.length; i++) {
+          if (i == 0) {
+            setOptionUse([
+              {
+                title: options[0].title,
+                menu: options[0].menu[0].menuName,
+                price: options[0].menu[0].price,
+              },
+            ]);
+          } else {
+            setOptionUse((prevState) => [
+              ...prevState,
+              {
+                title: options[i].title,
+                menu: options[i].menu[0].menuName,
+                price: options[i].menu[0].price,
+              },
+            ]);
+          }
+        }
+      }
+      // for (let i = 0; i < options.length; i++) {
+      //   if (options.length == 1) {
+      //     setOptionUse([
+      //       {
+      //         title: options[i].title,
+      //         menu: options[i].menu[0].menuName,
+      //         price: options[i].menu[0].price,
+      //       },
+      //     ]);
+      //   } else if (options.length > 1) {
+      //     setOptionUse([
+      //       {
+      //         ...optionUse,
+      //         title: options[i].title,
+      //         menu: options[i].menu[0].menuName,
+      //         price: options[i].menu[0].price,
+      //       },
+      //     ]);
+      //     console.log("now:" + optionUse);
+      //   }
+      // }
+    } catch {}
+  }, [options]);
 
   const handleChange = (e, index, price) => {
     // console.log(e.target.value);
     // console.log(index);
     // console.log(titleList[index]);
     // console.log(options);
-
+    e.preventDefault();
     if (optionUse.length == 0) {
       console.log("First");
       const values = {
@@ -84,7 +143,7 @@ function Option({ individualProduct, handleOption }) {
   if (options) {
     return (
       <>
-        <Form>
+        <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group>
             {options.map((option, index) => (
               <>
@@ -96,27 +155,29 @@ function Option({ individualProduct, handleOption }) {
                     <RadioGroup
                       aria-labelledby="demo-controlled-radio-buttons-group"
                       name="controlled-radio-buttons-group"
-                      // defaultValue={option.menu[0].menuName}
+                      defaultValue={option.menu[0].menuName}
                     >
                       {/* {console.log(optionUse[index])} */}
                       {option.menu.map((menuField, index_child) => (
-                        <FormControlLabel
-                          value={menuField.menuName}
-                          control={
-                            <Radio
-                              required
-                              onChange={(event) =>
-                                handleChange(event, index, menuField.price)
-                              }
-                            />
-                          }
-                          label={
-                            menuField.menuName +
-                            " (£" +
-                            parseFloat(menuField.price).toFixed(2) +
-                            ")"
-                          }
-                        />
+                        <>
+                          <FormControlLabel
+                            value={menuField.menuName}
+                            control={
+                              <Radio
+                                required
+                                onChange={(event) =>
+                                  handleChange(event, index, menuField.price)
+                                }
+                              />
+                            }
+                            label={
+                              menuField.menuName +
+                              " (£" +
+                              parseFloat(menuField.price).toFixed(2) +
+                              ")"
+                            }
+                          />
+                        </>
                       ))}
                     </RadioGroup>
                   </FormControl>
