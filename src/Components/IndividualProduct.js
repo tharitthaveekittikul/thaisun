@@ -66,6 +66,11 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
     setAddOnUse(data); //addOnUse
   };
 
+  const handleInstruction = (event) => {
+    event.persist();
+    setInstruction(event.target.value);
+  };
+
   return (
     <div className="product">
       <div className="product-img">
@@ -89,7 +94,7 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
             handleOption={handleOption}
           />
           <FixAdd handleAddOn={handleAddOn} />
-          <Form>
+          <Form onSubmit={(event) => event.preventDefault()}>
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
@@ -97,7 +102,7 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
               <Form.Label>Special Instructions</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(event) => setInstruction(event.target.value)}
+                onChange={(event) => handleInstruction(event)}
                 placeholder="Eg. Food allergies, food strength etc..."
               />
             </Form.Group>

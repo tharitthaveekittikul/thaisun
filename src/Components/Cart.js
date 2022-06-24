@@ -176,7 +176,6 @@ export default function Cart() {
 
   const couponInputRef = useRef();
   const [couponState, setCouponState] = useState(null);
-  const [alreadyUseCheck, setAlreadyUseCheck] = useState(false);
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -204,7 +203,7 @@ export default function Cart() {
     setError("");
     setMessage("");
     setCouponState(null);
-    setAlreadyUseCheck(false);
+    var alreadyUseCheck = false;
     setMinimum("");
     setTotalCost(totalPrice);
     setCouponType(false);
@@ -217,7 +216,7 @@ export default function Cart() {
       .then((userSnapshot) => {
         for (let j = 0; j < userSnapshot.data().Coupons.length; j++) {
           if (userSnapshot.data().Coupons[j] == couponInput) {
-            setAlreadyUseCheck(true);
+            alreadyUseCheck = true;
           }
         }
         if (alreadyUseCheck == true) {
@@ -267,10 +266,12 @@ export default function Cart() {
       handleDiscount(true);
     } else if (couponState && totalCost < minimum) {
       setError("Your total is not reaching the minimum.");
+      setCouponSuccess(null);
       handleDiscount(false);
     } else if (couponState == false && couponCount == 1) {
       //ไม่มีในระบบ บอกไม่มีจ้า
       setError("This coupon is not exist.");
+      setCouponSuccess(null);
       handleDiscount(true);
     }
   }, [couponState]);
@@ -318,6 +319,10 @@ export default function Cart() {
       },
     });
   };
+
+  useEffect(() => {
+    console.log(couponSuccess);
+  }, [couponSuccess]);
 
   return (
     <>

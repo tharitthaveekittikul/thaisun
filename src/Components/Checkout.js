@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import { auth, fs } from "../Config/Config";
 import CartProducts from "./CartProducts";
 
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation, Redirect } from "react-router-dom";
 import { Button, Modal, Form, Alert } from "react-bootstrap";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
@@ -82,7 +82,7 @@ function Checkout() {
           Total: local.state.Total,
         });
       } catch {
-        history.push("/order");
+        history.push("/profile");
       }
     }, []);
     return fromCart;
@@ -97,7 +97,11 @@ function Checkout() {
   // }, []); // getCouponsFromFirebase = [] -> edit this
   useEffect(() => {
     console.log(Coupons);
-    Coupons.push(local.state.Coupon);
+
+    if (local.state.Coupoon == null) {
+    } else {
+      Coupons.push(local.state.Coupon);
+    }
   }, [Coupons]);
 
   // getting current user function
@@ -192,7 +196,11 @@ function Checkout() {
           .doc(docID.id)
           .delete()
           .then(() => {
-            history.push("/");
+            // history.push("/"); อาจไปหน้า wait for accept????
+            setTimeout(() => {
+              console.log("order send to restaurant");
+              history.push("/");
+            }, 2000);
           });
       });
     });
