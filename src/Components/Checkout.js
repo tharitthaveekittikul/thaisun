@@ -11,27 +11,99 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 function Checkout() {
   const local = useLocation();
   const history = useHistory();
+  const textInstructionRef = useRef();
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [postCode, setPostCode] = useState("");
+  const [tel, setTel] = useState("");
+  const [getCouponsFromFirebase, setGetCouponsFromFirebase] = useState([]);
+
   //   cartProducts: cartProducts,
   //         Coupon: couponSuccess,
   //         Subtotal: Number(totalPrice).toFixed(2),
   //         Discount: Number(totalDiscount).toFixed(2),
   //         Total: Number(totalCost).toFixed(2),
-  try {
-    const [fromCart, setFromCart] = useState({
-      cartProducts: local.state.cartProducts,
-      Coupon: local.state.Coupon,
-      Subtotal: local.state.Subtotal,
-      Discount: local.state.Discount,
-      Total: local.state.Total,
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        fs.collection("users")
+          .doc(user.uid)
+          .get()
+          .then((snapshot) => {
+            // console.log(user);
+            // console.log(user.uid);
+            setFirstName(snapshot.data().FirstName);
+            setLastName(snapshot.data().LastName);
+            setEmail(snapshot.data().Email);
+            setAddress(snapshot.data().Address);
+            setPostCode(snapshot.data().PostCode);
+            setTel(snapshot.data().Telephone);
+            Coupons = snapshot.data().Coupons;
+          });
+      } else {
+        history.push("/login");
+      }
     });
-    console.log(fromCart);
-  } catch {
-    history.push("/order");
+  }, []);
+
+  let Coupons = [];
+  function GetCouponsUser() {
+    const [coupon, setCoupon] = useState([]);
+
+    useEffect(() => {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          fs.collection("users")
+            .doc(user.uid)
+            .get()
+            .then((snapshot) => {
+              setCoupon(snapshot.data().Coupons);
+            });
+        } else {
+          setCoupon([]);
+        }
+      });
+    }, []);
+    return coupon;
   }
-  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  Coupons = GetCouponsUser();
+  function GetCurrentCart() {
+    const [fromCart, setFromCart] = useState();
+    useEffect(() => {
+      try {
+        setFromCart({
+          cartProducts: local.state.cartProducts,
+          Coupon: local.state.Coupon,
+          Subtotal: local.state.Subtotal,
+          Discount: local.state.Discount,
+          Total: local.state.Total,
+        });
+      } catch {
+        history.push("/order");
+      }
+    }, []);
+    return fromCart;
+  }
+  const fromCart = GetCurrentCart();
+
+  // useEffect(() => {
+  //   setGetCouponsFromFirebase((prevState) => [
+  //     ...prevState,
+  //     local.state.Coupon,
+  //   ]);
+  // }, []); // getCouponsFromFirebase = [] -> edit this
+  useEffect(() => {
+    console.log(Coupons);
+    Coupons.push(local.state.Coupon);
+  }, [Coupons]);
+
   // getting current user function
   function GetCurrentUser() {
     const [user, setUser] = useState(null);
+
     useEffect(() => {
       auth.onAuthStateChanged((user) => {
         if (user) {
@@ -48,6 +120,29 @@ function Checkout() {
     }, []);
     return user;
   }
+
+  // function GetUserCoupons() {
+  //   const [getCouponsFromFirebase, setGetCouponsFromFirebase] = useState([]);
+
+  //   useEffect(() => {
+  //     auth.onAuthStateChanged((user) => {
+  //       if (user) {
+  //         fs.collection("users")
+  //           .doc(user.uid)
+  //           .get()
+  //           .then((snapshot) => {
+  //             setGetCouponsFromFirebase(snapshot.data().Coupons);
+  //           });
+  //       } else {
+  //         setGetCouponsFromFirebase([]);
+  //       }
+  //     });
+  //   }, []);
+  //   return getCouponsFromFirebase;
+  // }
+
+  // const getCategoryFromFirebase = GetUserCoupons;
+
   function GetUserUid() {
     const [uid, setUid] = useState(null);
     useEffect(() => {
@@ -77,10 +172,47 @@ function Checkout() {
     });
   }, []);
 
+  const handleSubmit = () => {
+    console.log("coupons : " + Coupons);
+    fs.collection("liveorder").add({
+      ...fromCart,
+      instructionToRes: textInstructionRef.current.value,
+      user: firstName + " " + lastName,
+      email: email,
+      address: address,
+      postCode: postCode,
+      Telephone: tel,
+    });
+    fs.collection("users").doc(uid).update({
+      Coupons: Coupons,
+    });
+    fs.collection("Cart " + uid).onSnapshot((snapshot) => {
+      snapshot.docs.map((docID) => {
+        fs.collection("Cart " + uid)
+          .doc(docID.id)
+          .delete()
+          .then(() => {
+            history.push("/");
+          });
+      });
+    });
+  };
+
   return (
     <>
       <Navbar user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
       Checkout
+      <Form>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Label>Instructions to the restaurant</Form.Label>
+          <Form.Control
+            type="text"
+            ref={textInstructionRef}
+            placeholder="Eg. If you arrive, please ring the bell."
+          />
+        </Form.Group>
+      </Form>
+      <Button onClick={handleSubmit}>Submit</Button>
     </>
   );
 }

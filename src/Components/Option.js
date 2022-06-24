@@ -96,6 +96,7 @@ function Option({ individualProduct, handleOption }) {
                     <RadioGroup
                       aria-labelledby="demo-controlled-radio-buttons-group"
                       name="controlled-radio-buttons-group"
+                      // defaultValue={option.menu[0].menuName}
                     >
                       {/* {console.log(optionUse[index])} */}
                       {option.menu.map((menuField, index_child) => (
@@ -103,6 +104,7 @@ function Option({ individualProduct, handleOption }) {
                           value={menuField.menuName}
                           control={
                             <Radio
+                              required
                               onChange={(event) =>
                                 handleChange(event, index, menuField.price)
                               }
