@@ -34,11 +34,7 @@ export default function IndividualCartProduct({
     <li className="items odd">
       <div className="infoWrap">
         <div className="cartSection">
-          <img
-            src="http://lorempixel.com/output/technics-q-c-300-300-4.jpg"
-            alt
-            className="itemImg"
-          />
+          {/* <img src={cartProduct.img} alt={cartProduct.title} /> */}
           <h3>{cartProduct.title}</h3>
           {cartProduct.option.map((option) => (
             <p

@@ -195,7 +195,7 @@ export default function Cart() {
     return () => subscriber();
   }, []);
 
-  const [couponSuccess, setCouponSuccess] = useState("");
+  const [couponSuccess, setCouponSuccess] = useState(null);
 
   const handleCouponInput = (e) => {
     var stateTemp = false;
@@ -222,6 +222,7 @@ export default function Cart() {
         if (alreadyUseCheck == true) {
           //already use
           setError("You already use this coupon.");
+          setCouponSuccess(null);
         } else {
           //ไปต่อ หา coupon ว่ามีที่ตรงมั้ย
           for (let i = 0; i < couponFs.length; i++) {
@@ -307,6 +308,7 @@ export default function Cart() {
 
   const handleCheckout = () => {
     console.log(cartProducts);
+    console.log(couponSuccess);
     history.push({
       pathname: "/checkout",
       state: {
@@ -331,7 +333,7 @@ export default function Cart() {
       {cartProducts.length > 0 && (
         <div className="wrap cf">
           <div className="heading cf">
-            <h1>My Cart</h1>
+            <h1>My Order</h1>
           </div>
           <div className="cart">
             <ul className="cartWrap">
