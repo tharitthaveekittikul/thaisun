@@ -7,6 +7,11 @@ import { useHistory, useLocation, Redirect } from "react-router-dom";
 import { Button, Modal, Form, Alert } from "react-bootstrap";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 function Checkout() {
   const local = useLocation();
@@ -26,6 +31,13 @@ function Checkout() {
   const [message, setMessage] = useState("");
 
   const [couponType, setCouponType] = useState(false);
+
+  const [pickupState, setPickupState] = useState(
+    localStorage.getItem("Pickup") === "true"
+  );
+
+  const postCodeRef = useRef();
+  const addressRef = useRef();
 
   //   cartProducts: cartProducts,
   //         Coupon: couponSuccess,
@@ -167,6 +179,20 @@ function Checkout() {
 
   // const getCategoryFromFirebase = GetUserCoupons;
 
+  function handleChangeState(event) {
+    if (event.target.value == "pickup") {
+      console.log("pickup");
+      setPickupState(true);
+      localStorage.setItem("Delivery", false);
+      localStorage.setItem("Pickup", true);
+    } else if (event.target.value == "delivery") {
+      console.log("delivery");
+      setPickupState(false);
+      localStorage.setItem("Delivery", true);
+      localStorage.setItem("Pickup", false);
+    }
+  }
+
   function GetUserUid() {
     const [uid, setUid] = useState(null);
     useEffect(() => {
@@ -208,6 +234,8 @@ function Checkout() {
       address: address,
       postCode: postCode,
       Telephone: tel,
+      pickupState: pickupState,
+      deliveryState: !pickupState,
     });
     fs.collection("users").doc(uid).update({
       Coupons: Coupons,
@@ -249,6 +277,70 @@ function Checkout() {
       <h1 style={{ textAlign: "center" }}>Checkout</h1>
       {message ? <Alert variant="success">{message}</Alert> : ""}
       {error ? <Alert variant="danger">{error}</Alert> : ""}
+      <div style={{ marginTop: "20px" }}>
+        <FormControl>
+          <FormLabel>Pick Up or Delivery</FormLabel>
+          {pickupState ? (
+            <>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                defaultValue="pickup"
+                onChange={handleChangeState}
+              >
+                <FormControlLabel
+                  value="pickup"
+                  control={<Radio />}
+                  label="Pick Up"
+                />
+                <FormControlLabel
+                  value="delivery"
+                  control={<Radio />}
+                  label="Delivery"
+                />
+              </RadioGroup>
+            </>
+          ) : (
+            <>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                defaultValue="delivery"
+                onChange={handleChangeState}
+              >
+                <FormControlLabel
+                  value="pickup"
+                  control={<Radio />}
+                  label="Pick Up"
+                />
+                <FormControlLabel
+                  value="delivery"
+                  control={<Radio />}
+                  label="Delivery"
+                />
+              </RadioGroup>
+            </>
+          )}
+        </FormControl>
+        {pickupState ? null : (
+          <div>
+            <FormLabel>Address</FormLabel>
+            <Form.Control
+              type="text"
+              ref={addressRef}
+              defaultValue={address}
+              required
+            />
+            <FormLabel>Post Code</FormLabel>
+            <Form.Control
+              type="text"
+              ref={postCodeRef}
+              defaultValue={postCode}
+              required
+            />
+          </div>
+        )}
+      </div>
       <div>
         <div className="subtotal cf">
           <ul>
