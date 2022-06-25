@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Form, Card, Button, Container, Alert } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { auth, fs } from "../Config/Config";
+import { format } from "date-fns";
 
 function Signup() {
   const firstNameRef = useRef();
@@ -46,25 +47,27 @@ function Signup() {
               Telephone: telRef.current.value,
               isAdmin: false,
               Coupons: [],
+              date: String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")),
             })
             .then(async () => {
               setSuccess(
-                "Signup Successfull. Check your email to verify account."
+                "Signup Successful. Check your email to verify account."
               );
+              window.scrollTo(0, 0);
               await auth.signOut();
               setTimeout(() => {
                 history.push("/login");
               }, 2000);
             });
         })
-        .catch((error) => setError(error.message))
         .catch((error) => {
           setError(error.message);
+          setLoading(false);
+          window.scrollTo(0, 0);
         });
     } catch {
       setError("Failed to create an account");
     }
-    setLoading(false);
   }
   return (
     <Container

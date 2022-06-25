@@ -85,9 +85,7 @@ function Delivery() {
 
   return (
     <>
-      <Button onClick={handleDelivery}>
-        Delivery
-      </Button>
+      <Button onClick={handleDelivery}>Delivery</Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
