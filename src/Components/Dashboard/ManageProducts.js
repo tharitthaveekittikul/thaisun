@@ -3,7 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Menu from "./Menu";
 import { Redirect, useHistory } from "react-router-dom";
-import { Button, Alert, Container, Card, Form } from "react-bootstrap";
+import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
 import { auth, fs } from "../../Config/Config";
 import DataTable from "./DataTable";
 import EditProducts from "./EditProducts";
@@ -14,6 +14,10 @@ const userTableStyles = {
 
 function ManageProducts() {
   const history = useHistory();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [uidProduct, setUIDProduct] = useState("");
   const columns = [
     { field: "key", headerName: "UID", width: 250 },
     { field: "title", headerName: "Title", width: 200 },
@@ -57,7 +61,8 @@ function ManageProducts() {
               variant="danger"
               onClick={() => {
                 console.log(cellValues.id);
-                handleRemoveButton(cellValues.id);
+                handleShow();
+                setUIDProduct(cellValues.id);
               }}
             >
               Remove
@@ -138,22 +143,23 @@ function ManageProducts() {
       });
   }, [message]); // refer to message change
 
-  async function handleRemoveButton(uid) {
+  async function handleRemoveButton() {
     try {
       setMessage("");
       setError("");
       setLoading(true);
 
       fs.collection("Products")
-        .doc(uid)
+        .doc(uidProduct)
         .get()
         .then((snapshot) => {
           setCategoryID(snapshot.data().categoryID);
           fs.collection("Products")
-            .doc(uid)
+            .doc(uidProduct)
             .delete()
             .then(() => {
               setMessage("Remove Products Successful");
+              handleClose();
               window.location.reload(false);
             })
             .catch(() => {
@@ -171,7 +177,7 @@ function ManageProducts() {
 
   // console.log(users);
   if (loading) {
-    return <h1>loading firebase data...</h1>;
+    return <h1></h1>;
   }
 
   if (!isLogIn) {
@@ -201,6 +207,19 @@ function ManageProducts() {
           sx={userTableStyles}
           handleRowEditCommit={handleRowEditCommit}
         />
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Are you sure?</Modal.Title>
+          </Modal.Header>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              No
+            </Button>
+            <Button variant="primary" onClick={handleRemoveButton}>
+              Yes
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Footer />
       </div>
     </div>
