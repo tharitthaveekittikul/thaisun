@@ -7,6 +7,8 @@ import Footer from "./Footer";
 import { Icon } from "react-icons-kit";
 import { plus } from "react-icons-kit/feather/plus";
 import { minus } from "react-icons-kit/feather/minus";
+import { Alert } from "react-bootstrap";
+
 export default function AddProducts() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
@@ -28,6 +30,8 @@ export default function AddProducts() {
   const [categoryUID, setCategoryUID] = useState("");
   const [countCategory, setCountCategory] = useState(0);
   const categoryRef = useRef();
+
+  const [loadingMsg, setLoadingMsg] = useState("");
 
   useEffect(() => {
     const getCategoryFormFirebase = [];
@@ -185,6 +189,8 @@ export default function AddProducts() {
     e.preventDefault();
     // console.log(title, description, price);
     // console.log(image);
+    setLoadingMsg("Loading...");
+    window.scrollTo(0, 0);
     const uploadTask = storage.ref(`product-images/${image.name}`).put(image);
     uploadTask.on(
       "state_changed",
@@ -218,6 +224,7 @@ export default function AddProducts() {
                     countUse: countCategory + 1,
                   });
                 setSuccessMsg("Product added successfully");
+                setLoadingMsg("");
                 setTitle("");
                 setDescription("");
                 setCategory("");
@@ -286,6 +293,7 @@ export default function AddProducts() {
         <br></br>
         <h1>Add Products</h1>
         <hr></hr>
+        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
         {successMsg && (
           <>
             <div className="success-msg">{successMsg}</div>

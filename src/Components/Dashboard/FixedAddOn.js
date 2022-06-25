@@ -15,6 +15,7 @@ function FixedAddOn() {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const titleRef = useRef([]);
+  const [loadingMsg, setLoadingMsg] = useState("");
   const [inputFields, setInputFields] = useState([
     {
       title: "",
@@ -138,6 +139,7 @@ function FixedAddOn() {
 
   const handleUpdateAddOn = (e) => {
     e.preventDefault();
+    setLoadingMsg("Loading...");
     fs.collection("fixedAddOn")
       .doc("option")
       .set({
@@ -145,6 +147,7 @@ function FixedAddOn() {
       })
       .then(() => {
         setSuccessMsg("Update fixed add-on successfully");
+        setLoadingMsg("");
         setTimeout(() => {
           window.location.reload(false);
         }, 2000);
@@ -162,6 +165,7 @@ function FixedAddOn() {
         <br></br>
         <h1>Fixed Add-On</h1>
         <hr></hr>
+        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
         {successMsg && (
           <>
             <div className="success-msg">{successMsg}</div>

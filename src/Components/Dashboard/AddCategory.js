@@ -3,7 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Menu from "./Menu";
 import { Redirect } from "react-router-dom";
-import { Button, Alert, Container, Card, Form } from "react-bootstrap";
+import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
 import { auth, fs } from "../../Config/Config";
 import DataTable from "./DataTable";
 
@@ -12,6 +12,11 @@ const userTableStyles = {
 };
 
 function AddCategory() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [uidCategory, setUIDCategory] = useState("");
+  const [loadingMsg, setLoadingMsg] = useState("");
   const columns = [
     { field: "key", headerName: "UID", width: 250 },
     { field: "category", headerName: "Category", width: 300 },
@@ -27,7 +32,8 @@ function AddCategory() {
               variant="danger"
               onClick={() => {
                 console.log(cellValues.id);
-                handleRemoveButton(cellValues.id);
+                setUIDCategory(cellValues.id);
+                handleShow();
               }}
             >
               Remove
@@ -62,8 +68,10 @@ function AddCategory() {
     try {
       setMessage("");
       setError("");
+      setLoadingMsg("Loading...");
+      window.scrollTo(0, 0);
       setLoading(true);
-
+      handleClose();
       fs.collection("category")
         .add({
           category: categoryRef.current.value,
@@ -73,6 +81,7 @@ function AddCategory() {
         })
         .then(() => {
           setMessage("Add Category Successful");
+          setLoadingMsg("");
           setTimeout(() => {
             window.location.reload(false);
           }, 2000);
@@ -93,11 +102,12 @@ function AddCategory() {
       setLoading(true);
 
       fs.collection("category")
-        .doc(uid)
+        .doc(uidCategory)
         .delete()
         .then(() => {
           setMessage("Remove Category Successful");
           setTimeout(() => {
+            handleClose();
             window.location.reload(false);
           }, 2000);
         })
@@ -127,6 +137,7 @@ function AddCategory() {
           marginTop: "50px",
         }}
       >
+        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
         {message ? <Alert variant="success">{message}</Alert> : ""}
         {error ? <Alert variant="danger">{error}</Alert> : ""}
         <DataTable
@@ -136,6 +147,19 @@ function AddCategory() {
           sx={userTableStyles}
         />
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={handleRemoveButton}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Container
         className="d-flex justify-content-center"
         style={{ minHeight: "100vh" }}

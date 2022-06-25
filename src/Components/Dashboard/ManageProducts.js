@@ -149,6 +149,7 @@ function ManageProducts() {
       setError("");
       setLoading(true);
 
+      handleClose();
       fs.collection("Products")
         .doc(uidProduct)
         .get()
@@ -159,7 +160,7 @@ function ManageProducts() {
             .delete()
             .then(() => {
               setMessage("Remove Products Successful");
-              handleClose();
+
               window.location.reload(false);
             })
             .catch(() => {

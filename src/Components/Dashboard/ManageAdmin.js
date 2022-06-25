@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { auth, fs } from "../../Config/Config";
-import { Button, Alert, Container, Card, Form } from "react-bootstrap";
+import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import DataTable from "./DataTable";
 import Header from "./Header";
@@ -12,6 +12,11 @@ const userTableStyles = {
 };
 
 function ManageAdmin() {
+  const [loadingMsg, setLoadingMsg] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [uidUser, setUIDUser] = useState("");
   const columns = [
     { field: "key", headerName: "UID", width: 300 },
     { field: "date", headerName: "Date", width: 250 },
@@ -50,7 +55,9 @@ function ManageAdmin() {
               variant="danger"
               onClick={() => {
                 console.log(cellValues.id);
-                handleRemoveButton(cellValues.id);
+                // handleRemoveButton(cellValues.id);
+                setUIDUser(cellValues.id);
+                handleShow();
               }}
             >
               Remove
@@ -67,9 +74,6 @@ function ManageAdmin() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   // const [uid, setUid] = useState("");
-  const [sendEmail, setSendEmail] = useState(false);
-  const AuidRef = useRef();
-  const RuidRef = useRef();
 
   useEffect(() => {
     const getUserFormFirebase = [];
@@ -101,6 +105,7 @@ function ManageAdmin() {
       setMessage("");
       setError("");
       setLoading(true);
+      setLoadingMsg("Loading...");
 
       fs.collection("users")
         .doc(uid)
@@ -109,6 +114,7 @@ function ManageAdmin() {
         })
         .then(() => {
           setMessage("Add Admin Successful");
+          setLoadingMsg("");
           setTimeout(() => {
             window.location.reload(false);
           }, 2000);
@@ -122,71 +128,23 @@ function ManageAdmin() {
     setLoading(false);
   }
 
-  async function handleAddAdmin(e) {
-    e.preventDefault();
+  async function handleRemoveButton() {
     try {
       setMessage("");
       setError("");
       setLoading(true);
-
+      setLoadingMsg("Loading...");
+      window.scrollTo(0, 0);
+      handleClose();
       fs.collection("users")
-        .doc(AuidRef.current.value)
-        .update({
-          isAdmin: true,
-        })
-        .then(() => {
-          setMessage("Add Admin Successful");
-          setTimeout(() => {
-            window.location.reload(false);
-          }, 2000);
-        })
-        .catch((error) => {
-          setError("Failed to add Admin");
-        });
-    } catch (error) {
-      setError("Failed to add Admin");
-    }
-    setLoading(false);
-  }
-  async function handleRemoveButton(uid) {
-    try {
-      setMessage("");
-      setError("");
-      setLoading(true);
-
-      fs.collection("users")
-        .doc(uid)
+        .doc(uidUser)
         .update({
           isAdmin: false,
         })
         .then(() => {
           setMessage("Remove Admin Successful");
-          setTimeout(() => {
-            window.location.reload(false);
-          }, 2000);
-        })
-        .catch(() => {
-          setError("Failed to remove Admin");
-        });
-    } catch {
-      setError("Failed to remove Admin");
-    }
-    setLoading(false);
-  }
-  async function handleRemoveAdmin(e) {
-    e.preventDefault();
-    try {
-      setMessage("");
-      setError("");
-      setLoading(true);
 
-      fs.collection("users")
-        .doc(RuidRef.current.value)
-        .update({
-          isAdmin: false,
-        })
-        .then(() => {
-          setMessage("Remove Admin Successful");
+          setLoadingMsg("");
           setTimeout(() => {
             window.location.reload(false);
           }, 2000);
@@ -207,11 +165,12 @@ function ManageAdmin() {
       <Menu />
       <div
         style={{
-          maxWidth: "1250px",
+          maxWidth: "1500px",
           margin: "auto",
           marginTop: "50px",
         }}
       >
+        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
         {message ? <Alert variant="success">{message}</Alert> : ""}
         {error ? <Alert variant="danger">{error}</Alert> : ""}
         <DataTable
@@ -221,59 +180,25 @@ function ManageAdmin() {
           sx={userTableStyles}
         />
       </div>
-
-      <Container
-        className="d-flex justify-content-center"
-        style={{ minHeight: "100vh" }}
-      >
-        <div className="w-100 my-5" style={{ maxWidth: "400px" }}>
-          <Card>
-            <Card.Body>
-              <h2 className="text-center mb-4 align-items-center justify-content-center ">
-                Add Admin
-              </h2>
-              {/* {error && <Alert variant="danger">{error}</Alert>}
-              {message && <Alert variant="success">{message}</Alert>} */}
-              {sendEmail ? null : (
-                <Form onSubmit={handleAddAdmin}>
-                  <Form.Group id="uid" className="mb-3">
-                    <Form.Label>UID</Form.Label>
-                    <Form.Control type="text" ref={AuidRef} required />
-                  </Form.Group>
-                  <Button disabled={loading} className="w-100" type="submit">
-                    Add
-                  </Button>
-                </Form>
-              )}
-            </Card.Body>
-          </Card>
-        </div>
-        <div className="d-flex mx-5 my-5" style={{ height: "300px" }}>
-          <div className="vr"></div>
-        </div>
-        <div className="w-100 my-5" style={{ maxWidth: "400px" }}>
-          <Card>
-            <Card.Body>
-              <h2 className="text-center mb-4 align-items-center justify-content-center ">
-                Remove Admin
-              </h2>
-              {/* {error && <Alert variant="danger">{error}</Alert>}
-              {message && <Alert variant="success">{message}</Alert>} */}
-              {sendEmail ? null : (
-                <Form onSubmit={handleRemoveAdmin}>
-                  <Form.Group id="uid" className="mb-3">
-                    <Form.Label>UID</Form.Label>
-                    <Form.Control type="text" ref={RuidRef} required />
-                  </Form.Group>
-                  <Button disabled={loading} className="w-100" type="submit">
-                    Remove
-                  </Button>
-                </Form>
-              )}
-            </Card.Body>
-          </Card>
-        </div>
-      </Container>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={handleRemoveButton}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <Footer />
     </div>
   );

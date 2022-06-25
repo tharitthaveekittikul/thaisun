@@ -3,7 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Menu from "./Menu";
 import { Redirect } from "react-router-dom";
-import { Button, Alert, Container, Card, Form } from "react-bootstrap";
+import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
 import { auth, fs } from "../../Config/Config";
 import DataTable from "./DataTable";
 import DatePicker from "react-datepicker";
@@ -19,6 +19,11 @@ const userTableStyles = {
 };
 
 function AddCoupon() {
+  const [loadingMsg, setLoadingMsg] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [uidCoupon, setUIDCoupon] = useState("");
   const columns = [
     { field: "key", headerName: "UID", width: 250 },
     { field: "coupon", headerName: "Coupon", width: 200 },
@@ -37,7 +42,9 @@ function AddCoupon() {
               variant="danger"
               onClick={() => {
                 console.log(cellValues.id);
-                handleRemoveButton(cellValues.id);
+                // handleRemoveButton(cellValues.id);
+                setUIDCoupon(cellValues.id);
+                handleShow();
               }}
             >
               Remove
@@ -82,6 +89,8 @@ function AddCoupon() {
   function handleAddCoupon(e) {
     e.preventDefault();
     try {
+      setLoadingMsg("Loading...");
+      window.scrollTo(0, 0);
       setMessage("");
       setError("");
       setLoading(true);
@@ -123,6 +132,7 @@ function AddCoupon() {
         })
         .then(() => {
           setMessage("Add Coupon Successful");
+          setLoadingMsg("");
           setTimeout(() => {
             window.location.reload(false);
           }, 2000);
@@ -136,16 +146,17 @@ function AddCoupon() {
     setLoading(false);
   }
 
-  function handleRemoveButton(uid) {
+  function handleRemoveButton() {
     try {
       setMessage("");
       setError("");
       setLoading(true);
 
       fs.collection("coupon")
-        .doc(uid)
+        .doc(uidCoupon)
         .delete()
         .then(() => {
+          handleClose();
           setMessage("Remove Coupon Successful");
           setTimeout(() => {
             window.location.reload(false);
@@ -225,6 +236,7 @@ function AddCoupon() {
           marginTop: "50px",
         }}
       >
+        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
         {message ? <Alert variant="success">{message}</Alert> : ""}
         {error ? <Alert variant="danger">{error}</Alert> : ""}
         <DataTable
@@ -234,6 +246,19 @@ function AddCoupon() {
           sx={userTableStyles}
         />
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+          <Button variant="primary" onClick={handleRemoveButton}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Container
         className="d-flex justify-content-center"
         style={{ minHeight: "100vh" }}
