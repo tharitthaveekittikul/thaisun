@@ -18,6 +18,15 @@ function Menu() {
       }
     });
   }, []);
+
+  // get live order length
+  const [totalOrders, setOrders] = useState();
+  useEffect(() => {
+    fs.collection("liveorder").onSnapshot((snapshot) => {
+      const qty = snapshot.docs.length;
+      setOrders(qty);
+    });
+  }, []);
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       {/* Brand Logo */}
@@ -192,17 +201,23 @@ function Menu() {
                 </li>
               </ul>
             </li>
-            <li className="nav-header">EXAMPLES</li>
+            <li className="nav-header">LIVE ORDER</li>
             <li className="nav-item">
-              <a href="pages/calendar.html" className="nav-link">
-                <i className="nav-icon fas fa-calendar-alt" />
+              <Link to="/liveorder" className="nav-link">
+                <i className="fas fa-circle nav-icon" />
                 <p>
-                  Order List
-                  <span className="badge badge-info right">5</span>
+                  Live Order
+                  <span className="badge badge-info right">{totalOrders}</span>
                 </p>
-              </a>
+              </Link>
             </li>
             <li className="nav-header">Manage</li>
+            <li className="nav-item">
+              <Link to="/customer" className="nav-link">
+                <i className="fas fa-circle nav-icon" />
+                <p>Customer</p>
+              </Link>
+            </li>
             <li className="nav-item">
               <Link to="/manageproducts" className="nav-link">
                 <i className="fas fa-circle nav-icon" />

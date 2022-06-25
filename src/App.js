@@ -23,6 +23,8 @@ import AddCategory from "./Components/Dashboard/AddCategory";
 import FixedAddOn from "./Components/Dashboard/FixedAddOn";
 import AddCoupon from "./Components/Dashboard/AddCoupon";
 import Checkout from "./Components/Checkout";
+import LiveOrder from "./Components/Dashboard/LiveOrder";
+import Customer from "./Components/Dashboard/Customer";
 
 export const App = () => {
   return (
@@ -46,6 +48,8 @@ export const App = () => {
         <Route path="/fixedaddon" component={FixedAddOn} />
         <Route path="/managecoupon" component={AddCoupon} />
         <Route path="/checkout" component={Checkout} />
+        <Route path="/liveorder" component={LiveOrder} />
+        <Route path="/customer" component={Customer} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

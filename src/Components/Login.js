@@ -26,7 +26,7 @@ function Login() {
         .then(async (currentUser) => {
           //   console.log(currentUser);
           if (!currentUser.user.emailVerified) {
-            setError("Please chack your email to verify.");
+            setError("Please check your email to verify.");
             await auth.signOut();
           } else {
             setSuccess("Log In Successfull.");

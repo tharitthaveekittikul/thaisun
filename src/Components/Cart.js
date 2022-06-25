@@ -356,7 +356,7 @@ export default function Cart() {
               }}
             >
               <Form.Group id="coupon" className="mb-3"></Form.Group>
-              <Form.Label>Have Coupon?</Form.Label>
+              <Form.Label>Have Voucher?</Form.Label>
               <div style={{ flexDirection: "row", display: "flex" }}>
                 <Form.Control
                   type="text"
