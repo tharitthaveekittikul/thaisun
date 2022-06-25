@@ -12,6 +12,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { format } from "date-fns";
 
 function Checkout() {
   const local = useLocation();
@@ -126,6 +127,7 @@ function Checkout() {
   useEffect(() => {
     console.log(Coupons);
     console.log(fromCart);
+    console.log(String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")));
 
     if (local.state.Coupon == null) {
       console.log("not use coupon", Coupons);
@@ -236,6 +238,7 @@ function Checkout() {
       Telephone: tel,
       pickupState: pickupState,
       deliveryState: !pickupState,
+      date: String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")),
     });
     fs.collection("users").doc(uid).update({
       Coupons: Coupons,
