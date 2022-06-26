@@ -36,6 +36,7 @@ function Checkout() {
   const [pickupState, setPickupState] = useState(
     localStorage.getItem("Pickup") === "true"
   );
+  const [buttonDisable, setButtonDisable] = useState(true);
 
   const postCodeRef = useRef();
   const addressRef = useRef();
@@ -61,6 +62,7 @@ function Checkout() {
             setPostCode(snapshot.data().PostCode);
             setTel(snapshot.data().Telephone);
             Coupons = snapshot.data().Coupons;
+            setButtonDisable(false);
           });
       } else {
         history.push("/login");
@@ -224,7 +226,24 @@ function Checkout() {
     });
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = (type, detailp) => {
+    let pOrder;
+    let addressTemp;
+    let postCodeTemp;
+    if (type == "paypal") {
+      pOrder = { type: "paypal", detail: detailp };
+    }
+    if (type == "cash") {
+      pOrder = { type: "cash" };
+    }
+    const delState = localStorage.getItem("Delivery") === "true";
+    if (delState == true) {
+      addressTemp = addressRef.current.value;
+      postCodeTemp = postCodeRef.current.value;
+    } else {
+      addressTemp = address;
+      postCodeTemp = postCode;
+    }
     setMessage("");
     setError("");
     console.log("coupons : " + Coupons);
@@ -233,12 +252,13 @@ function Checkout() {
       instructionToRes: textInstructionRef.current.value,
       user: firstName + " " + lastName,
       email: email,
-      address: address.current.value,
-      postCode: postCode.current.value,
+      address: addressTemp,
+      postCode: postCodeTemp,
       Telephone: tel,
       pickupState: pickupState,
       deliveryState: !pickupState,
       date: String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")),
+      payment: pOrder,
     });
     fs.collection("users").doc(uid).update({
       Coupons: Coupons,
@@ -246,7 +266,8 @@ function Checkout() {
     fs.collection("Cart " + uid)
       .get()
       .then((querySnapshot) => {
-        setMessage("Order completed... Please Wait.");
+        window.scrollTo(0, 0);
+        setMessage("Order completed... Please wait for order confirmation.");
         querySnapshot.forEach((doc) => {
           fs.collection("Cart " + uid)
             .doc(doc.id)
@@ -392,8 +413,19 @@ function Checkout() {
           />
         </Form.Group>
       </Form>
-      <Button variant="primary" onClick={() => setModalShow(true)}>
-        Choose Payment
+      <Button
+        variant="primary"
+        disabled={buttonDisable}
+        onClick={() => setModalShow(true)}
+      >
+        Pay with PayPal/Credit Card
+      </Button>
+      <Button
+        variant="primary"
+        disabled={buttonDisable}
+        onClick={() => [handleSubmit("cash", null), setButtonDisable(true)]}
+      >
+        Pay with Cash
       </Button>
 
       <Modal
@@ -405,11 +437,12 @@ function Checkout() {
         <PayPalScriptProvider
           options={{
             "client-id":
-              "Ae_AV83W1SSK0CvJI9xvcXwN1axVGhThI4_-I54A3JwbEfhTbTz3StFW_7zuEbXMeYSd40DF67dXPBQQ&currency=GBP",
+              "Aenfsl6L2c58FzVNtQJZvXe2YkFTa7SqOyvDsVkv1lM5vFprAwk7kIE93_X7Lv7t54uRbjwmWE43MoyE&currency=GBP",
           }}
         >
           <PayPalButtons
             createOrder={(data, actions) => {
+              setButtonDisable(true);
               return actions.order.create({
                 purchase_units: [
                   {
@@ -427,9 +460,10 @@ function Checkout() {
                 );
                 console.log(details);
                 if (details.status == "COMPLETED") {
-                  handleSubmit();
+                  handleSubmit("paypal", details);
                 } else {
                   setError("Payment failed...");
+                  setButtonDisable(false);
                   setTimeout(() => {
                     setError("");
                   }, 3000);
@@ -438,9 +472,20 @@ function Checkout() {
             }}
             onCancel={(data, actions) => {
               setError("Payment cancel...");
+              setButtonDisable(false);
               setTimeout(() => {
                 setError("");
               }, 3000);
+            }}
+            onShippingChange={(data, actions) => {
+              setButtonDisable(false);
+              return actions.resolve();
+            }}
+            onError={(err) => {
+              setError("Payment error...");
+              setButtonDisable(false);
+              // For example, redirect to a specific error page
+              console.log(err);
             }}
           />
         </PayPalScriptProvider>
