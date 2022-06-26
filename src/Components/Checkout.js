@@ -226,7 +226,22 @@ function Checkout() {
     });
   }, []);
 
+  // function GetTotalOrders() {
+  //   const [totalOrders, setOrders] = useState(0);
+  //   fs.collection("orderHistory").onSnapshot((snapshot) => {
+  //     setOrders(snapshot.docs.length);
+  //   });
+  //   fs.collection("liveorder").onSnapshot((snapshot) => {
+  //     setOrders(totalOrders + snapshot.docs.length);
+  //   });
+
+  //   return totalOrders;
+  // }
+
+  // const totalOrders = GetTotalOrders();
+
   const handleSubmit = (type, detailp) => {
+    let total = 0;
     let pOrder;
     let addressTemp;
     let postCodeTemp;
@@ -244,41 +259,62 @@ function Checkout() {
       addressTemp = address;
       postCodeTemp = postCode;
     }
+
     setMessage("");
     setError("");
     console.log("coupons : " + Coupons);
-    fs.collection("liveorder").add({
-      ...fromCart,
-      instructionToRes: textInstructionRef.current.value,
-      user: firstName + " " + lastName,
-      email: email,
-      address: addressTemp,
-      postCode: postCodeTemp,
-      Telephone: tel,
-      pickupState: pickupState,
-      deliveryState: !pickupState,
-      date: String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")),
-      payment: pOrder,
-    });
-    fs.collection("users").doc(uid).update({
-      Coupons: Coupons,
-    });
-    fs.collection("Cart " + uid)
+
+    fs.collection("orderHistory")
       .get()
-      .then((querySnapshot) => {
-        window.scrollTo(0, 0);
-        setMessage("Order completed... Please wait for order confirmation.");
-        querySnapshot.forEach((doc) => {
-          fs.collection("Cart " + uid)
-            .doc(doc.id)
-            .delete()
-            .then(() => {});
-        });
-        setTimeout(() => {
-          console.log("order send to restaurant");
-          history.push("/");
-        }, 3000);
+      .then((order) => {
+        console.log("order History " + order.docs.length);
+        total = total + order.docs.length;
+        fs.collection("liveorder")
+          .get()
+          .then((live) => {
+            console.log("liveorder " + live.docs.length);
+            total = total + live.docs.length;
+            let totalOrder = Number(total) + 1;
+            fs.collection("liveorder").add({
+              ...fromCart,
+              instructionToRes: textInstructionRef.current.value,
+              user: firstName + " " + lastName,
+              email: email,
+              address: addressTemp,
+              postCode: postCodeTemp,
+              Telephone: tel,
+              pickupState: pickupState,
+              deliveryState: !pickupState,
+              date: String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")),
+              payment: pOrder,
+              orderNo: totalOrder,
+            });
+            fs.collection("users").doc(uid).update({
+              Coupons: Coupons,
+            });
+            fs.collection("Cart " + uid)
+              .get()
+              .then((querySnapshot) => {
+                window.scrollTo(0, 0);
+                setMessage(
+                  "Order completed... Please wait for order confirmation."
+                );
+                querySnapshot.forEach((doc) => {
+                  fs.collection("Cart " + uid)
+                    .doc(doc.id)
+                    .delete()
+                    .then(() => {});
+                });
+                setTimeout(() => {
+                  console.log("order send to restaurant");
+                  history.push("/");
+                }, 3000);
+              });
+          });
       });
+
+    console.log(total);
+
     // fs.collection("Cart " + uid).onSnapshot((snapshot) => {
     //   snapshot.docs.map((docID) => {
     //     fs.collection("Cart " + uid)

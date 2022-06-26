@@ -21,7 +21,7 @@ const userTableStyles = {
 function Customer() {
   const columns = [
     { field: "key", headerName: "UID", width: 300 },
-    { field: "date", headerName: "Date", width: 250 },
+    { field: "date", headerName: "Date", width: 250, sortable: false },
     { field: "FirstName", headerName: "First Name", width: 150 },
     { field: "LastName", headerName: "Last Name", width: 150 },
     { field: "Email", headerName: "E-mail", width: 250 },

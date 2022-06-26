@@ -201,7 +201,13 @@ function Menu() {
                 </li>
               </ul>
             </li>
-            <li className="nav-header">LIVE ORDER</li>
+            <li className="nav-header">ORDER</li>
+            <li className="nav-item">
+              <Link to="/orderhistory" className="nav-link">
+                <i className="fas fa-circle nav-icon" />
+                <p>Order History</p>
+              </Link>
+            </li>
             <li className="nav-item">
               <Link to="/liveorder" className="nav-link">
                 <i className="fas fa-circle nav-icon" />

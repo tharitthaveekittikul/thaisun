@@ -27,7 +27,12 @@ function AddCoupon() {
   const columns = [
     { field: "key", headerName: "UID", width: 250 },
     { field: "coupon", headerName: "Coupon", width: 200 },
-    { field: "expireddate", headerName: "Expired Date", width: 150 },
+    {
+      field: "expireddate",
+      headerName: "Expired Date",
+      width: 150,
+      sortable: false,
+    },
     { field: "type", headerName: "Discount Type", width: 150 },
     { field: "value", headerName: "Discount Value", width: 150 },
     { field: "minimum", headerName: "Minimum Total", width: 150 },

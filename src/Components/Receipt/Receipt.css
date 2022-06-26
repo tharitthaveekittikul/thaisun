@@ -17,14 +17,14 @@ table {
 
 td.description,
 th.description {
-  width: 75px !important;
-  max-width: 75px !important;
+  width: 150px !important;
+  max-width: 150px !important;
 }
 
 td.quantity,
 th.quantity {
-  width: 40px !important;
-  max-width: 40px !important;
+  width: 60px !important;
+  max-width: 60px !important;
   word-break: break-all !important;
   text-align: center;
   vertical-align: top;
@@ -32,8 +32,8 @@ th.quantity {
 
 td.price,
 th.price {
-  width: 50px !important;
-  max-width: 50px !important;
+  width: 70px !important;
+  max-width: 70px !important;
   word-break: break-all !important;
   text-align: center;
   vertical-align: top;
@@ -45,8 +45,8 @@ th.price {
 }
 
 .ticket {
-  width: 155px !important;
-  max-width: 155px !important;
+  width: 300px !important;
+  max-width: 300px !important;
 }
 
 img {
@@ -54,9 +54,9 @@ img {
   width: inherit !important;
 }
 
-@media print {
+/* @media print {
   .hidden-print,
   .hidden-print * {
     display: none !important;
   }
-}
+} */

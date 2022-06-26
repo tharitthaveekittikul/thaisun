@@ -25,6 +25,8 @@ import AddCoupon from "./Components/Dashboard/AddCoupon";
 import Checkout from "./Components/Checkout";
 import LiveOrder from "./Components/Dashboard/LiveOrder";
 import Customer from "./Components/Dashboard/Customer";
+import OrderHistory from "./Components/Dashboard/OrderHistory";
+import Order from "./Components/Dashboard/Order";
 
 export const App = () => {
   return (
@@ -50,6 +52,8 @@ export const App = () => {
         <Route path="/checkout" component={Checkout} />
         <Route path="/liveorder" component={LiveOrder} />
         <Route path="/customer" component={Customer} />
+        <Route path="/orderhistory" component={OrderHistory} />
+        <Route path="/eachorder" component={Order} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
