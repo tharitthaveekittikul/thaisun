@@ -14,6 +14,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import { auth, fs } from "../../Config/Config";
+import sound from "../../sound/new_order.mp3";
 
 function LiveOrder() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
@@ -118,6 +119,11 @@ function LiveOrder() {
       });
   }
 
+  function playSound() {
+    const audio = new Audio(sound);
+    audio.play();
+  }
+
   console.log(liveOrders);
 
   if (!isLogIn) {
@@ -138,6 +144,7 @@ function LiveOrder() {
         {/* loop all live order */}
         {liveOrders ? (
           <>
+            {playSound()}
             {liveOrders.map((liveorder) => (
               <div
                 style={{
