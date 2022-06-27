@@ -11,6 +11,7 @@ import {
   Form,
   ListGroup,
   ListGroupItem,
+  Modal,
 } from "react-bootstrap";
 import { auth, fs } from "../../Config/Config";
 
@@ -20,6 +21,33 @@ function LiveOrder() {
 
   const [liveOrders, setLiveOrders] = useState();
   const history = useHistory();
+
+  const [showSure, setShowSure] = useState(false);
+  const handleCloseSure = () => setShowSure(false);
+  const handleShowSure = () => {
+    console.log(orderTemp);
+    setShowSure(true);
+  };
+
+  const [showReason, setShowReason] = useState(false);
+  const handleCloseReason = () => setShowReason(false);
+  const [orderTemp, setOrderTemp] = useState();
+
+  const [reason, setReason] = useState("");
+  const [etc, setETC] = useState("");
+
+  function handleChangeReason(e) {
+    console.log(e.target.value);
+    setReason(e.target.value);
+  }
+
+  function handleETCReason(e) {
+    setETC(e.target.value);
+  }
+  const handleShowReason = (liveorder, key) => {
+    setOrderTemp([liveorder, key]);
+    setShowReason(true);
+  };
 
   useEffect(() => {
     const getLiveOrderFromFirebase = [];
@@ -35,31 +63,55 @@ function LiveOrder() {
   }, []);
 
   function handleAccept(liveorder, key) {
-    fs.collection("orderHistory").add({
-      ...liveorder,
-      status: "accepted",
-    });
+    let orders = { ...liveorder, status: "accepted" };
+    fs.collection("orderHistory").add(orders);
     fs.collection("liveorder")
       .doc(key)
       .delete()
       .then(() => {
-        history.push({
-          pathname: "/receipt",
-          state: {
-            orders: { ...liveorder, status: "accepted" },
+        localStorage.setItem("orders", JSON.stringify(orders));
+        let newWindow = window.open(
+          "/receipt",
+          "Popup",
+          "toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=300, height=500"
+        );
+        window.location.reload(false);
+        newWindow.print();
+        window.addEventListener(
+          "beforeunload",
+          function (e) {
+            this.localStorage.removeItem("orders");
           },
-        });
+          false
+        );
+
+        // history.push({
+        //   pathname: "/receipt",
+        //   state: {
+        //     orders: { ...liveorder, status: "accepted" },
+        //   },
+        // });
         // window.location.reload(false);
       });
   }
 
-  function handleDecline(liveorder, key) {
-    fs.collection("orderHistory").add({
-      ...liveorder,
-      status: "declined",
-    });
+  function handleDecline() {
+    if (reason === "etc.") {
+      fs.collection("orderHistory").add({
+        ...orderTemp[0],
+        status: "declined",
+        reason: etc,
+      });
+    } else {
+      fs.collection("orderHistory").add({
+        ...orderTemp[0],
+        status: "declined",
+        reason: reason,
+      });
+    }
+
     fs.collection("liveorder")
-      .doc(key)
+      .doc(orderTemp[1])
       .delete()
       .then(() => {
         window.location.reload(false);
@@ -198,12 +250,84 @@ function LiveOrder() {
                     </Button>
                     <Button
                       variant="danger"
-                      onClick={() => handleDecline(liveorder, liveorder.key)}
+                      onClick={() => {
+                        handleShowReason(liveorder, liveorder.key);
+                        // handleDecline(liveorder, liveorder.key);
+                      }}
                     >
                       DECLINE
                     </Button>
                   </Card.Body>
                 </Card>
+                <Modal show={showReason} onHide={handleCloseReason}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Why declined the order?</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <select
+                      className="form-control"
+                      required={true}
+                      onChange={(e) => {
+                        handleChangeReason(e);
+                      }}
+                    >
+                      <option value="">Select Reason</option>
+                      <option value="Too many orders cannot be delivered but you can be picked up at the restaurant.">
+                        Too many orders cannot be delivered but you can be
+                        picked up at the restaurant.
+                      </option>
+                      <option value="Driver is not available.">
+                        Driver is not available.
+                      </option>
+                      <option value="Kitchen is closed.">
+                        Kitchen is closed.
+                      </option>
+                      <option value="etc.">etc.</option>
+                    </select>
+
+                    {reason === "etc." ? (
+                      <Form onSubmit={(event) => event.preventDefault()}>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="exampleForm.ControlTextarea1"
+                        >
+                          <Form.Label>Reason Details</Form.Label>
+                          <Form.Control
+                            type="text"
+                            onChange={(event) => handleETCReason(event)}
+                            required={true}
+                            // placeholder="Eg. Food allergies, food strength etc..."
+                          />
+                        </Form.Group>
+                      </Form>
+                    ) : null}
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseReason}>
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="primary"
+                      onClick={handleShowSure}
+                      type="submit"
+                    >
+                      Send
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+                <Modal show={showSure} onHide={handleCloseSure}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Are you sure?</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseSure}>
+                      Dismiss
+                    </Button>
+                    <Button variant="primary" onClick={handleDecline}>
+                      Cancel the order
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </div>
             ))}
           </>
