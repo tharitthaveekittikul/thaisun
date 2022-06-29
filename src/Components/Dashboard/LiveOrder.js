@@ -97,23 +97,927 @@ function LiveOrder() {
     //   setText("The menu takes at least 60 minutes.");
     // }
     // console.log("click");
-    let detailsOrder = `Orders <br/> `;
+    let detailsOrder = `<table
+    class="es-content"
+    cellspacing="0"
+    cellpadding="0"
+    align="center"
+    style="
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+      border-collapse: collapse;
+      border-spacing: 0px;
+      table-layout: fixed !important;
+      width: 100%;
+    "
+  >
+    <tr style="border-collapse: collapse">
+      <td align="center" style="padding: 0; margin: 0">
+        <table
+          class="es-content-body"
+          cellspacing="0"
+          cellpadding="0"
+          bgcolor="#ffffff"
+          align="center"
+          style="
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            background-color: #ffffff;
+            width: 600px;
+          "
+        >
+          <tr style="border-collapse: collapse">
+            <td
+              align="left"
+              style="
+                margin: 0;
+                padding-top: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 30px;
+              "
+            >
+              <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:280px" valign="top"><![endif]-->
+              <table
+                class="es-left"
+                cellspacing="0"
+                cellpadding="0"
+                align="left"
+                style="
+                  mso-table-lspace: 0pt;
+                  mso-table-rspace: 0pt;
+                  border-collapse: collapse;
+                  border-spacing: 0px;
+                  float: left;
+                "
+              >
+                <tr style="border-collapse: collapse">
+                  <td
+                    class="es-m-p20b"
+                    align="left"
+                    style="padding: 0; margin: 0; width: 280px"
+                  >
+                    <table
+                      style="
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
+                        border-collapse: separate;
+                        border-spacing: 0px;
+                        background-color: #fef9ef;
+                        border-color: #efefef;
+                        border-width: 1px 0px 1px 1px;
+                        border-style: solid;
+                      "
+                      width="100%"
+                      cellspacing="0"
+                      cellpadding="0"
+                      bgcolor="#fef9ef"
+                      role="presentation"
+                    >
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="
+                            margin: 0;
+                            padding-bottom: 10px;
+                            padding-top: 20px;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                          "
+                        >
+                          <h4
+                            style="
+                              margin: 0;
+                              line-height: 120%;
+                              mso-line-height-rule: exactly;
+                              font-family: 'trebuchet ms', helvetica,
+                                sans-serif;
+                            "
+                          >
+                            SUMMARY:
+                          </h4>
+                        </td>
+                      </tr>
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="
+                            padding: 0;
+                            margin: 0;
+                            padding-bottom: 20px;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                          "
+                        >
+                          <table
+                            style="
+                              mso-table-lspace: 0pt;
+                              mso-table-rspace: 0pt;
+                              border-collapse: collapse;
+                              border-spacing: 0px;
+                              width: 100%;
+                            "
+                            class="cke_show_border"
+                            cellspacing="1"
+                            cellpadding="1"
+                            border="0"
+                            align="left"
+                            role="presentation"
+                          >
+                            <tr style="border-collapse: collapse">
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >Order #:</span
+                                >
+                              </td>
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >${liveorder.orderNo}</span
+                                >
+                              </td>
+                            </tr>
+                            <tr style="border-collapse: collapse">
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >Order Date:</span
+                                >
+                              </td>
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >${liveorder.date}</span
+                                >
+                              </td>
+                            </tr>
+                            <tr style="border-collapse: collapse">
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >Order Total:</span
+                                >
+                              </td>
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >£ ${liveorder.Total}</span
+                                >
+                              </td>
+                            </tr>
+                          </table>
+                          <p
+                            style="
+                              margin: 0;
+                              -webkit-text-size-adjust: none;
+                              -ms-text-size-adjust: none;
+                              mso-line-height-rule: exactly;
+                              font-family: arial, 'helvetica neue',
+                                helvetica, sans-serif;
+                              line-height: 21px;
+                              color: #333333;
+                              font-size: 14px;
+                            "
+                          >
+                            <br />
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <!--[if mso]></td><td style="width:0px"></td><td style="width:280px" valign="top"><![endif]-->
+              <table
+                class="es-right"
+                cellspacing="0"
+                cellpadding="0"
+                align="right"
+                style="
+                  mso-table-lspace: 0pt;
+                  mso-table-rspace: 0pt;
+                  border-collapse: collapse;
+                  border-spacing: 0px;
+                  float: right;
+                "
+              >
+                <tr style="border-collapse: collapse">
+                  <td
+                    align="left"
+                    style="padding: 0; margin: 0; width: 280px"
+                  >
+                    <table
+                      style="
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
+                        border-collapse: separate;
+                        border-spacing: 0px;
+                        background-color: #fef9ef;
+                        border-width: 1px;
+                        border-style: solid;
+                        border-color: #efefef;
+                      "
+                      width="100%"
+                      cellspacing="0"
+                      cellpadding="0"
+                      bgcolor="#fef9ef"
+                      role="presentation"
+                    >
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="
+                            margin: 0;
+                            padding-bottom: 10px;
+                            padding-top: 20px;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                          "
+                        >
+                          <h4
+                            style="
+                              margin: 0;
+                              line-height: 120%;
+                              mso-line-height-rule: exactly;
+                              font-family: 'trebuchet ms', helvetica,
+                                sans-serif;
+                            "
+                          >
+                            SHIPPING ADDRESS:<br />
+                          </h4>
+                        </td>
+                      </tr>
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="
+                            padding: 0;
+                            margin: 0;
+                            padding-bottom: 20px;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                          "
+                        >
+                          <p
+                            style="
+                              margin: 0;
+                              -webkit-text-size-adjust: none;
+                              -ms-text-size-adjust: none;
+                              mso-line-height-rule: exactly;
+                              font-family: arial, 'helvetica neue',
+                                helvetica, sans-serif;
+                              line-height: 21px;
+                              color: #333333;
+                              font-size: 14px;
+                            "
+                          >
+                            ${liveorder.user}
+                          </p>
+                          <p
+                            style="
+                              margin: 0;
+                              -webkit-text-size-adjust: none;
+                              -ms-text-size-adjust: none;
+                              mso-line-height-rule: exactly;
+                              font-family: arial, 'helvetica neue',
+                                helvetica, sans-serif;
+                              line-height: 21px;
+                              color: #333333;
+                              font-size: 14px;
+                            "
+                          >
+                            ${liveorder.address}
+                          </p>
+                          <p
+                            style="
+                              margin: 0;
+                              -webkit-text-size-adjust: none;
+                              -ms-text-size-adjust: none;
+                              mso-line-height-rule: exactly;
+                              font-family: arial, 'helvetica neue',
+                                helvetica, sans-serif;
+                              line-height: 21px;
+                              color: #333333;
+                              font-size: 14px;
+                            "
+                          >
+                            ${liveorder.postCode}
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <table
+              class="es-content"
+              cellspacing="0"
+              cellpadding="0"
+              align="center"
+              style="
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+                border-collapse: collapse;
+                border-spacing: 0px;
+                table-layout: fixed !important;
+                width: 100%;
+              "
+            >
+              <tr style="border-collapse: collapse">
+                <td align="center" style="padding: 0; margin: 0">
+                  <table
+                    class="es-content-body"
+                    cellspacing="0"
+                    cellpadding="0"
+                    bgcolor="#ffffff"
+                    align="center"
+                    style="
+                      mso-table-lspace: 0pt;
+                      mso-table-rspace: 0pt;
+                      border-collapse: collapse;
+                      border-spacing: 0px;
+                      background-color: #ffffff;
+                      width: 600px;
+                    "
+                  ><tr style="border-collapse: collapse">
+                  <td
+                    align="left"
+                    style="
+                      margin: 0;
+                      padding-top: 10px;
+                      padding-bottom: 10px;
+                      padding-left: 20px;
+                      padding-right: 20px;
+                    "
+                  >
+                    <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]-->
+                    <table class="es-left" cellspacing="0" cellpadding="0" align="left">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="es-m-p0r es-m-p20b esd-container-frame" width="270" valign="top" align="center">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="esd-block-text es-p20l" align="left">
+                                                                                        <h4>ITEMS ORDERED</h4>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                    <!--[if mso]></td><td style="width:20px"></td><td style="width:270px" valign="top"><![endif]-->
+                    <table
+                      cellspacing="0"
+                      cellpadding="0"
+                      align="right"
+                      style="
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
+                        border-collapse: collapse;
+                        border-spacing: 0px;
+                      "
+                    >
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="padding: 0; margin: 0; width: 270px"
+                        >
+                          <table
+                            width="100%"
+                            cellspacing="0"
+                            cellpadding="0"
+                            role="presentation"
+                            style="
+                              mso-table-lspace: 0pt;
+                              mso-table-rspace: 0pt;
+                              border-collapse: collapse;
+                              border-spacing: 0px;
+                            "
+                          >
+                            <tr style="border-collapse: collapse">
+                              <td
+                                align="left"
+                                style="padding: 0; margin: 0"
+                              >
+                                <table
+                                  style="
+                                    mso-table-lspace: 0pt;
+                                    mso-table-rspace: 0pt;
+                                    border-collapse: collapse;
+                                    border-spacing: 0px;
+                                    width: 100%;
+                                  "
+                                  class="cke_show_border"
+                                  cellspacing="1"
+                                  cellpadding="1"
+                                  border="0"
+                                  role="presentation"
+                                >
+                                  <tr style="border-collapse: collapse">
+                                    <td style="padding: 0; margin: 0">
+                                      <span style="font-size: 13px"
+                                        ></span
+                                      >
+                                    </td>
+                                    <td
+                                      style="
+                                        padding: 0;
+                                        margin: 0;
+                                        width: 60px;
+                                        text-align: center;
+                                      "
+                                    >
+                                      <span style="font-size: 13px"
+                                        ><span style="line-height: 100%"
+                                          >QTY</span
+                                        ></span
+                                      >
+                                    </td>
+                                    <td
+                                      style="
+                                        padding: 0;
+                                        margin: 0;
+                                        width: 100px;
+                                        text-align: center;
+                                      "
+                                    >
+                                      <span style="font-size: 13px"
+                                        ><span style="line-height: 100%"
+                                          >PRICE</span
+                                        ></span
+                                      >
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                    <!--[if mso]></td></tr></table><![endif]-->
+                  </td>
+                </tr> `;
     for (let i = 0; i < liveorder.cartProducts.length; i++) {
       detailsOrder =
         `${detailsOrder}` +
-        ` ${liveorder.cartProducts[i].title}   £${liveorder.cartProducts[i].TotalProductPrice} <br/>`;
+        `<tr style="border-collapse: collapse">
+        <td
+          align="left"
+          style="
+            padding: 0;
+            margin: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+          "
+        >
+          <table
+            width="100%"
+            cellspacing="0"
+            cellpadding="0"
+            style="
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+              border-collapse: collapse;
+              border-spacing: 0px;
+            "
+          >
+            <tr style="border-collapse: collapse">
+              <td
+                valign="top"
+                align="center"
+                style="padding: 0; margin: 0; width: 560px"
+              >
+                <table
+                  width="100%"
+                  cellspacing="0"
+                  cellpadding="0"
+                  role="presentation"
+                  style="
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
+                    border-collapse: collapse;
+                    border-spacing: 0px;
+                  "
+                >
+                  <tr style="border-collapse: collapse">
+                    <td
+                      align="center"
+                      style="
+                        padding: 0;
+                        margin: 0;
+                        padding-bottom: 0px;
+                        font-size: 0;
+                      "
+                    >
+                      <table
+                        width="100%"
+                        height="100%"
+                        cellspacing="0"
+                        cellpadding="0"
+                        border="0"
+                        role="presentation"
+                        style="
+                          mso-table-lspace: 0pt;
+                          mso-table-rspace: 0pt;
+                          border-collapse: collapse;
+                          border-spacing: 0px;
+                        "
+                      >
+                        <tr style="border-collapse: collapse">
+                          <td
+                            style="
+                              padding: 0;
+                              margin: 0;
+                              border-bottom: 1px solid #efefef;
+                              background: #ffffff none repeat
+                                scroll 0% 0%;
+                              height: 1px;
+                              width: 100%;
+                              margin: 0px;
+                            "
+                          ></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr style="border-collapse: collapse">
+        <td
+          align="left"
+          style="
+            margin: 0;
+            padding-top: 5px;
+            padding-bottom: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+          "
+        >
+          <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:178px" valign="top"><![endif]-->
+          <table class="es-left" cellspacing="0" cellpadding="0" align="left">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="es-m-p0r es-m-p20b esd-container-frame" width="178" valign="top" align="center">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="esd-block-image" align="left"><strong>${
+                                                                                      liveorder
+                                                                                        .cartProducts[
+                                                                                        i
+                                                                                      ]
+                                                                                        .title
+                                                                                    }</strong></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+          <!--[if mso]></td><td style="width:20px"></td><td style="width:362px" valign="top"><![endif]-->
+          <table
+            cellspacing="0"
+            cellpadding="0"
+            align="right"
+            style="
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+              border-collapse: collapse;
+              border-spacing: 0px;
+            "
+          >
+            <tr style="border-collapse: collapse">
+              <td
+                align="left"
+                style="padding: 0; margin: 0; width: 362px"
+              >
+                <table
+                  width="100%"
+                  cellspacing="0"
+                  cellpadding="0"
+                  role="presentation"
+                  style="
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
+                    border-collapse: collapse;
+                    border-spacing: 0px;
+                  "
+                >
+                  <tr style="border-collapse: collapse">
+                    <td
+                      align="left"
+                      style="padding: 0; margin: 0"
+                    >
+                      <p
+                        style="
+                          margin: 0;
+                          -webkit-text-size-adjust: none;
+                          -ms-text-size-adjust: none;
+                          mso-line-height-rule: exactly;
+                          font-family: arial, 'helvetica neue',
+                            helvetica, sans-serif;
+                          line-height: 21px;
+                          color: #333333;
+                          font-size: 14px;
+                        "
+                      >
+                      </p>
+                      <table
+                        style="
+                          mso-table-lspace: 0pt;
+                          mso-table-rspace: 0pt;
+                          border-collapse: collapse;
+                          border-spacing: 0px;
+                          width: 100%;
+                        "
+                        class="cke_show_border"
+                        cellspacing="1"
+                        cellpadding="1"
+                        border="0"
+                        role="presentation"
+                      >
+                        <tr style="border-collapse: collapse">
+                          <td style="padding: 0; margin: 0; text-align: center" >
+                          <strong>${""}</strong>
+                          </td>
+                          <td
+                            style="
+                              padding: 0;
+                              margin: 0;
+                              width: 60px;
+                              text-align: center;
+                            "
+                          >
+                            ${liveorder.cartProducts[i].qty}
+                          </td>
+                          <td
+                            style="
+                              padding: 0;
+                              margin: 0;
+                              width: 100px;
+                              text-align: center;
+                            "
+                          >
+                          £ ${liveorder.cartProducts[i].TotalProductPrice}
+                          </td>
+                        </tr>
+                      </table>
+                      <p
+                        style="
+                          margin: 0;
+                          -webkit-text-size-adjust: none;
+                          -ms-text-size-adjust: none;
+                          mso-line-height-rule: exactly;
+                          font-family: arial, 'helvetica neue',
+                            helvetica, sans-serif;
+                          line-height: 21px;
+                          color: #333333;
+                          font-size: 14px;
+                        "
+                      >
+                        <br />
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <!--[if mso]></td></tr></table><![endif]-->
+        </td>
+      </tr><p style="text-align: left ; margin-top: 0px ; padding-left: 10px ; padding-top: 0">`;
       for (let j = 0; j < liveorder.cartProducts[i].option.length; j++) {
         detailsOrder =
-          `${detailsOrder}` +
-          `       - ${liveorder.cartProducts[i].option[j].menu} <br/>`;
+          `${detailsOrder}` + `${liveorder.cartProducts[i].option[j].menu}, `;
       }
 
       for (let j = 0; j < liveorder.cartProducts[i].addOn.length; j++) {
         detailsOrder =
-          `${detailsOrder}` +
-          `      - ${liveorder.cartProducts[i].addOn[j].menu} <br/>`;
+          `${detailsOrder}` + `${liveorder.cartProducts[i].addOn[j].menu}, `;
       }
+      detailsOrder = detailsOrder + `</p>`;
     }
+    detailsOrder =
+      detailsOrder +
+      `<tr style="border-collapse: collapse">
+    <td
+      align="left"
+      style="
+        margin: 0;
+        padding-top: 5px;
+        padding-left: 20px;
+        padding-bottom: 30px;
+        padding-right: 40px;
+      "
+    >
+      <table
+        width="100%"
+        cellspacing="0"
+        cellpadding="0"
+        style="
+          mso-table-lspace: 0pt;
+          mso-table-rspace: 0pt;
+          border-collapse: collapse;
+          border-spacing: 0px;
+        "
+      >
+        <tr style="border-collapse: collapse">
+          <td
+            valign="top"
+            align="center"
+            style="padding: 0; margin: 0; width: 540px"
+          >
+            <table
+              width="100%"
+              cellspacing="0"
+              cellpadding="0"
+              role="presentation"
+              style="
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+                border-collapse: collapse;
+                border-spacing: 0px;
+              "
+            >
+              <tr style="border-collapse: collapse">
+                <td
+                  align="right"
+                  style="padding: 0; margin: 0"
+                >
+                  <table
+                    style="
+                      mso-table-lspace: 0pt;
+                      mso-table-rspace: 0pt;
+                      border-collapse: collapse;
+                      border-spacing: 0px;
+                      width: 500px;
+                    "
+                    class="cke_show_border"
+                    cellspacing="1"
+                    cellpadding="1"
+                    border="0"
+                    align="right"
+                    role="presentation"
+                  >
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        Subtotal (${liveorder.cartProducts.length} items):
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                      £ ${liveorder.Subtotal}
+                      </td>
+                    </tr>
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        Flat-rate Shipping:
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                          color: #d48344;
+                        "
+                      >
+                        <strong>FREE</strong>
+                      </td>
+                    </tr>
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        Discount:
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                      £ 0.00
+                      </td>
+                    </tr>
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        <strong>Order Total:</strong>
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                          color: #d48344;
+                        "
+                      >
+                        <strong>£ ${liveorder.Total}</strong>
+                      </td>
+                    </tr>
+                  </table>
+                  <p
+                    style="
+                      margin: 0;
+                      -webkit-text-size-adjust: none;
+                      -ms-text-size-adjust: none;
+                      mso-line-height-rule: exactly;
+                      font-family: arial, 'helvetica neue',
+                        helvetica, sans-serif;
+                      line-height: 21px;
+                      color: #333333;
+                      font-size: 14px;
+                    "
+                  >
+                    <br />
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  </table></td></tr></table>`;
 
     let orders = { ...liveorder, status: "accepted" };
     fs.collection("orderHistory").add(orders);
@@ -151,23 +1055,928 @@ function LiveOrder() {
   }
 
   function handleDecline() {
-    let detailsOrder = `Orders <br/> `;
+    let detailsOrder = `<table
+    class="es-content"
+    cellspacing="0"
+    cellpadding="0"
+    align="center"
+    style="
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+      border-collapse: collapse;
+      border-spacing: 0px;
+      table-layout: fixed !important;
+      width: 100%;
+    "
+  >
+    <tr style="border-collapse: collapse">
+      <td align="center" style="padding: 0; margin: 0">
+        <table
+          class="es-content-body"
+          cellspacing="0"
+          cellpadding="0"
+          bgcolor="#ffffff"
+          align="center"
+          style="
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            background-color: #ffffff;
+            width: 600px;
+          "
+        >
+          <tr style="border-collapse: collapse">
+            <td
+              align="left"
+              style="
+                margin: 0;
+                padding-top: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-bottom: 30px;
+              "
+            >
+              <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:280px" valign="top"><![endif]-->
+              <table
+                class="es-left"
+                cellspacing="0"
+                cellpadding="0"
+                align="left"
+                style="
+                  mso-table-lspace: 0pt;
+                  mso-table-rspace: 0pt;
+                  border-collapse: collapse;
+                  border-spacing: 0px;
+                  float: left;
+                "
+              >
+                <tr style="border-collapse: collapse">
+                  <td
+                    class="es-m-p20b"
+                    align="left"
+                    style="padding: 0; margin: 0; width: 280px"
+                  >
+                    <table
+                      style="
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
+                        border-collapse: separate;
+                        border-spacing: 0px;
+                        background-color: #fef9ef;
+                        border-color: #efefef;
+                        border-width: 1px 0px 1px 1px;
+                        border-style: solid;
+                      "
+                      width="100%"
+                      cellspacing="0"
+                      cellpadding="0"
+                      bgcolor="#fef9ef"
+                      role="presentation"
+                    >
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="
+                            margin: 0;
+                            padding-bottom: 10px;
+                            padding-top: 20px;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                          "
+                        >
+                          <h4
+                            style="
+                              margin: 0;
+                              line-height: 120%;
+                              mso-line-height-rule: exactly;
+                              font-family: 'trebuchet ms', helvetica,
+                                sans-serif;
+                            "
+                          >
+                            SUMMARY:
+                          </h4>
+                        </td>
+                      </tr>
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="
+                            padding: 0;
+                            margin: 0;
+                            padding-bottom: 20px;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                          "
+                        >
+                          <table
+                            style="
+                              mso-table-lspace: 0pt;
+                              mso-table-rspace: 0pt;
+                              border-collapse: collapse;
+                              border-spacing: 0px;
+                              width: 100%;
+                            "
+                            class="cke_show_border"
+                            cellspacing="1"
+                            cellpadding="1"
+                            border="0"
+                            align="left"
+                            role="presentation"
+                          >
+                            <tr style="border-collapse: collapse">
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >Order #:</span
+                                >
+                              </td>
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >${orderTemp[0].orderNo}</span
+                                >
+                              </td>
+                            </tr>
+                            <tr style="border-collapse: collapse">
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >Order Date:</span
+                                >
+                              </td>
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >${orderTemp[0].date}</span
+                                >
+                              </td>
+                            </tr>
+                            <tr style="border-collapse: collapse">
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >Order Total:</span
+                                >
+                              </td>
+                              <td style="padding: 0; margin: 0">
+                                <span
+                                  style="
+                                    font-size: 14px;
+                                    line-height: 21px;
+                                  "
+                                  >£ ${orderTemp[0].Total}</span
+                                >
+                              </td>
+                            </tr>
+                          </table>
+                          <p
+                            style="
+                              margin: 0;
+                              -webkit-text-size-adjust: none;
+                              -ms-text-size-adjust: none;
+                              mso-line-height-rule: exactly;
+                              font-family: arial, 'helvetica neue',
+                                helvetica, sans-serif;
+                              line-height: 21px;
+                              color: #333333;
+                              font-size: 14px;
+                            "
+                          >
+                            <br />
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <!--[if mso]></td><td style="width:0px"></td><td style="width:280px" valign="top"><![endif]-->
+              <table
+                class="es-right"
+                cellspacing="0"
+                cellpadding="0"
+                align="right"
+                style="
+                  mso-table-lspace: 0pt;
+                  mso-table-rspace: 0pt;
+                  border-collapse: collapse;
+                  border-spacing: 0px;
+                  float: right;
+                "
+              >
+                <tr style="border-collapse: collapse">
+                  <td
+                    align="left"
+                    style="padding: 0; margin: 0; width: 280px"
+                  >
+                    <table
+                      style="
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
+                        border-collapse: separate;
+                        border-spacing: 0px;
+                        background-color: #fef9ef;
+                        border-width: 1px;
+                        border-style: solid;
+                        border-color: #efefef;
+                      "
+                      width="100%"
+                      cellspacing="0"
+                      cellpadding="0"
+                      bgcolor="#fef9ef"
+                      role="presentation"
+                    >
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="
+                            margin: 0;
+                            padding-bottom: 10px;
+                            padding-top: 20px;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                          "
+                        >
+                          <h4
+                            style="
+                              margin: 0;
+                              line-height: 120%;
+                              mso-line-height-rule: exactly;
+                              font-family: 'trebuchet ms', helvetica,
+                                sans-serif;
+                            "
+                          >
+                            SHIPPING ADDRESS:<br />
+                          </h4>
+                        </td>
+                      </tr>
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="
+                            padding: 0;
+                            margin: 0;
+                            padding-bottom: 20px;
+                            padding-left: 20px;
+                            padding-right: 20px;
+                          "
+                        >
+                          <p
+                            style="
+                              margin: 0;
+                              -webkit-text-size-adjust: none;
+                              -ms-text-size-adjust: none;
+                              mso-line-height-rule: exactly;
+                              font-family: arial, 'helvetica neue',
+                                helvetica, sans-serif;
+                              line-height: 21px;
+                              color: #333333;
+                              font-size: 14px;
+                            "
+                          >
+                            ${orderTemp[0].user}
+                          </p>
+                          <p
+                            style="
+                              margin: 0;
+                              -webkit-text-size-adjust: none;
+                              -ms-text-size-adjust: none;
+                              mso-line-height-rule: exactly;
+                              font-family: arial, 'helvetica neue',
+                                helvetica, sans-serif;
+                              line-height: 21px;
+                              color: #333333;
+                              font-size: 14px;
+                            "
+                          >
+                            ${orderTemp[0].address}
+                          </p>
+                          <p
+                            style="
+                              margin: 0;
+                              -webkit-text-size-adjust: none;
+                              -ms-text-size-adjust: none;
+                              mso-line-height-rule: exactly;
+                              font-family: arial, 'helvetica neue',
+                                helvetica, sans-serif;
+                              line-height: 21px;
+                              color: #333333;
+                              font-size: 14px;
+                            "
+                          >
+                            ${orderTemp[0].postCode}
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <table
+              class="es-content"
+              cellspacing="0"
+              cellpadding="0"
+              align="center"
+              style="
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+                border-collapse: collapse;
+                border-spacing: 0px;
+                table-layout: fixed !important;
+                width: 100%;
+              "
+            >
+              <tr style="border-collapse: collapse">
+                <td align="center" style="padding: 0; margin: 0">
+                  <table
+                    class="es-content-body"
+                    cellspacing="0"
+                    cellpadding="0"
+                    bgcolor="#ffffff"
+                    align="center"
+                    style="
+                      mso-table-lspace: 0pt;
+                      mso-table-rspace: 0pt;
+                      border-collapse: collapse;
+                      border-spacing: 0px;
+                      background-color: #ffffff;
+                      width: 600px;
+                    "
+                  ><tr style="border-collapse: collapse">
+                  <td
+                    align="left"
+                    style="
+                      margin: 0;
+                      padding-top: 10px;
+                      padding-bottom: 10px;
+                      padding-left: 20px;
+                      padding-right: 20px;
+                    "
+                  >
+                    <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:270px" valign="top"><![endif]-->
+                    <table class="es-left" cellspacing="0" cellpadding="0" align="left">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="es-m-p0r es-m-p20b esd-container-frame" width="270" valign="top" align="center">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="esd-block-text es-p20l" align="left">
+                                                                                        <h4>ITEMS ORDERED</h4>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                    <!--[if mso]></td><td style="width:20px"></td><td style="width:270px" valign="top"><![endif]-->
+                    <table
+                      cellspacing="0"
+                      cellpadding="0"
+                      align="right"
+                      style="
+                        mso-table-lspace: 0pt;
+                        mso-table-rspace: 0pt;
+                        border-collapse: collapse;
+                        border-spacing: 0px;
+                      "
+                    >
+                      <tr style="border-collapse: collapse">
+                        <td
+                          align="left"
+                          style="padding: 0; margin: 0; width: 270px"
+                        >
+                          <table
+                            width="100%"
+                            cellspacing="0"
+                            cellpadding="0"
+                            role="presentation"
+                            style="
+                              mso-table-lspace: 0pt;
+                              mso-table-rspace: 0pt;
+                              border-collapse: collapse;
+                              border-spacing: 0px;
+                            "
+                          >
+                            <tr style="border-collapse: collapse">
+                              <td
+                                align="left"
+                                style="padding: 0; margin: 0"
+                              >
+                                <table
+                                  style="
+                                    mso-table-lspace: 0pt;
+                                    mso-table-rspace: 0pt;
+                                    border-collapse: collapse;
+                                    border-spacing: 0px;
+                                    width: 100%;
+                                  "
+                                  class="cke_show_border"
+                                  cellspacing="1"
+                                  cellpadding="1"
+                                  border="0"
+                                  role="presentation"
+                                >
+                                  <tr style="border-collapse: collapse">
+                                    <td style="padding: 0; margin: 0">
+                                      <span style="font-size: 13px"
+                                        ></span
+                                      >
+                                    </td>
+                                    <td
+                                      style="
+                                        padding: 0;
+                                        margin: 0;
+                                        width: 60px;
+                                        text-align: center;
+                                      "
+                                    >
+                                      <span style="font-size: 13px"
+                                        ><span style="line-height: 100%"
+                                          >QTY</span
+                                        ></span
+                                      >
+                                    </td>
+                                    <td
+                                      style="
+                                        padding: 0;
+                                        margin: 0;
+                                        width: 100px;
+                                        text-align: center;
+                                      "
+                                    >
+                                      <span style="font-size: 13px"
+                                        ><span style="line-height: 100%"
+                                          >PRICE</span
+                                        ></span
+                                      >
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                    <!--[if mso]></td></tr></table><![endif]-->
+                  </td>
+                </tr> `;
     for (let i = 0; i < orderTemp[0].cartProducts.length; i++) {
       detailsOrder =
         `${detailsOrder}` +
-        ` ${orderTemp[0].cartProducts[i].title}   £${orderTemp[0].cartProducts[i].TotalProductPrice} <br/>`;
+        `<tr style="border-collapse: collapse">
+        <td
+          align="left"
+          style="
+            padding: 0;
+            margin: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+          "
+        >
+          <table
+            width="100%"
+            cellspacing="0"
+            cellpadding="0"
+            style="
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+              border-collapse: collapse;
+              border-spacing: 0px;
+            "
+          >
+            <tr style="border-collapse: collapse">
+              <td
+                valign="top"
+                align="center"
+                style="padding: 0; margin: 0; width: 560px"
+              >
+                <table
+                  width="100%"
+                  cellspacing="0"
+                  cellpadding="0"
+                  role="presentation"
+                  style="
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
+                    border-collapse: collapse;
+                    border-spacing: 0px;
+                  "
+                >
+                  <tr style="border-collapse: collapse">
+                    <td
+                      align="center"
+                      style="
+                        padding: 0;
+                        margin: 0;
+                        padding-bottom: 0px;
+                        font-size: 0;
+                      "
+                    >
+                      <table
+                        width="100%"
+                        height="100%"
+                        cellspacing="0"
+                        cellpadding="0"
+                        border="0"
+                        role="presentation"
+                        style="
+                          mso-table-lspace: 0pt;
+                          mso-table-rspace: 0pt;
+                          border-collapse: collapse;
+                          border-spacing: 0px;
+                        "
+                      >
+                        <tr style="border-collapse: collapse">
+                          <td
+                            style="
+                              padding: 0;
+                              margin: 0;
+                              border-bottom: 1px solid #efefef;
+                              background: #ffffff none repeat
+                                scroll 0% 0%;
+                              height: 1px;
+                              width: 100%;
+                              margin: 0px;
+                            "
+                          ></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr style="border-collapse: collapse">
+        <td
+          align="left"
+          style="
+            margin: 0;
+            padding-top: 5px;
+            padding-bottom: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+          "
+        >
+          <!--[if mso]><table style="width:560px" cellpadding="0" cellspacing="0"><tr><td style="width:178px" valign="top"><![endif]-->
+          <table class="es-left" cellspacing="0" cellpadding="0" align="left">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="es-m-p0r es-m-p20b esd-container-frame" width="178" valign="top" align="center">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="esd-block-image" align="left"><strong>${
+                                                                                      orderTemp[0]
+                                                                                        .cartProducts[
+                                                                                        i
+                                                                                      ]
+                                                                                        .title
+                                                                                    }</strong></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+          <!--[if mso]></td><td style="width:20px"></td><td style="width:362px" valign="top"><![endif]-->
+          <table
+            cellspacing="0"
+            cellpadding="0"
+            align="right"
+            style="
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+              border-collapse: collapse;
+              border-spacing: 0px;
+            "
+          >
+            <tr style="border-collapse: collapse">
+              <td
+                align="left"
+                style="padding: 0; margin: 0; width: 362px"
+              >
+                <table
+                  width="100%"
+                  cellspacing="0"
+                  cellpadding="0"
+                  role="presentation"
+                  style="
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
+                    border-collapse: collapse;
+                    border-spacing: 0px;
+                  "
+                >
+                  <tr style="border-collapse: collapse">
+                    <td
+                      align="left"
+                      style="padding: 0; margin: 0"
+                    >
+                      <p
+                        style="
+                          margin: 0;
+                          -webkit-text-size-adjust: none;
+                          -ms-text-size-adjust: none;
+                          mso-line-height-rule: exactly;
+                          font-family: arial, 'helvetica neue',
+                            helvetica, sans-serif;
+                          line-height: 21px;
+                          color: #333333;
+                          font-size: 14px;
+                        "
+                      >
+                      </p>
+                      <table
+                        style="
+                          mso-table-lspace: 0pt;
+                          mso-table-rspace: 0pt;
+                          border-collapse: collapse;
+                          border-spacing: 0px;
+                          width: 100%;
+                        "
+                        class="cke_show_border"
+                        cellspacing="1"
+                        cellpadding="1"
+                        border="0"
+                        role="presentation"
+                      >
+                        <tr style="border-collapse: collapse">
+                          <td style="padding: 0; margin: 0; text-align: center" >
+                          <strong>${""}</strong>
+                          </td>
+                          <td
+                            style="
+                              padding: 0;
+                              margin: 0;
+                              width: 60px;
+                              text-align: center;
+                            "
+                          >
+                            ${orderTemp[0].cartProducts[i].qty}
+                          </td>
+                          <td
+                            style="
+                              padding: 0;
+                              margin: 0;
+                              width: 100px;
+                              text-align: center;
+                            "
+                          >
+                          £ ${orderTemp[0].cartProducts[i].TotalProductPrice}
+                          </td>
+                        </tr>
+                      </table>
+                      <p
+                        style="
+                          margin: 0;
+                          -webkit-text-size-adjust: none;
+                          -ms-text-size-adjust: none;
+                          mso-line-height-rule: exactly;
+                          font-family: arial, 'helvetica neue',
+                            helvetica, sans-serif;
+                          line-height: 21px;
+                          color: #333333;
+                          font-size: 14px;
+                        "
+                      >
+                        <br />
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <!--[if mso]></td></tr></table><![endif]-->
+        </td>
+      </tr><p style="text-align: left ; margin-top: 0px ; padding-left: 10px ; padding-top: 0">`;
       for (let j = 0; j < orderTemp[0].cartProducts[i].option.length; j++) {
         detailsOrder =
           `${detailsOrder}` +
-          `      - ${orderTemp[0].cartProducts[i].option[j].menu} <br/>`;
+          `${orderTemp[0].cartProducts[i].option[j].menu}, `;
       }
 
       for (let j = 0; j < orderTemp[0].cartProducts[i].addOn.length; j++) {
         detailsOrder =
-          `${detailsOrder}` +
-          `      - ${orderTemp[0].cartProducts[i].addOn[j].menu} <br/>`;
+          `${detailsOrder}` + `${orderTemp[0].cartProducts[i].addOn[j].menu}, `;
       }
+      detailsOrder = detailsOrder + `</p>`;
     }
+    detailsOrder =
+      detailsOrder +
+      `<tr style="border-collapse: collapse">
+    <td
+      align="left"
+      style="
+        margin: 0;
+        padding-top: 5px;
+        padding-left: 20px;
+        padding-bottom: 30px;
+        padding-right: 40px;
+      "
+    >
+      <table
+        width="100%"
+        cellspacing="0"
+        cellpadding="0"
+        style="
+          mso-table-lspace: 0pt;
+          mso-table-rspace: 0pt;
+          border-collapse: collapse;
+          border-spacing: 0px;
+        "
+      >
+        <tr style="border-collapse: collapse">
+          <td
+            valign="top"
+            align="center"
+            style="padding: 0; margin: 0; width: 540px"
+          >
+            <table
+              width="100%"
+              cellspacing="0"
+              cellpadding="0"
+              role="presentation"
+              style="
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+                border-collapse: collapse;
+                border-spacing: 0px;
+              "
+            >
+              <tr style="border-collapse: collapse">
+                <td
+                  align="right"
+                  style="padding: 0; margin: 0"
+                >
+                  <table
+                    style="
+                      mso-table-lspace: 0pt;
+                      mso-table-rspace: 0pt;
+                      border-collapse: collapse;
+                      border-spacing: 0px;
+                      width: 500px;
+                    "
+                    class="cke_show_border"
+                    cellspacing="1"
+                    cellpadding="1"
+                    border="0"
+                    align="right"
+                    role="presentation"
+                  >
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        Subtotal (${orderTemp[0].cartProducts.length} items):
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                      £ ${orderTemp[0].Subtotal}
+                      </td>
+                    </tr>
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        Flat-rate Shipping:
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                          color: #d48344;
+                        "
+                      >
+                        <strong>FREE</strong>
+                      </td>
+                    </tr>
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        Discount:
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                      £ 0.00
+                      </td>
+                    </tr>
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        <strong>Order Total:</strong>
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                          color: #d48344;
+                        "
+                      >
+                        <strong>£ ${orderTemp[0].Total}</strong>
+                      </td>
+                    </tr>
+                  </table>
+                  <p
+                    style="
+                      margin: 0;
+                      -webkit-text-size-adjust: none;
+                      -ms-text-size-adjust: none;
+                      mso-line-height-rule: exactly;
+                      font-family: arial, 'helvetica neue',
+                        helvetica, sans-serif;
+                      line-height: 21px;
+                      color: #333333;
+                      font-size: 14px;
+                    "
+                  >
+                    <br />
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  </table></td></tr></table>`;
 
     if (reason === "etc.") {
       fs.collection("orderHistory").add({
@@ -176,7 +1985,119 @@ function LiveOrder() {
         reason: etc,
       });
       handleSend(
-        detailsOrder + "The order has been cancelled <br/> Reason: " + etc,
+        `
+        <table
+            class="es-content"
+            cellspacing="0"
+            cellpadding="0"
+            align="center"
+            style="
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+              border-collapse: collapse;
+              border-spacing: 0px;
+              table-layout: fixed !important;
+              width: 100%;
+            "
+          >
+            <tr style="border-collapse: collapse">
+              <td align="center" style="padding: 0; margin: 0">
+                <table
+                  class="es-content-body"
+                  cellspacing="0"
+                  cellpadding="0"
+                  bgcolor="#ffffff"
+                  align="center"
+                  style="
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
+                    border-collapse: collapse;
+                    border-spacing: 0px;
+                    background-color: #ffffff;
+                    width: 600px;
+                  "
+                >
+                  <tr style="border-collapse: collapse">
+                    <td
+                      align="left"
+                      style="
+                        margin: 0;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                      "
+                    >
+                      <table
+                        width="100%"
+                        cellspacing="0"
+                        cellpadding="0"
+                        style="
+                          mso-table-lspace: 0pt;
+                          mso-table-rspace: 0pt;
+                          border-collapse: collapse;
+                          border-spacing: 0px;
+                        "
+                      >
+                        <tr style="border-collapse: collapse">
+                          <td
+                            valign="top"
+                            align="center"
+                            style="padding: 0; margin: 0; width: 560px"
+                          >
+                            <table
+                              style="
+                                mso-table-lspace: 0pt;
+                                mso-table-rspace: 0pt;
+                                border-collapse: separate;
+                                border-spacing: 0px;
+                                border-radius: 0px;
+                              "
+                              width="100%"
+                              cellspacing="0"
+                              cellpadding="0"
+                              role="presentation"
+                            >
+                              <tr style="border-collapse: collapse">
+                                <td
+                                  align="center"
+                                  style="
+                                    padding: 0;
+                                    margin: 0;
+                                    padding-top: 10px;
+                                    padding-bottom: 15px;
+                                  "
+                                >
+                                  <h1
+                                    style="
+                                      margin: 0;
+                                      line-height: 36px;
+                                      mso-line-height-rule: exactly;
+                                      font-family: 'trebuchet ms', helvetica,
+                                        sans-serif;
+                                      font-size: 30px;
+                                      font-style: normal;
+                                      font-weight: normal;
+                                      color: #E44C13;
+                                    "
+                                  >
+                                  The order has been cancelled <br/> Reason: 
+                                  ${etc} 
+                                  <br/>
+                                  </h1>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        ` + detailsOrder,
         orderTemp[0].email
       );
     } else {
@@ -186,7 +2107,119 @@ function LiveOrder() {
         reason: reason,
       });
       handleSend(
-        detailsOrder + "The order has been cancelled <br/> Reason: " + reason,
+        `
+        <table
+            class="es-content"
+            cellspacing="0"
+            cellpadding="0"
+            align="center"
+            style="
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+              border-collapse: collapse;
+              border-spacing: 0px;
+              table-layout: fixed !important;
+              width: 100%;
+            "
+          >
+            <tr style="border-collapse: collapse">
+              <td align="center" style="padding: 0; margin: 0">
+                <table
+                  class="es-content-body"
+                  cellspacing="0"
+                  cellpadding="0"
+                  bgcolor="#ffffff"
+                  align="center"
+                  style="
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
+                    border-collapse: collapse;
+                    border-spacing: 0px;
+                    background-color: #ffffff;
+                    width: 600px;
+                  "
+                >
+                  <tr style="border-collapse: collapse">
+                    <td
+                      align="left"
+                      style="
+                        margin: 0;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                      "
+                    >
+                      <table
+                        width="100%"
+                        cellspacing="0"
+                        cellpadding="0"
+                        style="
+                          mso-table-lspace: 0pt;
+                          mso-table-rspace: 0pt;
+                          border-collapse: collapse;
+                          border-spacing: 0px;
+                        "
+                      >
+                        <tr style="border-collapse: collapse">
+                          <td
+                            valign="top"
+                            align="center"
+                            style="padding: 0; margin: 0; width: 560px"
+                          >
+                            <table
+                              style="
+                                mso-table-lspace: 0pt;
+                                mso-table-rspace: 0pt;
+                                border-collapse: separate;
+                                border-spacing: 0px;
+                                border-radius: 0px;
+                              "
+                              width="100%"
+                              cellspacing="0"
+                              cellpadding="0"
+                              role="presentation"
+                            >
+                              <tr style="border-collapse: collapse">
+                                <td
+                                  align="center"
+                                  style="
+                                    padding: 0;
+                                    margin: 0;
+                                    padding-top: 10px;
+                                    padding-bottom: 15px;
+                                  "
+                                >
+                                  <h1
+                                    style="
+                                      margin: 0;
+                                      line-height: 36px;
+                                      mso-line-height-rule: exactly;
+                                      font-family: 'trebuchet ms', helvetica,
+                                        sans-serif;
+                                      font-size: 30px;
+                                      font-style: normal;
+                                      font-weight: normal;
+                                      color: #E44C13;
+                                    "
+                                  >
+                                  The order has been cancelled <br/> Reason:  
+                                  ${reason} 
+                                  <br/>
+                                  </h1>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        ` + detailsOrder,
         orderTemp[0].email
       );
     }
