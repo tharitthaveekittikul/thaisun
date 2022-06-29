@@ -40,6 +40,8 @@ function LiveOrder() {
 
   const [send, setSent] = useState(false);
   // const [text, setText] = useState("");
+  const [playAudio, setPlayAudio] = useState(false);
+  const [disableButton, setDisableButton] = useState(true);
 
   const handleSend = async (text, email) => {
     setSent(true);
@@ -54,16 +56,24 @@ function LiveOrder() {
   };
 
   function handleChangeReason(e) {
+    if (e.target.value === "" || e.target.value === "etc.") {
+      setDisableButton(true);
+    }
     console.log(e.target.value);
+    setDisableButton(false);
     setReason(e.target.value);
+    setPlayAudio(false);
   }
 
   function handleETCReason(e) {
+    setDisableButton(false);
+    setPlayAudio(false);
     setETC(e.target.value);
   }
   const handleShowReason = (liveorder, key) => {
     setOrderTemp([liveorder, key]);
     setShowReason(true);
+    setPlayAudio(false);
   };
 
   useEffect(() => {
@@ -75,6 +85,7 @@ function LiveOrder() {
           getLiveOrderFromFirebase.push({ ...doc.data(), key: doc.id });
         });
         setLiveOrders(getLiveOrderFromFirebase);
+        setPlayAudio(true);
       });
     return () => subscriber();
   }, []);
@@ -189,8 +200,10 @@ function LiveOrder() {
   }
 
   function playSound() {
-    const audio = new Audio(sound);
-    audio.play();
+    if (playAudio) {
+      const audio = new Audio(sound);
+      audio.play();
+    }
   }
 
   console.log(liveOrders);
@@ -387,6 +400,7 @@ function LiveOrder() {
                       variant="primary"
                       onClick={handleShowSure}
                       type="submit"
+                      disabled={disableButton}
                     >
                       Send
                     </Button>
