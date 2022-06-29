@@ -12,6 +12,7 @@ import { minus } from "react-icons-kit/feather/minus";
 import Delivery from "./Delivery";
 import Pickup from "./Pickup";
 import { useHistory } from "react-router-dom";
+import Navbar1 from "./Navbar1";
 
 export default function Home(props) {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -314,7 +315,7 @@ export default function Home(props) {
 
   return (
     <>
-      <Navbar user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
+      <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
       <br></br>
       <div className="container-fluid filter-products-main-box">
         <div className="filter-box">

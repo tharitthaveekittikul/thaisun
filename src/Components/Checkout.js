@@ -13,6 +13,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { format } from "date-fns";
+import Navbar1 from "./Navbar1";
 
 function Checkout() {
   const local = useLocation();
@@ -333,7 +334,7 @@ function Checkout() {
 
   return (
     <>
-      <Navbar user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
+      <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
       <h1 style={{ textAlign: "center" }}>Checkout</h1>
       {message ? <Alert variant="success">{message}</Alert> : ""}
       {error ? <Alert variant="danger">{error}</Alert> : ""}

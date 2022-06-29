@@ -8,6 +8,8 @@ import { Button, Modal, Form, Alert } from "react-bootstrap";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useHistory } from "react-router-dom";
 
+import Navbar1 from "./Navbar1";
+
 export default function Cart() {
   const history = useHistory();
   const isAdmin = localStorage.getItem("isAdmin") === "true";
@@ -328,7 +330,7 @@ export default function Cart() {
 
   return (
     <>
-      <Navbar user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
+      <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
       <br></br>
       {cartProducts.length > 0 && (
         <div className="wrap cf">

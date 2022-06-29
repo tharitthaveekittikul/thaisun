@@ -3,6 +3,8 @@ import { Form, Card, Button, Container, Alert } from "react-bootstrap";
 import { auth, fs } from "../Config/Config";
 import { useHistory } from "react-router-dom";
 import Navbar from "./Navbar";
+import Navbar1 from "./Navbar1";
+
 function Profile() {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
@@ -90,7 +92,7 @@ function Profile() {
 
   return (
     <>
-      <Navbar user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
+      <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
