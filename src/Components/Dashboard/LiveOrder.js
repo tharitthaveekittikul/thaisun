@@ -15,6 +15,7 @@ import {
 } from "react-bootstrap";
 import { auth, fs } from "../../Config/Config";
 import sound from "../../sound/new_order.mp3";
+import axios from "axios";
 
 function LiveOrder() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
@@ -36,6 +37,21 @@ function LiveOrder() {
 
   const [reason, setReason] = useState("");
   const [etc, setETC] = useState("");
+
+  const [send, setSent] = useState(false);
+  // const [text, setText] = useState("");
+
+  const handleSend = async (text, email) => {
+    setSent(true);
+    try {
+      await axios.post("http://localhost:587/send_mail", {
+        text,
+        emailTo: email,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function handleChangeReason(e) {
     console.log(e.target.value);
@@ -64,12 +80,47 @@ function LiveOrder() {
   }, []);
 
   function handleAccept(liveorder, key) {
+    // if (liveorder.pickupState) {
+    //   setText("The menu takes at least 25 minutes.");
+    // } else {
+    //   setText("The menu takes at least 60 minutes.");
+    // }
+    // console.log("click");
+    let detailsOrder = `Orders <br/> `;
+    for (let i = 0; i < liveorder.cartProducts.length; i++) {
+      detailsOrder =
+        `${detailsOrder}` +
+        ` ${liveorder.cartProducts[i].title}   £${liveorder.cartProducts[i].TotalProductPrice} <br/>`;
+      for (let j = 0; j < liveorder.cartProducts[i].option.length; j++) {
+        detailsOrder =
+          `${detailsOrder}` +
+          `       - ${liveorder.cartProducts[i].option[j].menu} <br/>`;
+      }
+
+      for (let j = 0; j < liveorder.cartProducts[i].addOn.length; j++) {
+        detailsOrder =
+          `${detailsOrder}` +
+          `      - ${liveorder.cartProducts[i].addOn[j].menu} <br/>`;
+      }
+    }
+
     let orders = { ...liveorder, status: "accepted" };
     fs.collection("orderHistory").add(orders);
     fs.collection("liveorder")
       .doc(key)
       .delete()
       .then(() => {
+        if (liveorder.pickupState) {
+          handleSend(
+            detailsOrder + "The menu takes at least 25 minutes.",
+            liveorder.email
+          );
+        } else {
+          handleSend(
+            detailsOrder + "The menu takes at least 60 minutes.",
+            liveorder.email
+          );
+        }
         localStorage.setItem("orders", JSON.stringify(orders));
         let newWindow = window.open(
           "/receipt",
@@ -85,30 +136,48 @@ function LiveOrder() {
           },
           false
         );
-
-        // history.push({
-        //   pathname: "/receipt",
-        //   state: {
-        //     orders: { ...liveorder, status: "accepted" },
-        //   },
-        // });
-        // window.location.reload(false);
       });
   }
 
   function handleDecline() {
+    let detailsOrder = `Orders <br/> `;
+    for (let i = 0; i < orderTemp[0].cartProducts.length; i++) {
+      detailsOrder =
+        `${detailsOrder}` +
+        ` ${orderTemp[0].cartProducts[i].title}   £${orderTemp[0].cartProducts[i].TotalProductPrice} <br/>`;
+      for (let j = 0; j < orderTemp[0].cartProducts[i].option.length; j++) {
+        detailsOrder =
+          `${detailsOrder}` +
+          `      - ${orderTemp[0].cartProducts[i].option[j].menu} <br/>`;
+      }
+
+      for (let j = 0; j < orderTemp[0].cartProducts[i].addOn.length; j++) {
+        detailsOrder =
+          `${detailsOrder}` +
+          `      - ${orderTemp[0].cartProducts[i].addOn[j].menu} <br/>`;
+      }
+    }
+
     if (reason === "etc.") {
       fs.collection("orderHistory").add({
         ...orderTemp[0],
         status: "declined",
         reason: etc,
       });
+      handleSend(
+        detailsOrder + "The order has been cancelled <br/> Reason: " + etc,
+        orderTemp[0].email
+      );
     } else {
       fs.collection("orderHistory").add({
         ...orderTemp[0],
         status: "declined",
         reason: reason,
       });
+      handleSend(
+        detailsOrder + "The order has been cancelled <br/> Reason: " + reason,
+        orderTemp[0].email
+      );
     }
 
     fs.collection("liveorder")
@@ -144,7 +213,8 @@ function LiveOrder() {
         {/* loop all live order */}
         {liveOrders ? (
           <>
-            {playSound()}
+            {liveOrders.length > 0 ? <>{playSound()}</> : null}
+
             {liveOrders.map((liveorder) => (
               <div
                 style={{
