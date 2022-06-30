@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { auth, fs } from "../../Config/Config";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCoffee,
+  faHistory,
+  faRectangleAd,
+  faUser,
+  faUserPlus,
+  faGaugeSimpleHigh,
+  faBowlRice,
+  faCartPlus,
+  faBarChart,
+  faTicket,
+  faCirclePlus,
+} from "@fortawesome/free-solid-svg-icons";
 function Menu() {
   const history = useHistory();
   const [user, setUser] = useState("");
@@ -73,144 +87,19 @@ function Menu() {
             role="menu"
             data-accordion="false"
           >
-            {/* Add icons to the links using the .nav-icon class
-       with font-awesome or any other icon font library */}
-            <li className="nav-item menu-open">
-              <a href="#" className="nav-link active">
-                <i className="nav-icon fas fa-tachometer-alt" />
-                <p>
-                  Dashboard
-                  <i className="right fas fa-angle-left" />
-                </p>
-              </a>
-              <ul className="nav nav-treeview">
-                <li className="nav-item">
-                  <Link to="/dashboard" className="nav-link active">
-                    <i className="far fa-circle nav-icon" />
-                    <p>Dashboard</p>
-                  </Link>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                <i className="nav-icon fas fa-copy" />
-                <p>
-                  Layout Options
-                  <i className="fas fa-angle-left right" />
-                  <span className="badge badge-info right">6</span>
-                </p>
-              </a>
-              <ul className="nav nav-treeview">
-                <li className="nav-item">
-                  <a href="pages/layout/top-nav.html" className="nav-link">
-                    <i className="far fa-circle nav-icon" />
-                    <p>Top Navigation</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    href="pages/layout/top-nav-sidebar.html"
-                    className="nav-link"
-                  >
-                    <i className="far fa-circle nav-icon" />
-                    <p>Top Navigation + Sidebar</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="pages/layout/boxed.html" className="nav-link">
-                    <i className="far fa-circle nav-icon" />
-                    <p>Boxed</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    href="pages/layout/fixed-sidebar.html"
-                    className="nav-link"
-                  >
-                    <i className="far fa-circle nav-icon" />
-                    <p>Fixed Sidebar</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    href="pages/layout/fixed-sidebar-custom.html"
-                    className="nav-link"
-                  >
-                    <i className="far fa-circle nav-icon" />
-                    <p>
-                      Fixed Sidebar <small>+ Custom Area</small>
-                    </p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="pages/layout/fixed-topnav.html" className="nav-link">
-                    <i className="far fa-circle nav-icon" />
-                    <p>Fixed Navbar</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="pages/layout/fixed-footer.html" className="nav-link">
-                    <i className="far fa-circle nav-icon" />
-                    <p>Fixed Footer</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    href="pages/layout/collapsed-sidebar.html"
-                    className="nav-link"
-                  >
-                    <i className="far fa-circle nav-icon" />
-                    <p>Collapsed Sidebar</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                <i className="nav-icon fas fa-chart-pie" />
-                <p>
-                  Charts
-                  <i className="right fas fa-angle-left" />
-                </p>
-              </a>
-              <ul className="nav nav-treeview">
-                <li className="nav-item">
-                  <a href="pages/charts/chartjs.html" className="nav-link">
-                    <i className="far fa-circle nav-icon" />
-                    <p>ChartJS</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="pages/charts/flot.html" className="nav-link">
-                    <i className="far fa-circle nav-icon" />
-                    <p>Flot</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="pages/charts/inline.html" className="nav-link">
-                    <i className="far fa-circle nav-icon" />
-                    <p>Inline</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a href="pages/charts/uplot.html" className="nav-link">
-                    <i className="far fa-circle nav-icon" />
-                    <p>uPlot</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
             <li className="nav-header">ORDER</li>
             <li className="nav-item">
               <Link to="/orderhistory" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
+                <FontAwesomeIcon icon={faHistory} className="fas nav-icon" />
                 <p>Order History</p>
               </Link>
             </li>
             <li className="nav-item">
               <Link to="/liveorder" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
+                <FontAwesomeIcon
+                  icon={faGaugeSimpleHigh}
+                  className="fas nav-icon"
+                />
                 <p>
                   Live Order
                   <span className="badge badge-info right">{totalOrders}</span>
@@ -220,25 +109,31 @@ function Menu() {
             <li className="nav-header">Manage</li>
             <li className="nav-item">
               <Link to="/customer" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
+                <FontAwesomeIcon icon={faUser} className="fas nav-icon" />
                 <p>Customer</p>
               </Link>
             </li>
             <li className="nav-item">
+              <Link to="/manageadmin" className="nav-link">
+                <FontAwesomeIcon icon={faUserPlus} className="fas nav-icon" />
+                <p>Manage Admin</p>
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link to="/manageproducts" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
+                <FontAwesomeIcon icon={faBowlRice} className="fas nav-icon" />
                 <p>Manage Products</p>
               </Link>
             </li>
             <li className="nav-item">
               <Link to="/addproducts" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
+                <FontAwesomeIcon icon={faCartPlus} className="fas nav-icon" />
                 <p>Add Products</p>
               </Link>
             </li>
             <li className="nav-item">
               <Link to="/managecategory" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
+                <FontAwesomeIcon icon={faBarChart} className="fas nav-icon" />
                 <p>Manage Category</p>
               </Link>
             </li>
@@ -250,40 +145,15 @@ function Menu() {
             </li>
             <li className="nav-item">
               <Link to="/manageaddons" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
+                <FontAwesomeIcon icon={faCirclePlus} className="fas nav-icon" />
                 <p>Manage Add-on</p>
               </Link>
             </li>
             <li className="nav-item">
               <Link to="/managecoupon" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
-                <p>Manage Coupon</p>
+                <FontAwesomeIcon icon={faTicket} className="fas nav-icon" />
+                <p>Manage Voucher</p>
               </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/manageadmin" className="nav-link">
-                <i className="fas fa-circle nav-icon" />
-                <p>Manage Admin</p>
-              </Link>
-            </li>
-            <li className="nav-header">LABELS</li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                <i className="nav-icon far fa-circle text-danger" />
-                <p className="text">Important</p>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                <i className="nav-icon far fa-circle text-warning" />
-                <p>Warning</p>
-              </a>
-            </li>
-            <li className="nav-item">
-              <a href="#" className="nav-link">
-                <i className="nav-icon far fa-circle text-info" />
-                <p>Informational</p>
-              </a>
             </li>
           </ul>
         </nav>

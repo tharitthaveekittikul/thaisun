@@ -130,63 +130,78 @@ function AddCategory() {
     <div className="wrapper">
       <Header />
       <Menu />
-      <div
-        style={{
-          maxWidth: "900px",
-          margin: "auto",
-          marginTop: "50px",
-        }}
-      >
-        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
-        {message ? <Alert variant="success">{message}</Alert> : ""}
-        {error ? <Alert variant="danger">{error}</Alert> : ""}
-        <DataTable
-          rows={category}
-          columns={columns}
-          loading={!category.length}
-          sx={userTableStyles}
-        />
-      </div>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Are you sure?</Modal.Title>
-        </Modal.Header>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            No
-          </Button>
-          <Button variant="primary" onClick={handleRemoveButton}>
-            Yes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Container
-        className="d-flex justify-content-center"
-        style={{ minHeight: "100vh" }}
-      >
-        <div className="w-100 my-5" style={{ maxWidth: "400px" }}>
-          <Card>
-            <Card.Body>
-              <h2 className="text-center mb-4 align-items-center justify-content-center ">
-                Add Category
-              </h2>
-              {/* {error && <Alert variant="danger">{error}</Alert>}
+      <div className="content-wrapper">
+        <div
+          style={{
+            paddingTop: "50px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            backgroundColor: "#f4f6f9",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#FFFF",
+              maxWidth: "900px",
+              margin: "auto",
+              marginTop: "50px",
+            }}
+          >
+            {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
+            {message ? <Alert variant="success">{message}</Alert> : ""}
+            {error ? <Alert variant="danger">{error}</Alert> : ""}
+            <DataTable
+              rows={category}
+              columns={columns}
+              loading={!category.length}
+              sx={userTableStyles}
+            />
+          </div>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Are you sure?</Modal.Title>
+            </Modal.Header>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                No
+              </Button>
+              <Button variant="primary" onClick={handleRemoveButton}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <div
+            className="w-100 my-5"
+            style={{
+              maxWidth: "400px",
+              marginLeft: "37%",
+            }}
+          >
+            <Card>
+              <Card.Body>
+                <h2 className="text-center mb-4 align-items-center justify-content-center ">
+                  Add Category
+                </h2>
+                {/* {error && <Alert variant="danger">{error}</Alert>}
               {message && <Alert variant="success">{message}</Alert>} */}
-              {sendEmail ? null : (
-                <Form onSubmit={handleAddCategory}>
-                  <Form.Group id="uid" className="mb-3">
-                    <Form.Label>UID</Form.Label>
-                    <Form.Control type="text" ref={categoryRef} required />
-                  </Form.Group>
-                  <Button disabled={loading} className="w-100" type="submit">
-                    Add
-                  </Button>
-                </Form>
-              )}
-            </Card.Body>
-          </Card>
+                {sendEmail ? null : (
+                  <Form onSubmit={handleAddCategory}>
+                    <Form.Group id="uid" className="mb-3">
+                      <Form.Label>Name</Form.Label>
+                      <Form.Control type="text" ref={categoryRef} required />
+                    </Form.Group>
+                    <Button disabled={loading} className="w-100" type="submit">
+                      Add
+                    </Button>
+                  </Form>
+                )}
+              </Card.Body>
+            </Card>
+          </div>
         </div>
-      </Container>
+      </div>
+
       <Footer />
     </div>
   );

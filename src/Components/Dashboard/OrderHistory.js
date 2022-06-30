@@ -113,25 +113,32 @@ function OrderHistory() {
     <div className="wrapper">
       <Header />
       <Menu />
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "auto",
-          marginTop: "50px",
-        }}
-      >
-        <DataTable
-          rows={orders}
-          columns={columns}
-          loading={!orders.length}
-          sx={userTableStyles}
-        />
+      <div className="content-wrapper">
+        <div
+          style={{
+            paddingTop: "8px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            backgroundColor: "#f4f6f9",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#FFFF",
+              maxWidth: "1200px",
+              margin: "auto",
+              marginTop: "50px",
+            }}
+          >
+            <DataTable
+              rows={orders}
+              columns={columns}
+              loading={!orders.length}
+              sx={userTableStyles}
+            />
+          </div>
+        </div>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       <Footer />
     </div>
   );

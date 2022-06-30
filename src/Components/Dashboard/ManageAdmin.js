@@ -163,22 +163,34 @@ function ManageAdmin() {
     <div className="wrapper">
       <Header />
       <Menu />
-      <div
-        style={{
-          maxWidth: "1500px",
-          margin: "auto",
-          marginTop: "50px",
-        }}
-      >
-        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
-        {message ? <Alert variant="success">{message}</Alert> : ""}
-        {error ? <Alert variant="danger">{error}</Alert> : ""}
-        <DataTable
-          rows={users}
-          columns={columns}
-          loading={!users.length}
-          sx={userTableStyles}
-        />
+      <div className="content-wrapper">
+        <div
+          style={{
+            paddingTop: "10px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            backgroundColor: "#f4f6f9",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#FFFF",
+              maxWidth: "1500px",
+              margin: "auto",
+              marginTop: "50px",
+            }}
+          >
+            {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
+            {message ? <Alert variant="success">{message}</Alert> : ""}
+            {error ? <Alert variant="danger">{error}</Alert> : ""}
+            <DataTable
+              rows={users}
+              columns={columns}
+              loading={!users.length}
+              sx={userTableStyles}
+            />
+          </div>
+        </div>
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -193,12 +205,6 @@ function ManageAdmin() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       <Footer />
     </div>
   );

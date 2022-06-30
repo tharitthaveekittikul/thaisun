@@ -192,22 +192,35 @@ function ManageProducts() {
     <div className="wrapper">
       <Header />
       <Menu />
-      <div
-        style={{
-          maxWidth: "1250px",
-          margin: "auto",
-          marginTop: "50px",
-        }}
-      >
-        {message ? <Alert variant="success">{message}</Alert> : ""}
-        {error ? <Alert variant="danger">{error}</Alert> : ""}
-        <DataTable
-          rows={products}
-          columns={columns}
-          loading={!products.length}
-          sx={userTableStyles}
-          handleRowEditCommit={handleRowEditCommit}
-        />
+      <div className="content-wrapper">
+        <div
+          style={{
+            paddingTop: "10px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            backgroundColor: "#f4f6f9",
+            paddingBottom: "50px",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "1250px",
+              margin: "auto",
+              marginTop: "50px",
+              backgroundColor: "#FFFF",
+            }}
+          >
+            {message ? <Alert variant="success">{message}</Alert> : ""}
+            {error ? <Alert variant="danger">{error}</Alert> : ""}
+            <DataTable
+              rows={products}
+              columns={columns}
+              loading={!products.length}
+              sx={userTableStyles}
+              handleRowEditCommit={handleRowEditCommit}
+            />
+          </div>
+        </div>
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Are you sure?</Modal.Title>
@@ -221,8 +234,8 @@ function ManageProducts() {
             </Button>
           </Modal.Footer>
         </Modal>
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 }

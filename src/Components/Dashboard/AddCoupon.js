@@ -234,183 +234,206 @@ function AddCoupon() {
     <div className="wrapper">
       <Header />
       <Menu />
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "auto",
-          marginTop: "50px",
-        }}
-      >
-        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
-        {message ? <Alert variant="success">{message}</Alert> : ""}
-        {error ? <Alert variant="danger">{error}</Alert> : ""}
-        <DataTable
-          rows={coupon}
-          columns={columns}
-          loading={!coupon.length}
-          sx={userTableStyles}
-        />
-      </div>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Are you sure?</Modal.Title>
-        </Modal.Header>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            No
-          </Button>
-          <Button variant="primary" onClick={handleRemoveButton}>
-            Yes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Container
-        className="d-flex justify-content-center"
-        style={{ minHeight: "100vh" }}
-      >
-        <div className="w-100 my-5" style={{ maxWidth: "400px" }}>
-          <Card>
-            <Card.Body>
-              <h2 className="text-center mb-4 align-items-center justify-content-center ">
-                Add Voucher
-              </h2>
-              {/* {error && <Alert variant="danger">{error}</Alert>}
+      <div className="content-wrapper">
+        <div
+          style={{
+            paddingTop: "50px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            backgroundColor: "#f4f6f9",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "1200px",
+              margin: "auto",
+              marginTop: "50px",
+              backgroundColor: "#FFFF",
+            }}
+          >
+            {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
+            {message ? <Alert variant="success">{message}</Alert> : ""}
+            {error ? <Alert variant="danger">{error}</Alert> : ""}
+            <DataTable
+              rows={coupon}
+              columns={columns}
+              loading={!coupon.length}
+              sx={userTableStyles}
+            />
+          </div>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Are you sure?</Modal.Title>
+            </Modal.Header>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                No
+              </Button>
+              <Button variant="primary" onClick={handleRemoveButton}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          <Container
+            className="d-flex justify-content-center"
+            style={{ minHeight: "100vh" }}
+          >
+            <div className="w-100 my-5" style={{ maxWidth: "400px" }}>
+              <Card>
+                <Card.Body>
+                  <h2 className="text-center mb-4 align-items-center justify-content-center ">
+                    Add Voucher
+                  </h2>
+                  {/* {error && <Alert variant="danger">{error}</Alert>}
                 {message && <Alert variant="success">{message}</Alert>} */}
-              {sendEmail ? null : (
-                <Form onSubmit={handleAddCoupon}>
-                  <Form.Group id="uid" className="mb-3">
-                    <FormLabel>Coupon</FormLabel>
-                    <Form.Control
-                      type="text"
-                      ref={couponRef}
-                      value={gName}
-                      defaultValue={""}
-                      required
-                      onChange={handleNameChange}
-                    />
-                    <div className="text-center">
-                      <Button
-                        className="w-50"
-                        style={{ marginBottom: "10px", marginTop: "10px" }}
-                        onClick={generateName}
-                      >
-                        Generate Voucher
-                      </Button>
-                    </div>
-                    <div>
-                      <FormControl>
-                        <FormLabel>Expired Date?</FormLabel>
-                        <RadioGroup
-                          aria-labelledby="demo-controlled-radio-buttons-group"
-                          name="controlled-radio-buttons-group"
-                          defaultValue="no"
-                          onChange={handleDateChange}
-                        >
-                          <FormControlLabel
-                            value="yes"
-                            control={<Radio />}
-                            label="Yes"
-                          />
-                          <FormControlLabel
-                            value="no"
-                            control={<Radio />}
-                            label="No"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                      {dateState ? (
-                        <DatePicker
-                          selected={expiredDate}
-                          onChange={(date) => [
-                            setExpiredDate(date),
-                            console.log(date.toLocaleDateString()),
-                          ]}
+                  {sendEmail ? null : (
+                    <Form onSubmit={handleAddCoupon}>
+                      <Form.Group id="uid" className="mb-3">
+                        <FormLabel>Coupon</FormLabel>
+                        <Form.Control
+                          type="text"
+                          ref={couponRef}
+                          value={gName}
+                          defaultValue={""}
+                          required
+                          onChange={handleNameChange}
                         />
-                      ) : null}
-                    </div>
-                    <div style={{ marginTop: "20px" }}>
-                      <FormControl>
-                        <FormLabel>Discount Type?</FormLabel>
-                        <RadioGroup
-                          aria-labelledby="demo-controlled-radio-buttons-group"
-                          name="controlled-radio-buttons-group"
-                          defaultValue="fixed"
-                          onChange={handleTypeChange}
-                        >
-                          <FormControlLabel
-                            value="fixed"
-                            control={<Radio />}
-                            label="Fixed"
-                          />
-                          <FormControlLabel
-                            value="percent"
-                            control={<Radio />}
-                            label="Percent"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                      {type ? (
-                        <div>
-                          <FormLabel>Fixed Discount Number</FormLabel>
-                          <Form.Control type="number" ref={fixedRef} required />
+                        <div className="text-center">
+                          <Button
+                            className="w-50"
+                            style={{ marginBottom: "10px", marginTop: "10px" }}
+                            onClick={generateName}
+                          >
+                            Generate Voucher
+                          </Button>
                         </div>
-                      ) : (
                         <div>
-                          <FormLabel>Percent Discount Number 1-100</FormLabel>
-                          <Form.Control
-                            type="number"
-                            value={percent}
-                            onChange={handlePercentChange}
-                            required
-                            min={1}
-                            max={100}
-                            defaultValue={1}
-                          />
+                          <FormControl>
+                            <FormLabel>Expired Date?</FormLabel>
+                            <RadioGroup
+                              aria-labelledby="demo-controlled-radio-buttons-group"
+                              name="controlled-radio-buttons-group"
+                              defaultValue="no"
+                              onChange={handleDateChange}
+                            >
+                              <FormControlLabel
+                                value="yes"
+                                control={<Radio />}
+                                label="Yes"
+                              />
+                              <FormControlLabel
+                                value="no"
+                                control={<Radio />}
+                                label="No"
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                          {dateState ? (
+                            <DatePicker
+                              selected={expiredDate}
+                              onChange={(date) => [
+                                setExpiredDate(date),
+                                console.log(date.toLocaleDateString()),
+                              ]}
+                            />
+                          ) : null}
                         </div>
-                      )}
-                    </div>
-                    <div style={{ marginTop: "20px" }}>
-                      <FormControl>
-                        <FormLabel>Minimum Total To Use Voucher?</FormLabel>
-                        <RadioGroup
-                          aria-labelledby="demo-controlled-radio-buttons-group"
-                          name="controlled-radio-buttons-group"
-                          defaultValue="no"
-                          onChange={handleMinimumChange}
-                        >
-                          <FormControlLabel
-                            value="yes"
-                            control={<Radio />}
-                            label="Yes"
-                          />
-                          <FormControlLabel
-                            value="no"
-                            control={<Radio />}
-                            label="No"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                      {minState ? (
-                        <div>
-                          <FormLabel>Minimum number</FormLabel>
-                          <Form.Control
-                            type="number"
-                            ref={minimumRef}
-                            required
-                          />
+                        <div style={{ marginTop: "20px" }}>
+                          <FormControl>
+                            <FormLabel>Discount Type?</FormLabel>
+                            <RadioGroup
+                              aria-labelledby="demo-controlled-radio-buttons-group"
+                              name="controlled-radio-buttons-group"
+                              defaultValue="fixed"
+                              onChange={handleTypeChange}
+                            >
+                              <FormControlLabel
+                                value="fixed"
+                                control={<Radio />}
+                                label="Fixed"
+                              />
+                              <FormControlLabel
+                                value="percent"
+                                control={<Radio />}
+                                label="Percent"
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                          {type ? (
+                            <div>
+                              <FormLabel>Fixed Discount Number</FormLabel>
+                              <Form.Control
+                                type="number"
+                                ref={fixedRef}
+                                required
+                              />
+                            </div>
+                          ) : (
+                            <div>
+                              <FormLabel>
+                                Percent Discount Number 1-100
+                              </FormLabel>
+                              <Form.Control
+                                type="number"
+                                value={percent}
+                                onChange={handlePercentChange}
+                                required
+                                min={1}
+                                max={100}
+                                defaultValue={1}
+                              />
+                            </div>
+                          )}
                         </div>
-                      ) : null}
-                    </div>
-                  </Form.Group>
-                  <Button disabled={loading} className="w-100" type="submit">
-                    Add
-                  </Button>
-                </Form>
-              )}
-            </Card.Body>
-          </Card>
+                        <div style={{ marginTop: "20px" }}>
+                          <FormControl>
+                            <FormLabel>Minimum Total To Use Voucher?</FormLabel>
+                            <RadioGroup
+                              aria-labelledby="demo-controlled-radio-buttons-group"
+                              name="controlled-radio-buttons-group"
+                              defaultValue="no"
+                              onChange={handleMinimumChange}
+                            >
+                              <FormControlLabel
+                                value="yes"
+                                control={<Radio />}
+                                label="Yes"
+                              />
+                              <FormControlLabel
+                                value="no"
+                                control={<Radio />}
+                                label="No"
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                          {minState ? (
+                            <div>
+                              <FormLabel>Minimum number</FormLabel>
+                              <Form.Control
+                                type="number"
+                                ref={minimumRef}
+                                required
+                              />
+                            </div>
+                          ) : null}
+                        </div>
+                      </Form.Group>
+                      <Button
+                        disabled={loading}
+                        className="w-100"
+                        type="submit"
+                      >
+                        Add
+                      </Button>
+                    </Form>
+                  )}
+                </Card.Body>
+              </Card>
+            </div>
+          </Container>
         </div>
-      </Container>
+      </div>
+
       <Footer />
     </div>
   );

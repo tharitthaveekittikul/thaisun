@@ -17,7 +17,6 @@ import ManageAdmin from "./Components/Dashboard/ManageAdmin";
 import Method from "./Components/Method";
 import Receipt from "./Components/Receipt/Receipt";
 import ManageProducts from "./Components/Dashboard/ManageProducts";
-import ManageAddOn from "./Components/Dashboard/ManageAddOn";
 import EditProducts from "./Components/Dashboard/EditProducts";
 import AddCategory from "./Components/Dashboard/AddCategory";
 import FixedAddOn from "./Components/Dashboard/FixedAddOn";
@@ -44,7 +43,6 @@ export const App = () => {
         <Route path="/method" component={Method} />
         <Route path="/receipt" component={Receipt} />
         <Route path="/manageproducts" component={ManageProducts} />
-        <Route path="/manageaddons" component={ManageAddOn} />
         <Route path="/editproducts" component={EditProducts} />
         <Route path="/managecategory" component={AddCategory} />
         <Route path="/fixedaddon" component={FixedAddOn} />

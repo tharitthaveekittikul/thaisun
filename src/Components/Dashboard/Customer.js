@@ -58,25 +58,32 @@ function Customer() {
     <div className="wrapper">
       <Header />
       <Menu />
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "auto",
-          marginTop: "50px",
-        }}
-      >
-        <DataTable
-          rows={users}
-          columns={columns}
-          loading={!users.length}
-          sx={userTableStyles}
-        />
+      <div className="content-wrapper">
+        <div
+          style={{
+            paddingTop: "50px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            backgroundColor: "#f4f6f9",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#FFFF",
+              maxWidth: "1200px",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <DataTable
+              rows={users}
+              columns={columns}
+              loading={!users.length}
+              sx={userTableStyles}
+            />
+          </div>
+        </div>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       <Footer />
     </div>
   );

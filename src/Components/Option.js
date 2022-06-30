@@ -8,18 +8,33 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-function Option({ individualProduct, handleOption }) {
+function Option({
+  individualProduct,
+  handleOption,
+  individualFilteredProduct,
+}) {
   const titleList = [];
   const [options, setOptions] = useState();
   const [optionUse, setOptionUse] = useState([]);
 
+  // for individualProduct
   useEffect(() => {
-    fs.collection("Products")
-      .doc(individualProduct.ID)
-      .get()
-      .then((snapshot) => {
-        setOptions(snapshot.data().option);
-      });
+    if (individualProduct) {
+      fs.collection("Products")
+        .doc(individualProduct.ID)
+        .get()
+        .then((snapshot) => {
+          setOptions(snapshot.data().option);
+        });
+    } else {
+      // for individualFilteredProduct
+      fs.collection("Products")
+        .doc(individualFilteredProduct.ID)
+        .get()
+        .then((snapshot) => {
+          setOptions(snapshot.data().option);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -139,6 +154,10 @@ function Option({ individualProduct, handleOption }) {
     }
   };
 
+  const pushTitle = (option) => {
+    titleList.push(option);
+  };
+
   // console.log(optionUse);
   if (options) {
     return (
@@ -148,7 +167,7 @@ function Option({ individualProduct, handleOption }) {
             {options.map((option, index) => (
               <>
                 <Form.Label>{option.title}</Form.Label>
-                {titleList.push(option.title)}
+                {pushTitle(option.title)}
 
                 <div key={`default-radio`}>
                   <FormControl>

@@ -66,6 +66,10 @@ function FixAdd({ handleAddOn }) {
     }
   };
 
+  const pushTitle = (addon) => {
+    titleList.push(addon);
+  };
+
   if (fixedAddOns) {
     return (
       <>
@@ -73,7 +77,7 @@ function FixAdd({ handleAddOn }) {
           <FormGroup>
             {fixedAddOns.map((fixedAddOn, index) => (
               <>
-                {titleList.push(fixedAddOn.title)}
+                {pushTitle(fixedAddOn.title)}
                 <Form.Label>{fixedAddOn.title}</Form.Label>
                 {fixedAddOn.menu.map((menuField, index_child) => (
                   <FormControlLabel
