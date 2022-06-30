@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import { fs } from "../Config/Config";
 import FixAdd from "./FixAdd";
 import Option from "./Option";
+import { Icon } from "react-icons-kit";
+import { ic_add_circle } from "react-icons-kit/md/ic_add_circle";
 
 export default function IndividualProduct({ individualProduct, addToCart }) {
   const [show, setShow] = useState(false);
@@ -72,17 +74,33 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
   };
 
   return (
-    <div className="product">
-      <div className="product-img">
-        <img src={individualProduct.img} alt="product-img" />
+    <div className="ind-menu">
+      <div className="menu-img">
+        <img
+          style={{
+            alignContent: "center",
+            width: "100px",
+            height: "100px",
+            borderRadius: "10px",
+          }}
+          src={individualProduct.img}
+          alt="Menu image"
+        />
       </div>
-      <div className="product-text title">{individualProduct.title}</div>
-      <div className="product-text description">
-        {individualProduct.description}
+      <div className="menu-text">
+        <div className="title">{individualProduct.title}</div>
+        <div className="desc">{individualProduct.description}</div>
+        <div className="price">£ {individualProduct.price}</div>
       </div>
-      <div className="product-text price">£ {individualProduct.price}</div>
 
-      <Button onClick={handleShow}>ADD TO CART</Button>
+      <div className="btn-add" onClick={handleShow}>
+        <Icon
+          className="addicon"
+          icon={ic_add_circle}
+          style={{ color: "#e80532" }}
+          size={30}
+        />
+      </div>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -110,10 +128,10 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
         </Modal.Body>
         <Modal.Footer>
           <Button
-            className="btn btn-danger btn-md cart-btn"
+            style={{ backgroundColor: "#e80532", borderColor: "#e80532" }}
             onClick={handleAddToCart}
           >
-            ADD TO CART
+            ADD TO BASKET
           </Button>
         </Modal.Footer>
       </Modal>

@@ -402,7 +402,7 @@ function Checkout() {
           </div>
         )}
       </div>
-      <div>
+      <div className="checkout-table">
         <div className="subtotal cf">
           <ul>
             {fromCart.cartProducts.map((pro) => (

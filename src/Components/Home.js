@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "./Navbar";
 import Products from "./Products";
 import { auth, fs } from "../Config/Config";
 import IndividualFilteredProduct from "./IndividualFilteredProduct";
 import CartProducts from "./CartProducts";
-import { Button, Table } from "react-bootstrap";
+import { Accordion, Button, Table, AccordionContext } from "react-bootstrap";
 import { Icon } from "react-icons-kit";
 import { plus } from "react-icons-kit/feather/plus";
 import { ic_delete } from "react-icons-kit/md/ic_delete";
@@ -13,8 +13,10 @@ import Delivery from "./Delivery";
 import Pickup from "./Pickup";
 import { useHistory } from "react-router-dom";
 import Navbar1 from "./Navbar1";
+import { useMediaQuery } from "react-responsive";
 
 export default function Home(props) {
+  const ref = useRef(null);
   const [isAdmin, setIsAdmin] = useState(false);
   // getting current user uid
   function GetUserUid() {
@@ -313,62 +315,76 @@ export default function Home(props) {
   const handleClickDecrease = useCallback((e) => cartProductDecrease(e));
   const handleClickDelete = useCallback((e) => handleCartProductDelete(e));
 
+  const scroll = (scrollOffset) => {
+    ref.current.scrollLeft += scrollOffset;
+  };
+
   return (
     <>
       <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
-      <br></br>
-      <div className="container-fluid filter-products-main-box">
-        <div className="filter-box">
-          <h6>Filter by category</h6>
+      <div className="category-container">
+        <button onClick={() => scroll(-1500)}>LEFT</button>
+
+        <div className="category-tab" style={{ marginTop: "20px" }} ref={ref}>
           {spans ? (
             <>
               {spans.map((individualSpan, index) => (
-                <span
-                  key={index}
-                  id={individualSpan.id}
-                  onClick={() => handleChange(individualSpan)}
-                  className={individualSpan.id === active ? active : "deactive"}
-                >
-                  {individualSpan.text}
-                </span>
+                <div className="category-ind">
+                  <span
+                    key={index}
+                    id={individualSpan.id}
+                    onClick={() => handleChange(individualSpan)}
+                    className={
+                      individualSpan.id === active ? active : "deactive"
+                    }
+                  >
+                    {individualSpan.text}
+                  </span>
+                </div>
               ))}
             </>
           ) : (
             <></>
           )}
         </div>
-        {filteredProducts.length > 0 && (
-          <div className="my-products">
-            <h1 className="text-center">{category}</h1>
-            <a href="javascript:void(0)" onClick={returntoAllProducts}>
-              Return to All Products
-            </a>
-            <div className="products-box">
-              {filteredProducts.map((individualFilteredProduct) => (
-                <IndividualFilteredProduct
-                  key={individualFilteredProduct.ID}
-                  individualFilteredProduct={individualFilteredProduct}
-                  addToCart={addToCart}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-        {filteredProducts.length < 1 && (
-          <>
-            {products.length > 0 && (
-              <div className="my-products">
-                <h1 className="text-center">All Products</h1>
-                <div className="products-box">
-                  <Products products={products} addToCart={addToCart} />
-                </div>
+        <button onClick={() => scroll(1500)}>RIGHT</button>
+      </div>
+
+      <div className="all-home">
+        <div className="menu">
+          {filteredProducts.length > 0 && (
+            <>
+              <h1>{category}</h1>
+              <a href="javascript:void(0)" onClick={returntoAllProducts}>
+                Return to All Menu
+              </a>
+              <div className="container">
+                {filteredProducts.map((individualFilteredProduct) => (
+                  <IndividualFilteredProduct
+                    key={individualFilteredProduct.ID}
+                    individualFilteredProduct={individualFilteredProduct}
+                    addToCart={addToCart}
+                  />
+                ))}
               </div>
-            )}
-            {products.length < 1 && (
-              <div className="my-products please-wait">Please wait...</div>
-            )}
-          </>
-        )}
+            </>
+          )}
+          {filteredProducts.length < 1 && (
+            <>
+              {products.length > 0 && (
+                <>
+                  <h1>All Menu</h1>
+                  <div className="container">
+                    <Products products={products} addToCart={addToCart} />
+                  </div>
+                </>
+              )}
+              {products.length < 1 && (
+                <div className="my-products please-wait">Loading...</div>
+              )}
+            </>
+          )}
+        </div>
         <div>
           <div className="method-home-container">
             <div className="method-home">
@@ -469,19 +485,16 @@ export default function Home(props) {
               Total Cost: <span>£{Number(totalPrice).toFixed(2)}</span>
             </div>
             <div style={{ justifyContent: "center", marginTop: "20px" }}>
-              {" "}
-              <div
-                className="btn btn-danger btn-md cart-btn"
+              <Button
                 style={{
-                  textAlign: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "200px",
+                  backgroundColor: "#e80532",
+                  borderColor: "#e80532",
+                  width: "max-content",
                 }}
                 onClick={handleCheckout}
               >
                 My Order
-              </div>{" "}
+              </Button>
             </div>
           </div>
         </div>

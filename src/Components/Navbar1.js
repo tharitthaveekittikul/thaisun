@@ -9,7 +9,7 @@ import { Nav, Navbar, NavLink, NavbarBrand } from "react-bootstrap";
 import { useMediaQuery } from "react-responsive";
 
 function Navbar1({ user, isAdmin, totalProducts }) {
-  const changeHam = useMediaQuery({ query: "(max-width: 992px)" });
+  const changeHam = useMediaQuery({ query: "(max-width: 991px)" });
   const history = useHistory();
   async function handleLogout() {
     await auth.signOut().then(() => {
@@ -29,45 +29,53 @@ function Navbar1({ user, isAdmin, totalProducts }) {
         collapseOnSelect
         expand="lg"
         bg="white"
-        className="shadow p-3 mb-5 bg-white rounded"
+        className="shadow bg-white"
       >
         <Navbar.Toggle
           aria-controls="navbarScroll"
           data-bs-toggle="collapse"
           data-bs-target="#navbarScroll"
         />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav>
-            {changeHam ? (
-              <>
-                <NavLink
-                  style={{ color: "black", fontSize: "18px" }}
-                  eventKey="1"
-                  as={Link}
-                  to="/"
-                >
-                  Home
-                </NavLink>
-              </>
-            ) : (
-              <>
-                <NavbarBrand
-                  style={{ width: "120px", height: "auto" }}
-                  eventKey="1"
-                  as={Link}
-                  to="/"
-                >
-                  <img src={logo} alt="thaisun-logo" />
-                  {"      Thaisun"}
-                </NavbarBrand>
-              </>
-            )}
+
+        {changeHam ? (
+          <Nav className="m-auto">
+            <NavLink
+              className="navbar-font"
+              style={{
+                fontFamily: "Roboto",
+                color: "black",
+                fontSize: "16px",
+              }}
+              eventKey="1"
+              as={Link}
+              to="/"
+            >
+              Thaisun
+            </NavLink>
           </Nav>
+        ) : (
+          <Nav>
+            <NavbarBrand
+              style={{
+                width: "120px",
+                height: "auto",
+              }}
+              eventKey="1"
+              as={Link}
+              to="/"
+            >
+              <img src={logo} alt="thaisun-logo" />
+              <span className="navbar-font"> Thaisun</span>
+            </NavbarBrand>
+          </Nav>
+        )}
+        <Navbar.Collapse id="navbarScroll">
           <Nav className="ml-auto">
             {!user ? (
               <>
                 <NavLink
-                  style={{ color: "black", fontSize: "18px" }}
+                  className="navbar-font"
+                  style={{ color: "black", fontSize: "16px" }}
                   eventKey="1"
                   as={Link}
                   to="/signup"
@@ -75,7 +83,8 @@ function Navbar1({ user, isAdmin, totalProducts }) {
                   Sign Up
                 </NavLink>
                 <NavLink
-                  style={{ color: "black", fontSize: "18px" }}
+                  className="navbar-font"
+                  style={{ color: "black", fontSize: "16px" }}
                   eventKey="2"
                   as={Link}
                   to="/login"
@@ -87,7 +96,8 @@ function Navbar1({ user, isAdmin, totalProducts }) {
               <>
                 {isAdmin ? (
                   <NavLink
-                    style={{ color: "black", fontSize: "18px" }}
+                    className="navbar-font"
+                    style={{ color: "black", fontSize: "16px" }}
                     eventKey="1"
                     as={Link}
                     to="/dashboard"
@@ -97,7 +107,8 @@ function Navbar1({ user, isAdmin, totalProducts }) {
                 ) : null}
                 {changeHam ? (
                   <NavLink
-                    style={{ color: "black", fontSize: "18px" }}
+                    className="navbar-font"
+                    style={{ color: "black", fontSize: "16px" }}
                     eventKey="2"
                     as={Link}
                     to="/order"
@@ -122,7 +133,8 @@ function Navbar1({ user, isAdmin, totalProducts }) {
                 )}
 
                 <NavLink
-                  style={{ color: "black", fontSize: "18px" }}
+                  className="navbar-font"
+                  style={{ color: "black", fontSize: "16px" }}
                   eventKey="3"
                   as={Link}
                   to="/profile"
@@ -130,7 +142,8 @@ function Navbar1({ user, isAdmin, totalProducts }) {
                   Profile
                 </NavLink>
                 <NavLink
-                  style={{ color: "red", fontSize: "18px" }}
+                  className="navbar-font"
+                  style={{ color: "red", fontSize: "16px" }}
                   eventKey="4"
                   onClick={handleLogout}
                 >
