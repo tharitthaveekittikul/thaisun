@@ -227,7 +227,6 @@ export default function AddProducts() {
                 setLoadingMsg("");
                 setTitle("");
                 setDescription("");
-                setCategory("");
                 setPrice("");
                 document.getElementById("file").value = "";
                 setImageError("");
@@ -339,7 +338,7 @@ export default function AddProducts() {
               onChange={(e) => {
                 handleChangeCategory(e);
               }}
-              defaultValue=""
+              defaultValue={category}
             >
               {console.log(category)}
               {console.log(categoryUID)}

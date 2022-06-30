@@ -2346,6 +2346,13 @@ function LiveOrder() {
                                 </p>
                               </>
                             ))}
+                            {cartProduct.instruction ? (
+                              <p style={{ fontWeight: "bold" }}>
+                                Instruction: {cartProduct.instruction}
+                              </p>
+                            ) : (
+                              <></>
+                            )}
                           </ListGroupItem>
                         </>
                       ))}
@@ -2365,6 +2372,14 @@ function LiveOrder() {
                           " " +
                           liveorder.postCode}
                       </Card.Text>
+                      {liveorder.instructionToRes ? (
+                        <Card.Text>
+                          Instruction to restaurant :{" "}
+                          {liveorder.instructionToRes}
+                        </Card.Text>
+                      ) : (
+                        <></>
+                      )}
                     </Card.Body>
                     <Card.Body>
                       <Button
