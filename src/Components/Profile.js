@@ -10,6 +10,8 @@ function Profile() {
   const lastNameRef = useRef();
   const emailRef = useRef();
   const addressRef = useRef();
+  const townRef = useRef();
+  const countyRef = useRef();
   const postCodeRef = useRef();
   const telRef = useRef();
   const [loading, setLoading] = useState(false);
@@ -20,6 +22,8 @@ function Profile() {
   const [address, setAddress] = useState("");
   const [postCode, setPostCode] = useState("");
   const [tel, setTel] = useState("");
+  const [town, setTown] = useState("");
+  const [county, setCounty] = useState("");
 
   const history = useHistory();
 
@@ -27,6 +31,7 @@ function Profile() {
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loadingMsg, setLoadingMsg] = useState("");
 
   // state of totalProducts
   const [totalProducts, setTotalProducts] = useState(0);
@@ -56,6 +61,8 @@ function Profile() {
             setLastName(snapshot.data().LastName);
             setEmail(snapshot.data().Email);
             setAddress(snapshot.data().Address);
+            setTown(snapshot.data().Town);
+            setCounty(snapshot.data().County);
             setPostCode(snapshot.data().PostCode);
             setTel(snapshot.data().Telephone);
             setIsAdmin(snapshot.data().isAdmin);
@@ -70,6 +77,7 @@ function Profile() {
     e.preventDefault();
     setMessage("");
     setError("");
+    setLoadingMsg("Loading...");
     auth.onAuthStateChanged((user) => {
       if (user) {
         fs.collection("users")
@@ -78,10 +86,13 @@ function Profile() {
             FirstName: firstNameRef.current.value,
             LastName: lastNameRef.current.value,
             Address: addressRef.current.value,
+            Town: townRef.current.value,
+            County: countyRef.current.value,
             PostCode: postCodeRef.current.value,
             Telephone: telRef.current.value,
           })
           .then(() => {
+            setLoadingMsg("");
             setMessage("Your profile has been updated.");
           });
       } else {
@@ -98,6 +109,7 @@ function Profile() {
         style={{ minHeight: "100vh" }}
       >
         <div className="w-100" style={{ maxWidth: "400px" }}>
+          {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
           {message ? <Alert variant="success">{message}</Alert> : ""}
           {error ? <Alert variant="danger">{error}</Alert> : ""}
           <Card>
@@ -142,6 +154,26 @@ function Profile() {
                     ref={addressRef}
                     required
                     defaultValue={address}
+                  />
+                </Form.Group>
+
+                <Form.Group id="postCode" className="mb-3">
+                  <Form.Label>Town / City</Form.Label>
+                  <Form.Control
+                    type="text"
+                    ref={townRef}
+                    required
+                    defaultValue={town}
+                  />
+                </Form.Group>
+
+                <Form.Group id="postCode" className="mb-3">
+                  <Form.Label>County</Form.Label>
+                  <Form.Control
+                    type="text"
+                    ref={countyRef}
+                    required
+                    defaultValue={county}
                   />
                 </Form.Group>
 

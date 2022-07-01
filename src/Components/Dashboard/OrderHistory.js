@@ -6,13 +6,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { Button, Alert, Container, Card, Form } from "react-bootstrap";
 import { auth, fs } from "../../Config/Config";
 import DataTable from "./DataTable";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 
 const userTableStyles = {
   height: "650px",
@@ -147,12 +141,16 @@ function OrderHistory() {
                 marginTop: "50px",
               }}
             >
-              <DataTable
-                rows={orders}
-                columns={columns}
-                loading={!orders.length}
-                sx={userTableStyles}
-              />
+              {orders.length ? (
+                <DataTable
+                  rows={orders}
+                  columns={columns}
+                  loading={!orders.length}
+                  sx={userTableStyles}
+                />
+              ) : (
+                <h1>No data</h1>
+              )}
             </div>
           </div>
         </div>

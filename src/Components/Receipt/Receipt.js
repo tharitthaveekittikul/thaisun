@@ -78,7 +78,18 @@ function Receipt() {
       <>
         <div className="receipt">
           <div className="ticket">
-            <img src={logo} alt="Logo" width={187} height={133} />
+            <img
+              src={logo}
+              alt="Logo"
+              width={187}
+              height={133}
+              style={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto",
+                // width: "50%",
+              }}
+            />
             <p className="centered">
               Thai Sun Restaurants
               <br />
@@ -191,9 +202,13 @@ function Receipt() {
               <br />
               {orders.user}
               <br />
-              {orders.address}
-              <br />
-              {orders.postCode}
+              {orders.address +
+                " " +
+                orders.town +
+                " " +
+                orders.county +
+                " " +
+                orders.postCode}
               <br />
               PHONE: {orders.Telephone}
               <br />

@@ -28,7 +28,7 @@ export default function IndividualFilteredProduct({
     instruction: instruction,
   });
 
-  console.log(individualFilteredProduct);
+  // console.log(individualFilteredProduct);
 
   useEffect(() => {
     fs.collection("Products")
@@ -93,9 +93,31 @@ export default function IndividualFilteredProduct({
       <Button onClick={handleShow}>ADD TO CART</Button>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add-on</Modal.Title>
-        </Modal.Header>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Title>
+          <img
+            src={individualFilteredProduct.img}
+            className="img-hover-zoom"
+            width={500}
+            height={200}
+            style={{ overflow: "hidden", objectFit: "cover" }}
+          />
+          <p style={{ margin: "10px", fontWeight: "700", fontSize: "24px" }}>
+            {individualFilteredProduct.title} (£{" "}
+            {individualFilteredProduct.price})
+          </p>
+          <p
+            style={{
+              fontSize: "14px",
+              fontWeight: "300",
+              margin: "10px",
+              wordWrap: "break-word",
+            }}
+          >
+            {individualFilteredProduct.description}
+          </p>
+        </Modal.Title>
+        <hr />
         <Modal.Body>
           <Option
             individualFilteredProduct={individualFilteredProduct}

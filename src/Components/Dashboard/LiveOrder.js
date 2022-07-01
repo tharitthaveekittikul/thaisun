@@ -2386,6 +2386,10 @@ function LiveOrder() {
                           " " +
                           liveorder.address +
                           " " +
+                          liveorder.town +
+                          " " +
+                          liveorder.county +
+                          " " +
                           liveorder.postCode}
                       </Card.Text>
                       {liveorder.instructionToRes ? (

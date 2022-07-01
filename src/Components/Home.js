@@ -164,6 +164,7 @@ export default function Home(props) {
   }
 
   const categoryFs = GetCategoryFromFirebase();
+  // console.log(categoryFs);
 
   // categories list rendering using span tag
   // const [spans] = useState([
@@ -239,9 +240,9 @@ export default function Home(props) {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(cartProducts);
-  }, [cartProducts]);
+  // useEffect(() => {
+  //   console.log(cartProducts);
+  // }, [cartProducts]);
 
   // getting the qty from cartProducts in a seperate array
   const qty = cartProducts.map((cartProduct) => {
@@ -421,9 +422,9 @@ export default function Home(props) {
             <table>
               <tbody>
                 {cartProducts.map((cartProduct) => {
-                  {
-                    console.log(cartProducts);
-                  }
+                  // {
+                  //   console.log(cartProducts);
+                  // }
                   return (
                     <tr>
                       <td>
@@ -443,7 +444,7 @@ export default function Home(props) {
                           <Icon icon={plus} size={20} />
                         </div>
                       </td>
-                      {console.log(cartProduct)}
+                      {/* {console.log(cartProduct)} */}
                       <td>
                         <p
                           style={{

@@ -24,6 +24,8 @@ function Checkout() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [town, setTown] = useState("");
+  const [county, setCounty] = useState("");
   const [postCode, setPostCode] = useState("");
   const [tel, setTel] = useState("");
   const [getCouponsFromFirebase, setGetCouponsFromFirebase] = useState([]);
@@ -41,6 +43,8 @@ function Checkout() {
 
   const postCodeRef = useRef();
   const addressRef = useRef();
+  const townRef = useRef();
+  const countyRef = useRef();
 
   //   cartProducts: cartProducts,
   //         Coupon: couponSuccess,
@@ -60,6 +64,8 @@ function Checkout() {
             setLastName(snapshot.data().LastName);
             setEmail(snapshot.data().Email);
             setAddress(snapshot.data().Address);
+            setTown(snapshot.data().Town);
+            setCounty(snapshot.data().County);
             setPostCode(snapshot.data().PostCode);
             setTel(snapshot.data().Telephone);
             Coupons = snapshot.data().Coupons;
@@ -245,6 +251,8 @@ function Checkout() {
     let total = 0;
     let pOrder;
     let addressTemp;
+    let townTemp;
+    let countyTemp;
     let postCodeTemp;
     if (type == "paypal") {
       pOrder = { type: "paypal", detail: detailp };
@@ -255,9 +263,13 @@ function Checkout() {
     const delState = localStorage.getItem("Delivery") === "true";
     if (delState == true) {
       addressTemp = addressRef.current.value;
+      townTemp = townRef.current.value;
+      countyTemp = countyRef.current.value;
       postCodeTemp = postCodeRef.current.value;
     } else {
       addressTemp = address;
+      townTemp = town;
+      countyTemp = county;
       postCodeTemp = postCode;
     }
 
@@ -282,6 +294,8 @@ function Checkout() {
               user: firstName + " " + lastName,
               email: email,
               address: addressTemp,
+              town: townTemp,
+              county: countyTemp,
               postCode: postCodeTemp,
               Telephone: tel,
               pickupState: pickupState,
@@ -390,6 +404,20 @@ function Checkout() {
               type="text"
               ref={addressRef}
               defaultValue={address}
+              required
+            />
+            <FormLabel>Town / City</FormLabel>
+            <Form.Control
+              type="text"
+              ref={townRef}
+              defaultValue={town}
+              required
+            />
+            <FormLabel>County</FormLabel>
+            <Form.Control
+              type="text"
+              ref={countyRef}
+              defaultValue={county}
               required
             />
             <FormLabel>Post Code</FormLabel>

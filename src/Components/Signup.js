@@ -11,6 +11,8 @@ function Signup() {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const addressRef = useRef();
+  const townRef = useRef();
+  const countyRef = useRef();
   const postCodeRef = useRef();
   const telRef = useRef();
   const [error, setError] = useState("");
@@ -43,6 +45,8 @@ function Signup() {
               LastName: lastNameRef.current.value,
               Email: emailRef.current.value,
               Address: addressRef.current.value,
+              Town: townRef.current.value,
+              County: countyRef.current.value,
               PostCode: postCodeRef.current.value,
               Telephone: telRef.current.value,
               isAdmin: false,
@@ -113,6 +117,16 @@ function Signup() {
               <Form.Group id="address" className="mb-3">
                 <Form.Label>Address</Form.Label>
                 <Form.Control type="text" ref={addressRef} required />
+              </Form.Group>
+
+              <Form.Group id="postCode" className="mb-3">
+                <Form.Label>Town / City</Form.Label>
+                <Form.Control type="text" ref={townRef} required />
+              </Form.Group>
+
+              <Form.Group id="postCode" className="mb-3">
+                <Form.Label>County</Form.Label>
+                <Form.Control type="text" ref={countyRef} required />
               </Form.Group>
 
               <Form.Group id="postCode" className="mb-3">

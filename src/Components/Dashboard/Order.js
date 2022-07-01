@@ -112,8 +112,8 @@ function Order() {
                       <p>Date: {orders.date}</p>
                       <p>Name: {orders.user}</p>
                       <p>Address: {orders.address}</p>
-                      <p>Town: </p>
-                      <p>County: </p>
+                      <p>Town: {orders.town}</p>
+                      <p>County: {orders.county}</p>
                       <p>Postcode: {orders.postCode}</p>
                       <p>Phone Number: {orders.Telephone}</p>
                       <p>Email: {orders.email}</p>
