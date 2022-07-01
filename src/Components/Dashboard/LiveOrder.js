@@ -21,7 +21,7 @@ function LiveOrder() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
 
-  const [liveOrders, setLiveOrders] = useState();
+  // const [liveOrders, setLiveOrders] = useState();
   const history = useHistory();
 
   const [showSure, setShowSure] = useState(false);
@@ -76,19 +76,35 @@ function LiveOrder() {
     setPlayAudio(false);
   };
 
-  useEffect(() => {
+  function GetLiveOrderFromFirebase() {
     const getLiveOrderFromFirebase = [];
-    const subscriber = fs
-      .collection("liveorder")
-      .onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          getLiveOrderFromFirebase.push({ ...doc.data(), key: doc.id });
-        });
-        setLiveOrders(getLiveOrderFromFirebase);
-        setPlayAudio(true);
+    const [liveOrders, setLiveOrders] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("liveorder").get();
+      snapshot.docs.map((doc) => {
+        getLiveOrderFromFirebase.push({ ...doc.data(), key: doc.id });
       });
-    return () => subscriber();
-  }, []);
+      setLiveOrders(getLiveOrderFromFirebase);
+      setPlayAudio(true);
+    }, []);
+    return liveOrders;
+  }
+
+  const liveOrders = GetLiveOrderFromFirebase();
+
+  // useEffect(() => {
+  //   const getLiveOrderFromFirebase = [];
+  //   const subscriber = fs
+  //     .collection("liveorder")
+  //     .onSnapshot((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //         getLiveOrderFromFirebase.push({ ...doc.data(), key: doc.id });
+  //       });
+  //       setLiveOrders(getLiveOrderFromFirebase);
+  //       setPlayAudio(true);
+  //     });
+  //   return () => subscriber();
+  // }, []);
 
   function handleAccept(liveorder, key) {
     // if (liveorder.pickupState) {

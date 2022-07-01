@@ -34,13 +34,30 @@ function Menu() {
   }, []);
 
   // get live order length
-  const [totalOrders, setOrders] = useState();
-  useEffect(() => {
-    fs.collection("liveorder").onSnapshot((snapshot) => {
-      const qty = snapshot.docs.length;
-      setOrders(qty);
-    });
-  }, []);
+  // const [totalOrders, setOrders] = useState();
+  // useEffect(() => {
+  //   fs.collection("liveorder").onSnapshot((snapshot) => {
+  //     const qty = snapshot.docs.length;
+  //     setOrders(qty);
+  //   });
+  // }, []);
+
+  function GetTotalOrdersFromFirebase() {
+    const getTotalOrdersFromFirebase = [];
+    const [totalOrders, setTotalOrders] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("liveorder").get();
+      snapshot.docs.map((doc) => {
+        getTotalOrdersFromFirebase.push({ ...doc.data(), key: doc.id });
+      });
+      const qty = getTotalOrdersFromFirebase.length;
+      setTotalOrders(qty);
+    }, []);
+    return totalOrders;
+  }
+
+  const totalOrders = GetTotalOrdersFromFirebase();
+
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       {/* Brand Logo */}
@@ -141,12 +158,6 @@ function Menu() {
               <Link to="/fixedaddon" className="nav-link">
                 <i className="fas fa-circle nav-icon" />
                 <p>Fixed Add-on</p>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/manageaddons" className="nav-link">
-                <FontAwesomeIcon icon={faCirclePlus} className="fas nav-icon" />
-                <p>Manage Add-on</p>
               </Link>
             </li>
             <li className="nav-item">

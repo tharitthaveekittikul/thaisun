@@ -56,23 +56,39 @@ function OrderHistory() {
   ];
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
-  const [orders, setOrders] = useState("");
+  // const [orders, setOrders] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const getOrderFromFirebase = [];
+  //   const subscriber = fs
+  //     .collection("orderHistory")
+  //     .onSnapshot((querySnapshot) => {
+  //       querySnapshot.forEach((doc) => {
+  //         getOrderFromFirebase.push({ ...doc.data(), key: doc.id });
+  //       });
+  //       setOrders(getOrderFromFirebase);
+  //       setLoading(false);
+  //     });
+  //   console.log(getOrderFromFirebase);
+  //   return () => subscriber();
+  // }, []);
+
+  function GetOrderFromFirebase() {
     const getOrderFromFirebase = [];
-    const subscriber = fs
-      .collection("orderHistory")
-      .onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          getOrderFromFirebase.push({ ...doc.data(), key: doc.id });
-        });
-        setOrders(getOrderFromFirebase);
-        setLoading(false);
+    const [orders, setOrders] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("orderHistory").get();
+      snapshot.docs.map((doc) => {
+        getOrderFromFirebase.push({ ...doc.data(), key: doc.id });
       });
-    console.log(getOrderFromFirebase);
-    return () => subscriber();
-  }, []);
+      setOrders(getOrderFromFirebase);
+      setLoading(false);
+    }, []);
+    return orders;
+  }
+
+  const orders = GetOrderFromFirebase();
 
   const [order, setOrder] = useState();
 
@@ -109,39 +125,42 @@ function OrderHistory() {
     return <Redirect to="/" />;
   }
 
-  return (
-    <div className="wrapper">
-      <Header />
-      <Menu />
-      <div className="content-wrapper">
-        <div
-          style={{
-            paddingTop: "8px",
-            marginLeft: "auto",
-            marginRight: "auto",
-            backgroundColor: "#f4f6f9",
-          }}
-        >
+  if (orders) {
+    return (
+      <div className="wrapper">
+        <Header />
+        <Menu />
+        <div className="content-wrapper">
           <div
             style={{
-              backgroundColor: "#FFFF",
-              maxWidth: "1200px",
-              margin: "auto",
-              marginTop: "50px",
+              paddingTop: "8px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              backgroundColor: "#f4f6f9",
             }}
           >
-            <DataTable
-              rows={orders}
-              columns={columns}
-              loading={!orders.length}
-              sx={userTableStyles}
-            />
+            <div
+              style={{
+                backgroundColor: "#FFFF",
+                maxWidth: "1200px",
+                margin: "auto",
+                marginTop: "50px",
+              }}
+            >
+              <DataTable
+                rows={orders}
+                columns={columns}
+                loading={!orders.length}
+                sx={userTableStyles}
+              />
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
+  return null;
 }
 
 export default OrderHistory;

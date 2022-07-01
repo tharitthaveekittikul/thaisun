@@ -75,7 +75,7 @@ function ManageProducts() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState();
+  // const [products, setProducts] = useState();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("");
@@ -101,17 +101,33 @@ function ManageProducts() {
     });
   }
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const getProductFromFirebase = [];
+  //   const subscriber = fs.collection("Products").onSnapshot((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       getProductFromFirebase.push({ ...doc.data(), key: doc.id });
+  //     });
+  //     setProducts(getProductFromFirebase);
+  //     setLoading(false);
+  //   });
+  //   return () => subscriber();
+  // }, []);
+
+  function GetProductFromFirebase() {
     const getProductFromFirebase = [];
-    const subscriber = fs.collection("Products").onSnapshot((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
+    const [products, setProducts] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("Products").get();
+      snapshot.docs.map((doc) => {
         getProductFromFirebase.push({ ...doc.data(), key: doc.id });
       });
       setProducts(getProductFromFirebase);
       setLoading(false);
-    });
-    return () => subscriber();
-  }, []);
+    }, []);
+    return products;
+  }
+
+  const products = GetProductFromFirebase();
 
   const [categoryID, setCategoryID] = useState();
 

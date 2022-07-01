@@ -53,66 +53,85 @@ function Order() {
 
   if (orders) {
     return (
-      <>
+      <div className="wrapper">
         <Header />
         <Menu />
-        <Container
-          className="d-flex justify-content-center"
-          style={{ minHeight: "100vh", marginTop: "20px" }}
-        >
-          <div className="w-100" style={{ maxWidth: "1000px" }}>
-            <Card>
-              <Card.Body>
-                <h2 className="text-center mb-4">Order Details</h2>
-                <h4 className="text-center mb-4"># {orders.orderNo}</h4>
-                {orders.status ? (
-                  <>
-                    {orders.status === "accepted" ? (
-                      <h3 className="text-center mb-4">Status : Accepted</h3>
-                    ) : (
+        <div className="content-wrapper">
+          <div
+            style={{
+              paddingTop: "50px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              backgroundColor: "#f4f6f9",
+            }}
+          >
+            <Container
+              className="d-flex justify-content-center"
+              style={{ minHeight: "100vh", marginTop: "20px" }}
+            >
+              <div className="w-100" style={{ maxWidth: "1000px" }}>
+                <Card>
+                  <Card.Body>
+                    <h2 className="text-center mb-4">Order Details</h2>
+                    <h4 className="text-center mb-4"># {orders.orderNo}</h4>
+                    {orders.status ? (
                       <>
-                        <h3 className="text-center mb-4">Status : Declined</h3>
-                        <h6 className="text-center mb-4">
-                          Reason : {orders.reason}
-                        </h6>
+                        {orders.status === "accepted" ? (
+                          <h3 className="text-center mb-4">
+                            Status : Accepted
+                          </h3>
+                        ) : (
+                          <>
+                            <h3 className="text-center mb-4">
+                              Status : Declined
+                            </h3>
+                            <h6 className="text-center mb-4">
+                              Reason : {orders.reason}
+                            </h6>
+                          </>
+                        )}{" "}
                       </>
-                    )}{" "}
-                  </>
-                ) : (
-                  <></>
-                )}
+                    ) : (
+                      <></>
+                    )}
 
-                <div className="text-center mb-3">
-                  <Button variant="secondary" style={{ marginBottom: "20px" }}>
-                    Completed
-                  </Button>
-                  <Button
-                    variant="success"
-                    onClick={handlePrint}
-                    style={{ marginBottom: "20px" }}
-                  >
-                    PRINT
-                  </Button>
-                  <p>Date: {orders.date}</p>
-                  <p>Name: {orders.user}</p>
-                  <p>Address: {orders.address}</p>
-                  <p>Town: </p>
-                  <p>County: </p>
-                  <p>Postcode: {orders.postCode}</p>
-                  <p>Phone Number: {orders.Telephone}</p>
-                  <p>Email: {orders.email}</p>
-                  <p>Payment: {orders.payment.type}</p>
+                    <div className="text-center mb-3">
+                      <Button
+                        variant="secondary"
+                        style={{ marginBottom: "20px" }}
+                      >
+                        Completed
+                      </Button>
+                      <Button
+                        variant="success"
+                        onClick={handlePrint}
+                        style={{ marginBottom: "20px" }}
+                      >
+                        PRINT
+                      </Button>
+                      <p>Date: {orders.date}</p>
+                      <p>Name: {orders.user}</p>
+                      <p>Address: {orders.address}</p>
+                      <p>Town: </p>
+                      <p>County: </p>
+                      <p>Postcode: {orders.postCode}</p>
+                      <p>Phone Number: {orders.Telephone}</p>
+                      <p>Email: {orders.email}</p>
+                      <p>Payment: {orders.payment.type}</p>
 
-                  <p>Cost: £{parseFloat(orders.Subtotal).toFixed(2)}</p>
-                  <p>Shipping: </p>
-                  <p>Total: £{parseFloat(orders.Total).toFixed(2)}</p>
-                </div>
-              </Card.Body>
-            </Card>
+                      <p>Cost: £{parseFloat(orders.Subtotal).toFixed(2)}</p>
+                      <p>Shipping: </p>
+                      <p>Total: £{parseFloat(orders.Total).toFixed(2)}</p>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </Container>
           </div>
-        </Container>
+        </div>
+
         <Footer />
-      </>
+      </div>
     );
   }
   return null;

@@ -26,24 +26,40 @@ export default function AddProducts() {
 
   const types = ["image/jpg", "image/jpeg", "image/png", "image/PNG"];
 
-  const [categoryFs, setCategoryFs] = useState();
+  // const [categoryFs, setCategoryFs] = useState();
   const [categoryUID, setCategoryUID] = useState("");
   const [countCategory, setCountCategory] = useState(0);
   const categoryRef = useRef();
 
   const [loadingMsg, setLoadingMsg] = useState("");
 
-  useEffect(() => {
-    const getCategoryFormFirebase = [];
-    const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        getCategoryFormFirebase.push({ ...doc.data(), key: doc.id });
+  // useEffect(() => {
+  //   const getCategoryFormFirebase = [];
+  //   const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       getCategoryFormFirebase.push({ ...doc.data(), key: doc.id });
+  //     });
+  //     setCategoryFs(getCategoryFormFirebase);
+  //     setLoading(false);
+  //   });
+  //   return () => subscriber();
+  // }, []);
+
+  function GetCategoryFromFirebase() {
+    const getCategoryFromFirebase = [];
+    const [categoryFs, setCategoryFs] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("category").get();
+      snapshot.docs.map((doc) => {
+        getCategoryFromFirebase.push({ ...doc.data(), key: doc.id });
       });
-      setCategoryFs(getCategoryFormFirebase);
+      setCategoryFs(getCategoryFromFirebase);
       setLoading(false);
-    });
-    return () => subscriber();
-  }, []);
+    }, []);
+    return categoryFs;
+  }
+
+  const categoryFs = GetCategoryFromFirebase();
 
   const [inputFields, setInputFields] = useState([
     {

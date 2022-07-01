@@ -70,22 +70,38 @@ function ManageAdmin() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState();
+  // const [users, setUsers] = useState();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   // const [uid, setUid] = useState("");
 
-  useEffect(() => {
-    const getUserFormFirebase = [];
-    const subscriber = fs.collection("users").onSnapshot((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        getUserFormFirebase.push({ ...doc.data(), key: doc.id });
+  // useEffect(() => {
+  //   const getUserFormFirebase = [];
+  //   const subscriber = fs.collection("users").onSnapshot((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       getUserFormFirebase.push({ ...doc.data(), key: doc.id });
+  //     });
+  //     setUsers(getUserFormFirebase);
+  //     setLoading(false);
+  //   });
+  //   return () => subscriber();
+  // }, []);
+
+  function GetUserFromFirebase() {
+    const getUserFromFirebase = [];
+    const [users, setUsers] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("users").get();
+      snapshot.docs.map((doc) => {
+        getUserFromFirebase.push({ ...doc.data(), key: doc.id });
       });
-      setUsers(getUserFormFirebase);
+      setUsers(getUserFromFirebase);
       setLoading(false);
-    });
-    return () => subscriber();
-  }, []);
+    }, []);
+    return users;
+  }
+
+  const users = GetUserFromFirebase();
 
   // console.log(users);
   if (loading) {

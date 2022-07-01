@@ -28,23 +28,41 @@ function Customer() {
   ];
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
-  const [users, setUsers] = useState("");
+  // const [users, setUsers] = useState("");
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const getUserFromFirebase = [];
+  //   const subscriber = fs.collection("users").onSnapshot((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       if (doc.data().isAdmin == false) {
+  //         getUserFromFirebase.push({ ...doc.data(), key: doc.id });
+  //       }
+  //     });
+  //     setUsers(getUserFromFirebase);
+  //     setLoading(false);
+  //   });
+  //   console.log(getUserFromFirebase);
+  //   return () => subscriber();
+  // }, []);
+
+  function GetUserFromFirebase() {
     const getUserFromFirebase = [];
-    const subscriber = fs.collection("users").onSnapshot((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
+    const [users, setUsers] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("users").get();
+      snapshot.docs.map((doc) => {
         if (doc.data().isAdmin == false) {
           getUserFromFirebase.push({ ...doc.data(), key: doc.id });
         }
       });
+      console.log(getUserFromFirebase);
       setUsers(getUserFromFirebase);
       setLoading(false);
-    });
-    console.log(getUserFromFirebase);
-    return () => subscriber();
-  }, []);
+    }, []);
+    return users;
+  }
+  const users = GetUserFromFirebase();
 
   if (!isLogIn) {
     return <Redirect to="/login" />;
@@ -54,39 +72,42 @@ function Customer() {
     return <Redirect to="/" />;
   }
 
-  return (
-    <div className="wrapper">
-      <Header />
-      <Menu />
-      <div className="content-wrapper">
-        <div
-          style={{
-            paddingTop: "50px",
-            marginLeft: "auto",
-            marginRight: "auto",
-            backgroundColor: "#f4f6f9",
-          }}
-        >
+  if (users) {
+    return (
+      <div className="wrapper">
+        <Header />
+        <Menu />
+        <div className="content-wrapper">
           <div
             style={{
-              backgroundColor: "#FFFF",
-              maxWidth: "1200px",
+              paddingTop: "50px",
               marginLeft: "auto",
               marginRight: "auto",
+              backgroundColor: "#f4f6f9",
             }}
           >
-            <DataTable
-              rows={users}
-              columns={columns}
-              loading={!users.length}
-              sx={userTableStyles}
-            />
+            <div
+              style={{
+                backgroundColor: "#FFFF",
+                maxWidth: "1200px",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              <DataTable
+                rows={users}
+                columns={columns}
+                loading={!users.length}
+                sx={userTableStyles}
+              />
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
+  return null;
 }
 
 export default Customer;
