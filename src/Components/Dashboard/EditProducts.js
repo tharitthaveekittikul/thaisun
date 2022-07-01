@@ -8,6 +8,7 @@ import { Icon } from "react-icons-kit";
 import { plus } from "react-icons-kit/feather/plus";
 import { minus } from "react-icons-kit/feather/minus";
 import { useLocation, useHistory } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 
 export default function EditProducts() {
   const location = useLocation();
@@ -25,6 +26,12 @@ export default function EditProducts() {
   const [successMsg, setSuccessMsg] = useState("");
   const [uploadError, setUploadError] = useState("");
   const [UpdateImg, setUpdateImg] = useState(false);
+  const [categoryUID, setCategoryUID] = useState("");
+  const [countCategory, setCountCategory] = useState(0);
+  const categoryRef = useRef();
+
+  const [loading, setLoading] = useState(true);
+  const [loadingMsg, setLoadingMsg] = useState("");
 
   const types = ["image/jpg", "image/jpeg", "image/png", "image/PNG"];
 
@@ -75,6 +82,22 @@ export default function EditProducts() {
     setInputFields(values);
     console.log(inputFields);
   };
+
+  function GetCategoryFromFirebase() {
+    const getCategoryFromFirebase = [];
+    const [categoryFs, setCategoryFs] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("category").get();
+      snapshot.docs.map((doc) => {
+        getCategoryFromFirebase.push({ ...doc.data(), key: doc.id });
+      });
+      setCategoryFs(getCategoryFromFirebase);
+      setLoading(false);
+    }, []);
+    return categoryFs;
+  }
+
+  const categoryFs = GetCategoryFromFirebase();
 
   const handleAddTitle = () => {
     setInputFields([
@@ -192,6 +215,8 @@ export default function EditProducts() {
     e.preventDefault();
     // console.log(title, description, price);
     // console.log(image);
+    setLoadingMsg("Loading...");
+    window.scrollTo(0, 0);
     if (UpdateImg) {
       const uploadTask = storage.ref(`product-images/${image.name}`).put(image);
       uploadTask.on(
@@ -219,6 +244,11 @@ export default function EditProducts() {
                   addOn: inputFields,
                 })
                 .then(() => {
+                  fs.collection("category")
+                    .doc(categoryUID)
+                    .update({
+                      countUse: countCategory + 1,
+                    });
                   setSuccessMsg("Product update successfully");
                   setTitle("");
                   setDescription("");
@@ -248,6 +278,11 @@ export default function EditProducts() {
           addOn: inputFields,
         })
         .then(() => {
+          fs.collection("category")
+            .doc(categoryUID)
+            .update({
+              countUse: countCategory + 1,
+            });
           setSuccessMsg("Product update successfully");
           setTitle("");
           setDescription("");
@@ -266,6 +301,44 @@ export default function EditProducts() {
     }
   };
 
+  function handleChangeCategory(e) {
+    fs.collection("category")
+      .doc(categoryUID)
+      .update({
+        countUse: countCategory - 1,
+      });
+    let values = e.target.value;
+    values = values.split(",");
+    console.log(values);
+    setCategory(values[1]);
+    setCategoryUID(values[0]);
+    fs.collection("category")
+      .doc(values[0])
+      .get()
+      .then((snapshot) => {
+        setCountCategory(snapshot.data().countUse);
+      });
+  }
+
+  let getCategory;
+  if (categoryFs) {
+    getCategory = categoryFs.map((category, index) => {
+      return (
+        <option
+          key={index}
+          value={[category.key, category.category]}
+          ref={categoryRef}
+        >
+          {category.category}
+        </option>
+      );
+    });
+  } else {
+    getCategory = () => {
+      return <></>;
+    };
+  }
+
   if (!isLogIn) {
     return <Redirect to="/login" />;
   }
@@ -279,157 +352,159 @@ export default function EditProducts() {
     <div className="wrapper">
       <Header />
       <Menu />
-      <div className="container">
-        <br></br>
-        <br></br>
-        <h1>Edit Products</h1>
-        <hr></hr>
-        {successMsg && (
-          <>
-            <div className="success-msg">{successMsg}</div>
-            <br></br>
-          </>
-        )}
-        <form
-          autoComplete="off"
-          className="form-group"
-          onSubmit={handleUpdateProducts}
-        >
-          <label>Product Title</label>
-          <input
-            type="text"
-            className="form-control"
-            required
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-          ></input>
+      <div className="content-wrapper">
+        <div className="container">
           <br></br>
-          <label>Product Description</label>
-          <input
-            type="text"
-            className="form-control"
-            required
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
-          ></input>
           <br></br>
-          <label>Product Price</label>
-          <input
-            type="number"
-            className="form-control"
-            required
-            onChange={(e) => setPrice(e.target.value)}
-            value={price}
-          ></input>
-          <br></br>
-          <label>Product Category</label>
-          <select
-            className="form-control"
-            required
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="">Select Product Category</option>
-            <option>Electronic Devices</option>
-            <option>Mobile Accessories</option>
-            <option>TV & Home Appliances</option>
-            <option>Sports & outdoors</option>
-            <option>Health & Beauty</option>
-            <option>Home & Lifestyle</option>
-            <option>Men's Fashion</option>
-            <option>Watches, bags & Jewellery</option>
-            <option>Groceries</option>
-          </select>
-          <br></br>
-          <label>Upload Product Image</label>
-          {UpdateImg ? <></> : <img src={image} width="300px" height="300px" />}
-          <input
-            type="file"
-            id="file"
-            className="form-control"
-            onChange={handleProductImg}
-          ></input>
-          <br></br>
-          <label>Add Add-on</label>
-          {inputFields.map((titleField, index) => (
-            <div key={index}>
-              <input
-                className="form-control"
-                type="text"
-                name="title"
-                value={titleField.title}
-                ref={(el) => (titleRef.current[index] = el)}
-                onChange={(event) => handleChangeTitle(index, event)}
-              />
-              {titleField.menu.map((menuField, index_child) => (
-                <div key={index_child} className="d-flex">
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="menuName"
-                    value={menuField.menuName}
-                    onChange={(event) =>
-                      handleChangeMenu(index, index_child, event)
-                    }
-                    autoFocus
-                  />
-                  <input
-                    className="form-control"
-                    type="number"
-                    name="price"
-                    value={menuField.price}
-                    onChange={(event) =>
-                      handleChangeMenu(index, index_child, event)
-                    }
-                  />
-                  <Icon
-                    icon={plus}
-                    size={20}
-                    onClick={() => handleAddMenu(index)}
-                  />
-                  <Icon
-                    icon={minus}
-                    size={20}
-                    onClick={() => handleRemoveMenu(index, index_child)}
-                  />
-                </div>
-              ))}
-              <Icon icon={plus} size={20} onClick={() => handleAddTitle()} />
-              <Icon
-                icon={minus}
-                size={20}
-                onClick={() => handleRemoveTitle(index)}
-              />
-              <hr />
-            </div>
-          ))}
-          {imageError && (
+          <h1>Edit Products</h1>
+          <hr></hr>
+          {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
+          {successMsg && (
             <>
+              <div className="success-msg">{successMsg}</div>
               <br></br>
-              <div className="error-msg">{imageError}</div>
             </>
           )}
-          <br></br>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button type="submit" className="btn btn-success btn-md">
-              Update
-            </button>
-          </div>
-        </form>
-        {uploadError && (
-          <>
+          <form
+            autoComplete="off"
+            className="form-group"
+            onSubmit={handleUpdateProducts}
+          >
+            <label>Product Title</label>
+            <input
+              type="text"
+              className="form-control"
+              required
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+            ></input>
             <br></br>
-            <div className="error-msg">{uploadError}</div>
-          </>
-        )}
+            <label>Product Description</label>
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) => setDescription(e.target.value)}
+              value={description}
+            ></input>
+            <br></br>
+            <label>Product Price</label>
+            <input
+              type="number"
+              className="form-control"
+              required
+              onChange={(e) => setPrice(e.target.value)}
+              value={price}
+            ></input>
+            <br></br>
+            <label>Product Category</label>
+            <select
+              className="form-control"
+              required
+              onChange={(e) => {
+                handleChangeCategory(e);
+              }}
+              defaultValue={category}
+            >
+              {console.log(category)}
+              {console.log(categoryUID)}
+              <option value="">Select Product Category</option>
+              {loading ? (
+                <>
+                  <option></option>
+                </>
+              ) : (
+                <>{getCategory}</>
+              )}
+            </select>
+            <br></br>
+            <label>Upload Product Image</label>
+            {UpdateImg ? (
+              <></>
+            ) : (
+              <img src={image} width="300px" height="300px" />
+            )}
+            <input
+              type="file"
+              id="file"
+              className="form-control"
+              onChange={handleProductImg}
+            ></input>
+            <br></br>
+            <label>Add Add-on</label>
+            {inputFields.map((titleField, index) => (
+              <div key={index}>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="title"
+                  value={titleField.title}
+                  ref={(el) => (titleRef.current[index] = el)}
+                  onChange={(event) => handleChangeTitle(index, event)}
+                />
+                {titleField.menu.map((menuField, index_child) => (
+                  <div key={index_child} className="d-flex">
+                    <input
+                      className="form-control"
+                      type="text"
+                      name="menuName"
+                      value={menuField.menuName}
+                      onChange={(event) =>
+                        handleChangeMenu(index, index_child, event)
+                      }
+                      autoFocus
+                    />
+                    <input
+                      className="form-control"
+                      type="number"
+                      name="price"
+                      value={menuField.price}
+                      onChange={(event) =>
+                        handleChangeMenu(index, index_child, event)
+                      }
+                    />
+                    <Icon
+                      icon={plus}
+                      size={20}
+                      onClick={() => handleAddMenu(index)}
+                    />
+                    <Icon
+                      icon={minus}
+                      size={20}
+                      onClick={() => handleRemoveMenu(index, index_child)}
+                    />
+                  </div>
+                ))}
+                <Icon icon={plus} size={20} onClick={() => handleAddTitle()} />
+                <Icon
+                  icon={minus}
+                  size={20}
+                  onClick={() => handleRemoveTitle(index)}
+                />
+                <hr />
+              </div>
+            ))}
+            {imageError && (
+              <>
+                <br></br>
+                <div className="error-msg">{imageError}</div>
+              </>
+            )}
+            <br></br>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <button type="submit" className="btn btn-success btn-md">
+                Update
+              </button>
+            </div>
+          </form>
+          {uploadError && (
+            <>
+              <br></br>
+              <div className="error-msg">{uploadError}</div>
+            </>
+          )}
+        </div>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
+
       <Footer />
     </div>
   );

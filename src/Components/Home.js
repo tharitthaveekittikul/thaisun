@@ -85,18 +85,18 @@ export default function Home(props) {
   }, []);
 
   // state of totalProducts
-  const [totalProducts, setTotalProducts] = useState(0);
+
   // getting cart products
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        fs.collection("Cart " + user.uid).onSnapshot((snapshot) => {
-          const qty = snapshot.docs.length;
-          setTotalProducts(qty);
-        });
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       fs.collection("Cart " + user.uid).onSnapshot((snapshot) => {
+  //         const qty = snapshot.docs.length;
+  //         setTotalProducts(qty);
+  //       });
+  //     }
+  //   });
+  // }, []);
 
   // globl variable
   let Product;
@@ -137,18 +137,33 @@ export default function Home(props) {
     }
   };
 
-  const [categoryFs, setCategoryFs] = useState();
+  // const [categoryFs, setCategoryFs] = useState();
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const getCategoryFromFirebase = [];
+  //   const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       getCategoryFromFirebase.push({ ...doc.data(), key: doc.id });
+  //     });
+  //     setCategoryFs(getCategoryFromFirebase);
+  //   });
+  //   return () => subscriber();
+  // }, []);
+
+  function GetCategoryFromFirebase() {
     const getCategoryFromFirebase = [];
-    const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
+    const [categoryFs, setCategoryFs] = useState();
+    useEffect(async () => {
+      const snapshot = await fs.collection("category").get();
+      snapshot.docs.map((doc) => {
         getCategoryFromFirebase.push({ ...doc.data(), key: doc.id });
       });
       setCategoryFs(getCategoryFromFirebase);
-    });
-    return () => subscriber();
-  }, []);
+    }, []);
+    return categoryFs;
+  }
+
+  const categoryFs = GetCategoryFromFirebase();
 
   // categories list rendering using span tag
   // const [spans] = useState([
@@ -202,7 +217,7 @@ export default function Home(props) {
 
   // state of cart products
   const [cartProducts, setCartProducts] = useState([]);
-
+  const [totalProducts, setTotalProducts] = useState(0);
   // getting cart products from firestore collection and updating the state
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -213,6 +228,8 @@ export default function Home(props) {
             DOC_ID: doc.id,
             ...doc.data(),
           }));
+          const qty = snapshot.docs.length;
+          setTotalProducts(qty);
           // console.log(newCartProduct);
           setCartProducts(newCartProduct);
         });
