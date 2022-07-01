@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap");
+/* . */
+/* NAVBAR */
+/* . */
 .navbar-font {
   font-family: "Rubik", sans-serif;
   font-weight: 400;
@@ -9,23 +12,22 @@
   cursor: pointer;
   white-space: nowrap;
 }
-.category-container {
+
+/* . */
+/* CATEGORY NEW SCROLLBAR */
+/* . */
+.category-container-c {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.category-container .category-tab {
+.category-container-c .category-tab-c {
   display: flex;
   flex-direction: row;
   justify-content: left;
   white-space: nowrap;
-  overflow-x: scroll;
-  -ms-overflow-style: none;
 }
-.category-container .category-tab::-webkit-scrollbar {
-  display: none;
-}
-.category-container .category-tab .category-ind {
+.category-container-c .category-tab-c .category-ind-c {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 5px;
@@ -36,10 +38,10 @@
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
 }
-.category-container .category-tab .category-ind:hover {
+.category-container-c .category-tab-c .category-ind-c:hover {
   box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.1);
 }
-.category-container .category-tab span {
+.category-container-c .category-tab-c span {
   cursor: pointer;
   font-family: "Rubik", sans-serif;
   font-size: 16px;
@@ -52,27 +54,48 @@
   margin-right: 15px;
   word-wrap: break-word;
 }
+.scrollbar-new {
+  height: 100;
+  width: 500;
+}
 
+/* . */
+/* HOME CONTAINER */
+/* . */
 .all-home {
   display: flex;
   flex-direction: row;
   margin-top: 10px;
   justify-content: space-between;
+  width: 100%;
 }
-
 .all-home .menu {
+  flex: 1;
+}
+.all-home .menu .menu-container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.all-home .menu .container {
+.leftside-basket {
 }
-
+/* . */
+/* MENU (INDIVIDUAL PRODUCT) */
+/* . */
 .ind-menu {
-  max-width: 650px;
+  float: left;
+  width: 50%;
   height: 130px;
   display: flex;
   flex-direction: row;
   align-items: center;
   transition: all 0.3s ease-in-out;
+}
+@media (max-width: 1130px) {
+  .ind-menu {
+    width: 100%;
+    float: none;
+  }
 }
 .ind-menu:hover {
   box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.1);
@@ -85,36 +108,40 @@
   margin-left: 15px;
   margin-right: 15px;
 }
+.ind-menu .menu-img img {
+  max-width: inherit;
+  width: inherit;
+}
 .ind-menu .menu-text {
 }
 .ind-menu .menu-text .title {
   font-family: "Merriweather", serif;
   font-size: 18px;
   line-height: 20px;
+  font-weight: 700;
 }
 .ind-menu .menu-text .desc {
-  font-family: "Merriweather", serif;
+  font-family: "Rubik", serif;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   height: 40px;
-  width: 470px;
   line-height: 20px;
   overflow: hidden !important;
   text-overflow: ellipsis;
-  font-size: 16px;
+  font-size: 15px;
   color: rgb(130, 130, 130);
   margin-top: 2px;
   margin-bottom: 2px;
 }
-@media (max-width: 992px) {
+/* @media (max-width: 992px) {
   .ind-menu .menu-text .title {
     width: 235px;
   }
   .ind-menu .menu-text .desc {
     width: 235px;
   }
-}
+} */
 .ind-menu .menu-text .price {
   font-family: "Rubik", sans-serif;
   letter-spacing: 0.32px;
@@ -122,13 +149,11 @@
   font-weight: 500;
   color: #e80532;
 }
-
 .ind-menu .btn-add {
   height: min-content;
   margin-left: auto;
   cursor: pointer;
 }
-
 .ind-menu .btn-add .addicon {
   margin-right: 15px;
   margin-left: 5px;

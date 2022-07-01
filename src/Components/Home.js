@@ -14,9 +14,10 @@ import Pickup from "./Pickup";
 import { useHistory } from "react-router-dom";
 import Navbar1 from "./Navbar1";
 import { useMediaQuery } from "react-responsive";
+import { Scrollbars } from "react-custom-scrollbars-2";
 
 export default function Home(props) {
-  const ref = useRef(null);
+  const ScrollRef = useRef(null);
   const [isAdmin, setIsAdmin] = useState(false);
   // getting current user uid
   function GetUserUid() {
@@ -84,20 +85,6 @@ export default function Home(props) {
     getProducts();
   }, []);
 
-  // state of totalProducts
-
-  // getting cart products
-  // useEffect(() => {
-  //   auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       fs.collection("Cart " + user.uid).onSnapshot((snapshot) => {
-  //         const qty = snapshot.docs.length;
-  //         setTotalProducts(qty);
-  //       });
-  //     }
-  //   });
-  // }, []);
-
   // globl variable
   let Product;
 
@@ -137,19 +124,6 @@ export default function Home(props) {
     }
   };
 
-  // const [categoryFs, setCategoryFs] = useState();
-
-  // useEffect(() => {
-  //   const getCategoryFromFirebase = [];
-  //   const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       getCategoryFromFirebase.push({ ...doc.data(), key: doc.id });
-  //     });
-  //     setCategoryFs(getCategoryFromFirebase);
-  //   });
-  //   return () => subscriber();
-  // }, []);
-
   function GetCategoryFromFirebase() {
     const getCategoryFromFirebase = [];
     const [categoryFs, setCategoryFs] = useState();
@@ -164,20 +138,7 @@ export default function Home(props) {
   }
 
   const categoryFs = GetCategoryFromFirebase();
-  // console.log(categoryFs);
 
-  // categories list rendering using span tag
-  // const [spans] = useState([
-  //   { id: "ElectronicDevices", text: "Electronic Devices" },
-  //   { id: "MobileAccessories", text: "Mobile Accessories" },
-  //   { id: "TVAndHomeAppliances", text: "TV & Home Appliances" },
-  //   { id: "SportsAndOutdoors", text: "Sports & outdoors" },
-  //   { id: "HealthAndBeauty", text: "Health & Beauty" },
-  //   { id: "HomeAndLifestyle", text: "Home & Lifestyle" },
-  //   { id: "MensFashion", text: `Men's Fashion` },
-  //   { id: "WatchesBagsAndJewellery", text: `Watches, bags & Jewellery` },
-  //   { id: "Groceries", text: "Groceries" },
-  // ]);
   useEffect(() => {
     setSpan(categoryFs);
   }, [categoryFs]);
@@ -240,9 +201,9 @@ export default function Home(props) {
     });
   }, []);
 
-  // useEffect(() => {
-  //   console.log(cartProducts);
-  // }, [cartProducts]);
+  useEffect(() => {
+    console.log(cartProducts);
+  }, [cartProducts]);
 
   // getting the qty from cartProducts in a seperate array
   const qty = cartProducts.map((cartProduct) => {
@@ -333,40 +294,58 @@ export default function Home(props) {
   const handleClickDecrease = useCallback((e) => cartProductDecrease(e));
   const handleClickDelete = useCallback((e) => handleCartProductDelete(e));
 
-  const scroll = (scrollOffset) => {
-    ref.current.scrollLeft += scrollOffset;
-  };
+  const [hideScroll, setHideScoll] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHideScoll(true);
+    }, 5000);
+  }, []);
 
   return (
     <>
       <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
-      <div className="category-container">
-        <button onClick={() => scroll(-1500)}>LEFT</button>
 
-        <div className="category-tab" style={{ marginTop: "20px" }} ref={ref}>
-          {spans ? (
-            <>
-              {spans.map((individualSpan, index) => (
-                <div className="category-ind">
-                  <span
-                    key={index}
-                    id={individualSpan.id}
-                    onClick={() => handleChange(individualSpan)}
-                    className={
-                      individualSpan.id === active ? active : "deactive"
-                    }
-                  >
-                    {individualSpan.text}
-                  </span>
-                </div>
-              ))}
-            </>
-          ) : (
-            <></>
-          )}
+      <Scrollbars
+        style={{
+          height: 70,
+          width: "auto",
+          position: "sticky",
+          top: "0",
+          backgroundColor: "white",
+          borderRadius: "5px",
+          marginTop: "0px",
+        }}
+        className="shadow"
+        onScroll={() => setHideScoll(true)}
+        autoHide={hideScroll}
+        autoHideTimeout={500}
+      >
+        <div className="category-container-c">
+          <div className="category-tab-c" style={{ marginTop: "20px" }}>
+            {spans ? (
+              <>
+                {spans.map((individualSpan, index) => (
+                  <div className="category-ind-c">
+                    <span
+                      key={index}
+                      id={individualSpan.id}
+                      onClick={() => handleChange(individualSpan)}
+                      className={
+                        individualSpan.id === active ? active : "deactive"
+                      }
+                    >
+                      {individualSpan.text}
+                    </span>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
-        <button onClick={() => scroll(1500)}>RIGHT</button>
-      </div>
+      </Scrollbars>
 
       <div className="all-home">
         <div className="menu">
@@ -376,7 +355,7 @@ export default function Home(props) {
               <a href="javascript:void(0)" onClick={returntoAllProducts}>
                 Return to All Menu
               </a>
-              <div className="container">
+              <div className="menu-container">
                 {filteredProducts.map((individualFilteredProduct) => (
                   <IndividualFilteredProduct
                     key={individualFilteredProduct.ID}
@@ -392,7 +371,7 @@ export default function Home(props) {
               {products.length > 0 && (
                 <>
                   <h1>All Menu</h1>
-                  <div className="container">
+                  <div className="menu-container">
                     <Products products={products} addToCart={addToCart} />
                   </div>
                 </>
@@ -403,117 +382,102 @@ export default function Home(props) {
             </>
           )}
         </div>
-        <div>
-          <div className="method-home-container">
-            <div className="method-home">
-              <Delivery />
-            </div>
-            <div className="method-home">
-              <Pickup />
-            </div>
-          </div>
-          <div className="cart-summary-box">
-            {localStorage.getItem("Pickup") ? (
-              <h6>Pickup</h6>
-            ) : (
-              <h6>Delivery</h6>
-            )}
-            <h5>Your Basket</h5>
-            <table>
-              <tbody>
-                {cartProducts.map((cartProduct) => {
-                  // {
-                  //   console.log(cartProducts);
-                  // }
-                  return (
-                    <tr>
-                      <td>
-                        <div
-                          className="action-btns minus"
-                          onClick={(e) => handleClickDecrease(cartProduct)}
-                        >
-                          <Icon icon={minus} size={20} />
-                        </div>
-                      </td>
-                      <td>{cartProduct.qty}</td>
-                      <td>
-                        <div
-                          className="action-btns plus"
-                          onClick={(e) => handleClickIncrease(cartProduct)}
-                        >
-                          <Icon icon={plus} size={20} />
-                        </div>
-                      </td>
-                      {/* {console.log(cartProduct)} */}
-                      <td>
+        <div style={{ clear: "both" }}></div>
+        <div className="cart-summary-box">
+          <h5>Your Basket</h5>
+          <table>
+            <tbody>
+              {cartProducts.map((cartProduct) => {
+                {
+                  console.log(cartProducts);
+                }
+                return (
+                  <tr>
+                    <td>
+                      <div
+                        className="action-btns minus"
+                        onClick={(e) => handleClickDecrease(cartProduct)}
+                      >
+                        <Icon icon={minus} size={20} />
+                      </div>
+                    </td>
+                    <td>{cartProduct.qty}</td>
+                    <td>
+                      <div
+                        className="action-btns plus"
+                        onClick={(e) => handleClickIncrease(cartProduct)}
+                      >
+                        <Icon icon={plus} size={20} />
+                      </div>
+                    </td>
+                    {console.log(cartProduct)}
+                    <td>
+                      <p
+                        style={{
+                          paddingTop: "10px",
+                          paddingBottom: "0",
+                          margin: "0",
+                        }}
+                      >
+                        {cartProduct.title}
+                      </p>
+                      {cartProduct.option.map((option) => (
                         <p
                           style={{
-                            fontWeight: "bold",
-                            paddingTop: "10px",
-                            paddingBottom: "0",
+                            padding: "0",
                             margin: "0",
+                            textIndent: "10px",
                           }}
                         >
-                          {cartProduct.title}
+                          {option.menu}
                         </p>
-                        {cartProduct.option.map((option) => (
-                          <p
-                            style={{
-                              padding: "0",
-                              margin: "0",
-                              textIndent: "10px",
-                            }}
-                          >
-                            {option.menu}
-                          </p>
-                        ))}
-                        {cartProduct.addOn.map((addOn) => (
-                          <p
-                            style={{
-                              padding: "0",
-                              margin: "0",
-                              textIndent: "10px",
-                            }}
-                          >
-                            {addOn.menu}
-                          </p>
-                        ))}
-                      </td>
-                      <td>
-                        £
-                        {Number(
-                          cartProduct.priceWithAddon * cartProduct.qty
-                        ).toFixed(2)}
-                      </td>
-                      <td>
-                        <div
-                          className="action-btns plus"
-                          onClick={(e) => handleClickDelete(cartProduct)}
+                      ))}
+                      {cartProduct.addOn.map((addOn) => (
+                        <p
+                          style={{
+                            padding: "0",
+                            margin: "0",
+                            textIndent: "10px",
+                          }}
                         >
-                          <Icon icon={ic_delete} size={20} />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            <br></br>
-            <div style={{ justifyContent: "flex-end" }}>
-              Total Cost: <span>£{Number(totalPrice).toFixed(2)}</span>
-            </div>
-            <div style={{ justifyContent: "center", marginTop: "20px" }}>
-              <Button
-                style={{
-                  backgroundColor: "#e80532",
-                  borderColor: "#e80532",
-                  width: "max-content",
-                }}
-                onClick={handleCheckout}
-              >
-                My Order
-              </Button>
-            </div>
+                          {addOn.menu}
+                        </p>
+                      ))}
+                    </td>
+                    <td>
+                      £
+                      {Number(
+                        cartProduct.priceWithAddon * cartProduct.qty
+                      ).toFixed(2)}
+                    </td>
+                    <td>
+                      <div
+                        className="action-btns plus"
+                        onClick={(e) => handleClickDelete(cartProduct)}
+                      >
+                        <Icon icon={ic_delete} size={20} />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <br></br>
+          <div style={{ justifyContent: "flex-end" }}>
+            Total Cost: <span>£{Number(totalPrice).toFixed(2)}</span>
+          </div>
+          <div style={{ justifyContent: "center", marginTop: "20px" }}>
+            <Button
+              style={{
+                backgroundColor: "#e80532",
+                borderColor: "#e80532",
+                width: "max-content",
+              }}
+              onClick={handleCheckout}
+            >
+              My Order
+            </Button>
           </div>
         </div>
       </div>

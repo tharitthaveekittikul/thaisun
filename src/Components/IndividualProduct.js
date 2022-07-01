@@ -107,10 +107,12 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
         <Modal.Title>
           <img
             src={individualProduct.img}
-            className="img-hover-zoom"
             width={500}
             height={200}
-            style={{ overflow: "hidden", objectFit: "cover" }}
+            style={{
+              overflow: "hidden",
+              objectFit: "cover",
+            }}
           />
           <p style={{ margin: "10px", fontWeight: "700", fontSize: "24px" }}>
             {individualProduct.title} (£ {individualProduct.price})

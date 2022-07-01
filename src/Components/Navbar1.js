@@ -42,9 +42,8 @@ function Navbar1({ user, isAdmin, totalProducts }) {
             <NavLink
               className="navbar-font"
               style={{
-                fontFamily: "Roboto",
                 color: "black",
-                fontSize: "16px",
+                fontSize: "18px",
               }}
               eventKey="1"
               as={Link}
