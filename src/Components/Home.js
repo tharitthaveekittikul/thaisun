@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import Navbar1 from "./Navbar1";
 import { useMediaQuery } from "react-responsive";
 import { Scrollbars } from "react-custom-scrollbars-2";
+import { fontSize } from "@mui/system";
 
 export default function Home(props) {
   const ScrollRef = useRef(null);
@@ -320,6 +321,15 @@ export default function Home(props) {
         onScroll={() => setHideScoll(true)}
         autoHide={hideScroll}
         autoHideTimeout={500}
+        renderThumbHorizontal={({ style }) => (
+          <div
+            style={{
+              ...style,
+              backgroundColor: "rgb(255, 218, 225)",
+              borderRadius: "10px",
+            }}
+          />
+        )}
       >
         <div className="category-container-c">
           <div className="category-tab-c" style={{ marginTop: "20px" }}>
@@ -383,101 +393,134 @@ export default function Home(props) {
           )}
         </div>
         <div style={{ clear: "both" }}></div>
-        <div className="cart-summary-box">
-          <h5>Your Basket</h5>
-          <table>
-            <tbody>
-              {cartProducts.map((cartProduct) => {
-                {
-                  console.log(cartProducts);
-                }
-                return (
-                  <tr>
-                    <td>
-                      <div
-                        className="action-btns minus"
-                        onClick={(e) => handleClickDecrease(cartProduct)}
-                      >
-                        <Icon icon={minus} size={20} />
-                      </div>
-                    </td>
-                    <td>{cartProduct.qty}</td>
-                    <td>
-                      <div
-                        className="action-btns plus"
-                        onClick={(e) => handleClickIncrease(cartProduct)}
-                      >
-                        <Icon icon={plus} size={20} />
-                      </div>
-                    </td>
-                    {console.log(cartProduct)}
-                    <td>
-                      <p
-                        style={{
-                          paddingTop: "10px",
-                          paddingBottom: "0",
-                          margin: "0",
-                        }}
-                      >
-                        {cartProduct.title}
-                      </p>
-                      {cartProduct.option.map((option) => (
-                        <p
-                          style={{
-                            padding: "0",
-                            margin: "0",
-                            textIndent: "10px",
-                          }}
-                        >
-                          {option.menu}
-                        </p>
-                      ))}
-                      {cartProduct.addOn.map((addOn) => (
-                        <p
-                          style={{
-                            padding: "0",
-                            margin: "0",
-                            textIndent: "10px",
-                          }}
-                        >
-                          {addOn.menu}
-                        </p>
-                      ))}
-                    </td>
-                    <td>
-                      £
-                      {Number(
-                        cartProduct.priceWithAddon * cartProduct.qty
-                      ).toFixed(2)}
-                    </td>
-                    <td>
-                      <div
-                        className="action-btns plus"
-                        onClick={(e) => handleClickDelete(cartProduct)}
-                      >
-                        <Icon icon={ic_delete} size={20} />
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <br></br>
-          <div style={{ justifyContent: "flex-end" }}>
-            Total Cost: <span>£{Number(totalPrice).toFixed(2)}</span>
-          </div>
-          <div style={{ justifyContent: "center", marginTop: "20px" }}>
-            <Button
+        <div className="rightside">
+          <div className="cart-summary-box">
+            <h5>YOUR BASKET</h5>
+            <Scrollbars autoHeight autoHeightMax={"40vh"}>
+              <table>
+                <tbody>
+                  {cartProducts.map((cartProduct) => {
+                    return (
+                      <tr>
+                        <td>
+                          <div
+                            className="action-btns minus"
+                            onClick={(e) => handleClickDecrease(cartProduct)}
+                          >
+                            <Icon
+                              icon={minus}
+                              size={20}
+                              style={{
+                                marginLeft: "10px",
+                                marginRight: "10px",
+                              }}
+                            />
+                          </div>
+                        </td>
+                        <td>{cartProduct.qty}</td>
+                        <td>
+                          <div
+                            className="action-btns plus"
+                            onClick={(e) => handleClickIncrease(cartProduct)}
+                          >
+                            <Icon
+                              icon={plus}
+                              size={20}
+                              style={{
+                                marginLeft: "10px",
+                                marginRight: "10px",
+                              }}
+                            />
+                          </div>
+                        </td>
+                        <td>
+                          <p
+                            style={{
+                              paddingTop: "10px",
+                              paddingBottom: "0",
+                              margin: "0",
+                              fontFamily: "Merriweather, serif",
+                              fontSize: "14px",
+                              fontWeight: "700",
+                              color: "black",
+                            }}
+                          >
+                            {cartProduct.title}
+                          </p>
+                          {cartProduct.option.map((option) => (
+                            <p
+                              style={{
+                                padding: "0",
+                                margin: "0",
+                                textIndent: "15px",
+                                color: "rgb(130, 130, 130)",
+                                fontSize: "14px",
+                              }}
+                            >
+                              {option.menu}
+                            </p>
+                          ))}
+                          {cartProduct.addOn.map((addOn) => (
+                            <p
+                              style={{
+                                padding: "0",
+                                margin: "0",
+                                textIndent: "15px",
+                                color: "rgb(130, 130, 130)",
+                                fontSize: "14px",
+                              }}
+                            >
+                              {addOn.menu}
+                            </p>
+                          ))}
+                        </td>
+                        <td style={{ textAlign: "right" }}>
+                          £
+                          {Number(
+                            cartProduct.priceWithAddon * cartProduct.qty
+                          ).toFixed(2)}
+                        </td>
+                        <td>
+                          <div
+                            className="action-btns plus"
+                            onClick={(e) => handleClickDelete(cartProduct)}
+                            style={{ marginLeft: "10px", marginRight: "10px" }}
+                          >
+                            <Icon
+                              icon={ic_delete}
+                              size={20}
+                              style={{ color: "#c2052a" }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Scrollbars>
+            <br></br>
+            <div
               style={{
-                backgroundColor: "#e80532",
-                borderColor: "#e80532",
-                width: "max-content",
+                justifyContent: "flex-end",
+                marginRight: "40px",
+                marginTop: "-10px",
               }}
-              onClick={handleCheckout}
             >
-              My Order
-            </Button>
+              Total Cost: &nbsp; <span>£{Number(totalPrice).toFixed(2)}</span>
+            </div>
+            <div style={{ justifyContent: "center", marginTop: "20px" }}>
+              <Button
+                style={{
+                  backgroundColor: "#e80532",
+                  borderColor: "#e80532",
+                  width: "max-content",
+                }}
+                onClick={handleCheckout}
+              >
+                My Order
+              </Button>
+            </div>
           </div>
         </div>
       </div>

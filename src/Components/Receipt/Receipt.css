@@ -7,13 +7,13 @@
   font-family: "Times New Roman" !important;
 }
 
-td,
+/* td,
 th,
 tr,
 table {
   border-top: 1px solid black !important;
   border-collapse: collapse !important;
-}
+} */
 
 td.description,
 th.description {
