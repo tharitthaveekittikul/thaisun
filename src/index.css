@@ -439,7 +439,7 @@
 
 .rightside .cart-summary-box div {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .rightside .cart-summary-box table {

@@ -503,13 +503,15 @@ export default function Home(props) {
             <div
               style={{
                 justifyContent: "flex-end",
-                marginRight: "40px",
+                marginRight: "45px",
                 marginTop: "-10px",
+                display: "flex",
+                flexDirection: "row",
               }}
             >
               Total Cost: &nbsp; <span>£{Number(totalPrice).toFixed(2)}</span>
             </div>
-            <div style={{ justifyContent: "center", marginTop: "20px" }}>
+            <div style={{ margin: "10px auto" }}>
               <Button
                 style={{
                   backgroundColor: "#e80532",
