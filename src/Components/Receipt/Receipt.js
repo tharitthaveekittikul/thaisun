@@ -17,47 +17,7 @@ function Receipt() {
   // const orders = location.state.orders;
 
   const orders = JSON.parse(localStorage.getItem("orders"));
-  // useEffect(() => {
-  //   const getCartFormFirebase = [];
-  //   let price = parseFloat(0);
-  //   auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       const subscriber = fs
-  //         .collection("Cart " + user.uid)
-  //         .onSnapshot((snapshot) => {
-  //           const qty = snapshot.docs.length;
-  //           setTotalProducts(qty);
-  //           snapshot.forEach((doc) => {
-  //             getCartFormFirebase.push({ ...doc.data(), key: doc.id });
-  //           });
-  //           for (let i = 0; i < getCartFormFirebase.length; i++) {
-  //             price =
-  //               parseFloat(getCartFormFirebase[i].TotalProductPrice) + price;
-  //           }
-  //           setTotalPrice(price);
-  //           setCarts(getCartFormFirebase);
-  //         });
 
-  //       return () => subscriber();
-  //     }
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   const getOrderFromFirebase = [];
-
-  //   const subscriber = fs.collection("orderHistory").onSnapshot((snapshot) => {
-  //     const qty = snapshot.docs.length;
-  //     setTotalProducts(qty);
-  //     snapshot.forEach((doc) => {
-  //       getOrderFromFirebase.push({ ...doc.data(), key: doc.id });
-  //     });
-
-  //     setOrders(getOrderFromFirebase);
-  //   });
-
-  //   return () => subscriber();
-  // }, []);
   window.addEventListener(
     "beforeunload",
     function (e) {
@@ -111,7 +71,7 @@ function Receipt() {
                 </>
               )}
             </p>
-            <table>
+            <table className="receipt-table">
               <thead>
                 <tr>
                   <th className="quantity">Q.</th>
@@ -150,17 +110,17 @@ function Receipt() {
                     </td>
                   </tr>
                 ) : null}
+                <tr>
+                  <td className="quantity" />
+                  <td className="description" style={{ tabSize: "4" }}>
+                    Subtotal
+                  </td>
+                  <td className="price">
+                    £{parseFloat(orders.Subtotal).toFixed(2)}
+                  </td>
+                </tr>
                 {orders.Coupon ? (
                   <>
-                    <tr>
-                      <td className="quantity" />
-                      <td className="description" style={{ tabSize: "4" }}>
-                        Subtotal
-                      </td>
-                      <td className="price">
-                        £{parseFloat(orders.Subtotal).toFixed(2)}
-                      </td>
-                    </tr>
                     <tr>
                       <td className="quantity" />
                       <td className="description" style={{ tabSize: "4" }}>

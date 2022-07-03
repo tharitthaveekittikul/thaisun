@@ -15,14 +15,23 @@ table {
   border-collapse: collapse !important;
 } */
 
+.receipt-table {
+  border-top: 1px solid black !important;
+  border-collapse: collapse !important;
+}
+
 td.description,
 th.description {
+  border-top: 1px solid black !important;
+  border-collapse: collapse !important;
   width: 150px !important;
   max-width: 150px !important;
 }
 
 td.quantity,
 th.quantity {
+  border-top: 1px solid black !important;
+  border-collapse: collapse !important;
   width: 60px !important;
   max-width: 60px !important;
   word-break: break-all !important;
@@ -32,6 +41,8 @@ th.quantity {
 
 td.price,
 th.price {
+  border-top: 1px solid black !important;
+  border-collapse: collapse !important;
   width: 70px !important;
   max-width: 70px !important;
   word-break: break-all !important;
