@@ -411,7 +411,7 @@
 }
 
 .rightside {
-  width: 400px;
+  width: 440px;
   box-shadow: -10px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 /* cart summary */
@@ -752,8 +752,8 @@ a.remove:hover {
   border: 1px solid #f69679;
   background: #f69679;
 }
-.btn:link,
-.btn:visited {
+.arrowbtn .btn:link,
+.arrowbtn .btn:visited {
   text-decoration: none;
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.015em;
@@ -771,7 +771,7 @@ a.remove:hover {
   -o-transition: all 0.25s linear;
   transition: all 0.25s linear;
 }
-.btn:after {
+.arrowbtn .btn:after {
   content: "\276f";
   padding: 0.5em;
   position: relative;
@@ -782,19 +782,19 @@ a.remove:hover {
   -o-transition: all 0.15s linear;
   transition: all 0.15s linear;
 }
-.btn:hover,
-.btn:focus,
-.btn:active {
+.arrowbtn .btn:hover,
+.arrowbtn .btn:focus,
+.arrowbtn .btn:active {
   background: #f69679;
 }
-.btn:hover:after,
-.btn:focus:after,
-.btn:active:after {
+.arrowbtn .btn:hover:after,
+.arrowbtn .btn:focus:after,
+.arrowbtn .btn:active:after {
   right: -10px;
 }
 .promoCode .btn {
   font-size: 0.85em;
-  paddding: 0.5em 2em;
+  padding: 0.5em 2em;
 }
 /* TOTAL AND CHECKOUT */
 .subtotal {
