@@ -21,7 +21,9 @@ function LiveOrder() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
 
-  // const [liveOrders, setLiveOrders] = useState();
+  const colors = ["#ee786e", "#ffff"];
+  const [value, setValue] = useState(0);
+
   const history = useHistory();
 
   const [showSure, setShowSure] = useState(false);
@@ -40,7 +42,7 @@ function LiveOrder() {
 
   const [send, setSent] = useState(false);
   // const [text, setText] = useState("");
-  const [playAudio, setPlayAudio] = useState(false);
+  const [playAudio, setPlayAudio] = useState(true);
   const [disableButton, setDisableButton] = useState(true);
 
   const handleSend = async (text, email) => {
@@ -76,6 +78,8 @@ function LiveOrder() {
     setPlayAudio(false);
   };
 
+  const [clear, setClear] = useState(true);
+
   function GetLiveOrderFromFirebase() {
     const getLiveOrderFromFirebase = [];
     const [liveOrders, setLiveOrders] = useState();
@@ -89,30 +93,44 @@ function LiveOrder() {
     }, []);
     return liveOrders;
   }
-
   const liveOrders = GetLiveOrderFromFirebase();
 
-  // useEffect(() => {
-  //   const getLiveOrderFromFirebase = [];
-  //   const subscriber = fs
-  //     .collection("liveorder")
-  //     .onSnapshot((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         getLiveOrderFromFirebase.push({ ...doc.data(), key: doc.id });
+  // function ChangeBackground() {
+  //   useEffect(() => {
+  //     const interval = setInterval(() => {
+  //       setValue((v) => {
+  //         return v === 1 ? 0 : v + 1;
   //       });
-  //       setLiveOrders(getLiveOrderFromFirebase);
-  //       setPlayAudio(true);
+  //     }, 1000);
+  //     setClear(false);
+  //     return () => clearInterval(interval);
+  //   }, []);
+  // }
+  // setTimeout(() => {
+  //   ChangeBackground();
+  // }, 2000);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setValue((v) => {
+  //       return v === 1 ? 0 : v + 1;
   //     });
-  //   return () => subscriber();
+  //   }, 1000);
+  //   setClear(false);
+  //   return () => clearInterval(interval);
   // }, []);
 
+  function ChangeBackground() {
+    const interval = setInterval(() => {
+      setValue((v) => {
+        return v === 1 ? 0 : v + 1;
+      });
+    }, 1000);
+    setClear(false);
+    return () => clearInterval(interval);
+  }
+
   function handleAccept(liveorder, key) {
-    // if (liveorder.pickupState) {
-    //   setText("The menu takes at least 25 minutes.");
-    // } else {
-    //   setText("The menu takes at least 60 minutes.");
-    // }
-    // console.log("click");
     let detailsOrder = `<table
     class="es-content"
     cellspacing="0"
@@ -2248,14 +2266,7 @@ function LiveOrder() {
       });
   }
 
-  function playSound() {
-    if (playAudio) {
-      const audio = new Audio(sound);
-      audio.play();
-    }
-  }
-
-  console.log(liveOrders);
+  // console.log(liveOrders);
 
   if (!isLogIn) {
     return <Redirect to="/login" />;
@@ -2264,6 +2275,14 @@ function LiveOrder() {
     console.log(isAdmin);
     return <Redirect to="/" />;
   }
+
+  function playSound() {
+    if (playAudio) {
+      const audio = new Audio(sound);
+      audio.play();
+    }
+  }
+
   return (
     <div className="wrapper">
       <Header />
@@ -2276,7 +2295,17 @@ function LiveOrder() {
           {/* loop all live order */}
           {liveOrders ? (
             <>
-              {liveOrders.length > 0 ? <>{playSound()}</> : null}
+              {clear ? (
+                <>
+                  {liveOrders.length > 0 ? (
+                    <>
+                      {playSound()} {ChangeBackground()}
+                    </>
+                  ) : null}
+                </>
+              ) : (
+                <></>
+              )}
 
               {liveOrders.map((liveorder) => (
                 <div
@@ -2291,6 +2320,7 @@ function LiveOrder() {
                   <Card
                     style={{
                       width: "400px",
+                      backgroundColor: colors[value],
                     }}
                   >
                     <Card.Body>
@@ -2333,10 +2363,12 @@ function LiveOrder() {
                         </>
                       )}
                     </Card.Body>
-                    <ListGroup className="list-group-flush">
+                    <ListGroup>
                       {liveorder.cartProducts.map((cartProduct) => (
                         <>
-                          <ListGroupItem>
+                          <ListGroupItem
+                            style={{ backgroundColor: colors[value] }}
+                          >
                             <p>
                               {cartProduct.qty} x {cartProduct.title}
                             </p>
