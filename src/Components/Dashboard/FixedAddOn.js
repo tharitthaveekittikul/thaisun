@@ -189,6 +189,7 @@ function FixedAddOn() {
                     className="form-control"
                     type="text"
                     name="title"
+                    placeholder="Add-on Title"
                     value={titleField.title}
                     ref={(el) => (titleRef.current[index] = el)}
                     onChange={(event) => handleChangeTitle(index, event)}
@@ -199,6 +200,7 @@ function FixedAddOn() {
                         className="form-control"
                         type="text"
                         name="menuName"
+                        placeholder="Menu Name"
                         value={menuField.menuName}
                         onChange={(event) =>
                           handleChangeMenu(index, index_child, event)

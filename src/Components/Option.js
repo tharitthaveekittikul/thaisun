@@ -159,7 +159,7 @@ function Option({
   };
 
   // console.log(optionUse);
-  if (options) {
+  if (options && options[0].title !== "") {
     return (
       <>
         <Form onSubmit={(e) => e.preventDefault()}>
