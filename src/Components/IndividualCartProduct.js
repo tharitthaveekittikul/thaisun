@@ -3,6 +3,7 @@ import { Icon } from "react-icons-kit";
 import { plus } from "react-icons-kit/feather/plus";
 import { minus } from "react-icons-kit/feather/minus";
 import { auth, fs } from "../Config/Config";
+import { ic_delete } from "react-icons-kit/md/ic_delete";
 
 export default function IndividualCartProduct({
   cartProduct,
@@ -31,7 +32,7 @@ export default function IndividualCartProduct({
   };
 
   return (
-    <li className="items odd">
+    <li className="items">
       <div className="infoWrap">
         <div className="cartSection">
           {/* <img src={cartProduct.img} alt={cartProduct.title} /> */}
@@ -58,19 +59,43 @@ export default function IndividualCartProduct({
               {addOn.menu}
             </p>
           ))}
-          <br></br>
-          <p>{cartProduct.instruction}</p>
-          <br></br>
-          <p>
+          {cartProduct.instruction ? (
+            <>
+              <p
+                style={{
+                  textIndent: "10px",
+                  marginBottom: "0px",
+                }}
+              >
+                - {cartProduct.instruction}
+              </p>
+            </>
+          ) : null}
+
+          <p style={{ color: "#e80532" }}>
             <span
-              className="action-btns minus"
+              className="action-btns-pointer"
+              style={{
+                marginLeft: "5px",
+                marginRight: "5px",
+                marginBottom: "5px",
+                color: "black",
+              }}
               onClick={handleCartProductDecrease}
             >
               <Icon icon={minus} size={20} />
             </span>
-            <span style={{}}>{cartProduct.qty}</span>
+            <span style={{ fontSize: "16px", color: "black" }}>
+              {cartProduct.qty}
+            </span>
             <span
-              className="action-btns plus"
+              className="action-btns-pointer"
+              style={{
+                marginLeft: "5px",
+                marginRight: "5px",
+                marginBottom: "5px",
+                color: "black",
+              }}
               onClick={handleCartProductIncrease}
             >
               <Icon icon={plus} size={20} />
@@ -78,13 +103,13 @@ export default function IndividualCartProduct({
             x ${Number(cartProduct.priceWithAddon).toFixed(2)}
           </p>
         </div>
-        <div className="prodTotal cartSection">
-          <p>{Number(cartProduct.TotalProductPrice).toFixed(2)}</p>
-        </div>
-        <div className="cartSection removeWrap">
-          <a className="remove" onClick={handleCartProductDelete}>
-            x
-          </a>
+        <div className="right-container">
+          <div className="prodTotal">
+            <p>£{Number(cartProduct.TotalProductPrice).toFixed(2)}</p>
+          </div>
+          <div className="deleteProd" onClick={handleCartProductDelete}>
+            <Icon icon={ic_delete} size={20} style={{ color: "#c2052a" }} />
+          </div>
         </div>
       </div>
     </li>

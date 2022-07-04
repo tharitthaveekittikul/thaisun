@@ -384,9 +384,11 @@ export default function Home(props) {
           {filteredProducts.length > 0 && (
             <>
               <h1>{category}</h1>
-              <a href="javascript:void(0)" onClick={returntoAllProducts}>
-                Return to All Menu
-              </a>
+              <div className="a-container">
+                <a href="javascript:void(0)" onClick={returntoAllProducts}>
+                  RETURN TO ALL MENU
+                </a>
+              </div>
               <div className="menu-container">
                 {filteredProducts.map((individualFilteredProduct) => (
                   <IndividualFilteredProduct
@@ -683,6 +685,7 @@ export default function Home(props) {
                               style={{
                                 marginLeft: "10px",
                                 marginRight: "10px",
+                                marginTop: "-3px",
                               }}
                             >
                               <Icon
@@ -711,8 +714,12 @@ export default function Home(props) {
                   textAlign: "right",
                 }}
               >
-                <div>Delivery Fee: &nbsp; £{"test"}</div>
-                <div>Total Cost: &nbsp; £{Number(totalPrice).toFixed(2)}</div>
+                <div style={{ fontWeight: "500" }}>
+                  Delivery Fee: &nbsp; £{"test"}
+                </div>
+                <div style={{ fontWeight: "500" }}>
+                  Total Cost: &nbsp; £{Number(totalPrice).toFixed(2)}
+                </div>
               </div>
               <div className="arrowbtn" style={{ margin: "10px auto" }}>
                 <Button

@@ -47,6 +47,8 @@ export default function Cart() {
   const user = GetCurrentUser();
   const uid = GetUserUid();
 
+  const [loading, setLoading] = useState(false);
+
   // state of cart products
   const [cartProducts, setCartProducts] = useState([]);
 
@@ -60,6 +62,7 @@ export default function Cart() {
             ...doc.data(),
           }));
           setCartProducts(newCartProduct);
+          setLoading(true);
         });
       } else {
         console.log("user is not signed in to retrieve cart");
@@ -331,7 +334,15 @@ export default function Cart() {
   return (
     <>
       <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
-      <br></br>
+      {loading ? (
+        cartProducts.length < 1 && (
+          <div className="basket-empty">Basket is empty.</div>
+        )
+      ) : (
+        <div className="basket-empty">
+          <p>Loading...</p>
+        </div>
+      )}
       {cartProducts.length > 0 && (
         <div className="wrap cf">
           <div className="heading cf">
@@ -346,70 +357,74 @@ export default function Cart() {
               />
             </ul>
           </div>
-          <div className="promoCode">
-            <Form
-              onSubmit={handleCouponInput}
-              style={{
-                width: "300px",
-                justifyContent: "center",
-                flexDirection: "column",
-                display: "flex",
-                margin: "1px auto",
-              }}
-            >
-              <Form.Group id="coupon" className="mb-3"></Form.Group>
-              <Form.Label>Have Voucher?</Form.Label>
-              <div style={{ flexDirection: "row", display: "flex" }}>
-                <Form.Control
-                  type="text"
-                  ref={couponInputRef}
-                  defaultValue={null}
-                />
+          <div className="bottom-container">
+            <div className="promoCode">
+              <Form
+                onSubmit={handleCouponInput}
+                style={{
+                  width: "85%",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  display: "flex",
+                  margin: "1px auto",
+                  marginBottom: "20px",
+                }}
+              >
+                <Form.Group id="coupon" className="mb-3"></Form.Group>
+                <Form.Label>Have Voucher?</Form.Label>
+                <div style={{ flexDirection: "row", display: "flex" }}>
+                  <Form.Control
+                    type="text"
+                    ref={couponInputRef}
+                    defaultValue={null}
+                  />
+                  <div>
+                    <Button type="submit">Add</Button>
+                  </div>
+                </div>
+                {message ? <Alert variant="success">{message}</Alert> : ""}
+                {error ? <Alert variant="danger">{error}</Alert> : ""}
+              </Form>
+            </div>
+            <div className="total-checkout">
+              <div className="subtotal">
                 <div>
-                  <Button variant="primary" type="submit">
-                    Add
-                  </Button>
+                  <span className="label">Subtotal: </span>
+                  <span className="value">
+                    £{Number(totalPrice).toFixed(2)}
+                  </span>
+                </div>
+                {couponType ? (
+                  <div>
+                    <span className="label">Discount: </span>
+                    <span className="value">
+                      £{Number(totalDiscount).toFixed(2)}
+                    </span>
+                  </div>
+                ) : null}
+                <div>
+                  <span className="label">Delivery Fee: </span>
+                  <span className="value">£KJ</span>
+                </div>
+                <div>
+                  <span
+                    className="label"
+                    style={{ fontWeight: 500, fontSize: 28 }}
+                  >
+                    Total:{" "}
+                  </span>
+                  <span
+                    className="value"
+                    style={{ fontWeight: 500, fontSize: 28 }}
+                  >
+                    £{Number(totalCost).toFixed(2)}
+                  </span>
                 </div>
               </div>
-              {message ? <Alert variant="success">{message}</Alert> : ""}
-              {error ? <Alert variant="danger">{error}</Alert> : ""}
-            </Form>
-          </div>
-          <div className="subtotal cf">
-            <ul>
-              <li className="totalRow">
-                <span className="label">Subtotal</span>
-                <span className="value">£{Number(totalPrice).toFixed(2)}</span>
-              </li>
-              {couponType ? (
-                <li className="totalRow">
-                  <span className="label">Discount</span>
-                  <span className="value">
-                    £{Number(totalDiscount).toFixed(2)}
-                  </span>
-                </li>
-              ) : null}
-              <li className="totalRow">
-                <span className="label">Shipping</span>
-                <span className="value">£KJ</span>
-              </li>
-              <li className="totalRow final">
-                <span className="label">Total</span>
-                <span className="value">£{Number(totalCost).toFixed(2)}</span>
-              </li>
-              <li className="totalRow">
-                <Button className="btn continue" onClick={handleCheckout}>
-                  Checkout
-                </Button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      )}
-      {cartProducts.length < 1 && (
-        <div>
-          <div style={{ justifyContent: "center", display: "flex" }}>
-            Basket is empty.
+              <div className="arrowbtn" style={{ margin: "0 auto" }}>
+                <Button onClick={handleCheckout}>Checkout</Button>
+              </div>
+            </div>
           </div>
         </div>
       )}

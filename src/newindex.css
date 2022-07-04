@@ -74,12 +74,22 @@
   margin-left: 10px;
 }
 .all-home .menu h1 {
-  font-family: "Rubik", sans-serif;
-  font-size: 40px;
-  font-weight: 400;
-  letter-spacing: 0.32px;
+  font-family: "Merriweather", serif;
+  font-size: 38px;
+  font-weight: 700;
   margin-top: 10px;
   text-align: center;
+}
+.all-home .menu .a-container {
+  text-align: center;
+  margin-top: -10px;
+}
+.all-home .menu .a-container a {
+  font-family: "Rubik", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  color: #e80532;
 }
 .all-home .menu .menu-container {
   display: flex;
@@ -170,10 +180,6 @@
   margin-left: 5px;
 }
 
-.test-color-krub {
-  color: rgb(255, 218, 225);
-}
-
 .yourbasket-floatbtn {
   position: absolute;
   display: block;
@@ -194,4 +200,11 @@
 
 .action-btns-pointer {
   cursor: pointer;
+}
+
+.basket-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
 }

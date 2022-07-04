@@ -115,8 +115,30 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
               objectFit: "cover",
             }}
           />
-          <p style={{ margin: "10px", fontWeight: "700", fontSize: "24px" }}>
-            {individualProduct.title} (£ {individualProduct.price})
+          <p
+            style={{
+              margin: "10px",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Merriweather",
+                fontWeight: "700",
+                fontSize: "26px",
+              }}
+            >
+              {individualProduct.title}
+            </span>{" "}
+            <span
+              style={{
+                fontFamily: "Rubik",
+                fontWeight: "500",
+                fontSize: "26px",
+                color: "#e80532",
+              }}
+            >
+              (£ {individualProduct.price})
+            </span>
           </p>
           <p
             style={{

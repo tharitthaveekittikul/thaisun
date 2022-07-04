@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom";
 import { fs } from "../Config/Config";
 import FixAdd from "./FixAdd";
 import Option from "./Option";
+import { Icon } from "react-icons-kit";
+import { Scrollbars } from "react-custom-scrollbars-2";
+import { ic_add_circle } from "react-icons-kit/md/ic_add_circle";
 
 export default function IndividualFilteredProduct({
   individualFilteredProduct,
@@ -76,31 +79,45 @@ export default function IndividualFilteredProduct({
   };
 
   return (
-    <div className="product">
-      <div className="product-img">
-        <img src={individualFilteredProduct.img} alt="product-img" />
+    <div className="ind-menu">
+      <div className="menu-img">
+        <img
+          style={{
+            alignContent: "center",
+            width: "100px",
+            height: "100px",
+            borderRadius: "10px",
+          }}
+          src={individualFilteredProduct.img}
+          alt="Menu image"
+        />
       </div>
-      <div className="product-text title">
-        {individualFilteredProduct.title}
-      </div>
-      <div className="product-text description">
-        {individualFilteredProduct.description}
-      </div>
-      <div className="product-text price">
-        £ {individualFilteredProduct.price}
+      <div className="menu-text">
+        <div className="title">{individualFilteredProduct.title}</div>
+        <div className="desc">{individualFilteredProduct.description}</div>
+        <div className="price">£ {individualFilteredProduct.price}</div>
       </div>
 
-      <Button onClick={handleShow}>ADD TO CART</Button>
+      <div className="btn-add" onClick={handleShow}>
+        <Icon
+          className="addicon"
+          icon={ic_add_circle}
+          style={{ color: "#e80532" }}
+          size={30}
+        />
+      </div>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} className="modal-popup">
         <Modal.Header closeButton></Modal.Header>
         <Modal.Title>
           <img
             src={individualFilteredProduct.img}
-            className="img-hover-zoom"
             width={500}
             height={200}
-            style={{ overflow: "hidden", objectFit: "cover" }}
+            style={{
+              overflow: "hidden",
+              objectFit: "cover",
+            }}
           />
           <p style={{ margin: "10px", fontWeight: "700", fontSize: "24px" }}>
             {individualFilteredProduct.title} (£{" "}
@@ -119,17 +136,21 @@ export default function IndividualFilteredProduct({
         </Modal.Title>
         <hr />
         <Modal.Body>
-          <Option
-            individualFilteredProduct={individualFilteredProduct}
-            handleOption={handleOption}
-          />
-          <FixAdd handleAddOn={handleAddOn} />
+          <Scrollbars autoHeight autoHeightMin={"200px"}>
+            <Option
+              individualProduct={individualFilteredProduct}
+              handleOption={handleOption}
+            />
+            <FixAdd handleAddOn={handleAddOn} />
+          </Scrollbars>
           <Form onSubmit={(event) => event.preventDefault()}>
             <Form.Group
               className="mb-3"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label>Special Instructions</Form.Label>
+              <Form.Label style={{ marginTop: "10px" }}>
+                Special Instructions
+              </Form.Label>
               <Form.Control
                 type="text"
                 onChange={(event) => handleInstruction(event)}
@@ -140,10 +161,10 @@ export default function IndividualFilteredProduct({
         </Modal.Body>
         <Modal.Footer>
           <Button
-            className="btn btn-danger btn-md cart-btn"
+            style={{ backgroundColor: "#e80532", borderColor: "#e80532" }}
             onClick={handleAddToCart}
           >
-            ADD TO CART
+            ADD TO BASKET
           </Button>
         </Modal.Footer>
       </Modal>
