@@ -78,6 +78,10 @@ function LiveOrder() {
     setPlayAudio(false);
   };
 
+  window.setTimeout(function () {
+    window.location.reload();
+  }, 30000);
+
   const [clear, setClear] = useState(true);
 
   function GetLiveOrderFromFirebase() {
@@ -2288,10 +2292,7 @@ function LiveOrder() {
       <Header />
       <Menu />
       <div className="content-wrapper">
-        <Container
-          className="d-flex align-items-center justify-content-center"
-          style={{ minHeight: "100vh" }}
-        >
+        <Container className="liveorder">
           {/* loop all live order */}
           {liveOrders ? (
             <>
@@ -2319,7 +2320,7 @@ function LiveOrder() {
                 >
                   <Card
                     style={{
-                      width: "400px",
+                      width: "auto",
                       backgroundColor: colors[value],
                     }}
                   >

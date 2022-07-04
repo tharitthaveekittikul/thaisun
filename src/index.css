@@ -949,3 +949,23 @@ a.remove:hover {
     transform: rotate(360deg);
   }
 }
+
+/* liveorder */
+.liveorder {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1560px) {
+  .liveorder {
+    grid-template-columns: repeat(2, 0.5fr);
+  }
+}
+
+@media (max-width: 1150px) {
+  .liveorder {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
