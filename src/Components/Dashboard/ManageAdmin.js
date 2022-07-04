@@ -6,6 +6,8 @@ import DataTable from "./DataTable";
 import Header from "./Header";
 import Menu from "./Menu";
 import Footer from "./Footer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const userTableStyles = {
   height: "650px",
@@ -105,7 +107,26 @@ function ManageAdmin() {
 
   // console.log(users);
   if (loading) {
-    return <h1>loading firebase data...</h1>;
+    return (
+      <div className="wrapper">
+        <Header />
+        <Menu />
+        <div className="content-wrapper">
+          <div
+            style={{
+              display: "flex",
+              backgroundColor: "#f4f6f9",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "80vh",
+            }}
+          >
+            <FontAwesomeIcon icon={faSpinner} className="spinner" size="10x" />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   if (!isLogIn) {

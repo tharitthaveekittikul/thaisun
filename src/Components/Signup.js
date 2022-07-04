@@ -5,6 +5,7 @@ import { auth, fs } from "../Config/Config";
 import { format } from "date-fns";
 
 function Signup() {
+  const isLogIn = localStorage.getItem("isLogIn") === "True";
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
@@ -20,6 +21,10 @@ function Signup() {
   const [loading, setLoading] = useState(false);
 
   const history = useHistory();
+
+  if (isLogIn) {
+    history.push("/");
+  }
   async function handleSubmit(e) {
     e.preventDefault();
 

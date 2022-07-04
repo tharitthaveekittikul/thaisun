@@ -931,3 +931,21 @@ a.remove:hover {
   flex-direction: row;
   border-bottom: 1px solid rgb(203, 203, 203);
 }
+
+/* Dashboard Loading */
+.spinner {
+  animation: spin infinite 5s linear;
+  color: #343a40;
+
+  /*You can increase or decrease the timer (5s) to 
+   increase or decrease the speed of the spinner*/
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

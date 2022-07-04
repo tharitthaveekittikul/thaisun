@@ -13,6 +13,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const userTableStyles = {
   height: "650px",
@@ -244,6 +246,28 @@ function AddCoupon() {
   function handleNameChange(event) {
     event.preventDefault();
     setgName(event.target.value);
+  }
+  if (loading) {
+    return (
+      <div className="wrapper">
+        <Header />
+        <Menu />
+        <div className="content-wrapper">
+          <div
+            style={{
+              display: "flex",
+              backgroundColor: "#f4f6f9",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "80vh",
+            }}
+          >
+            <FontAwesomeIcon icon={faSpinner} className="spinner" size="10x" />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   if (coupon) {

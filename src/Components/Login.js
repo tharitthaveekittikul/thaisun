@@ -4,12 +4,17 @@ import { auth } from "../Config/Config";
 import { Link, useHistory } from "react-router-dom";
 
 function Login() {
+  const isLogIn = localStorage.getItem("isLogIn") === "True";
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+
+  if (isLogIn) {
+    history.push("/");
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
