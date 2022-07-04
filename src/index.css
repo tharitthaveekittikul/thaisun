@@ -888,3 +888,46 @@ a.remove:hover {
   justify-content: center;
   align-items: center;
 }
+
+/* modal popup */
+
+.rightside1 {
+  width: auto;
+  box-shadow: -10px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+/* cart summary */
+.rightside1 .cart-summary-box {
+  width: auto;
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 90px;
+  z-index: 99;
+}
+
+.rightside1 .cart-summary-box h5 {
+  border-bottom: 1px solid #e00a02;
+  text-align: center;
+  padding: 0px;
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  text-decoration: none solid rgb(15, 15, 15);
+  font-size: 18px;
+}
+
+.rightside1 .cart-summary-box div {
+  display: flex;
+  flex-direction: column;
+}
+
+.rightside1 .cart-summary-box table {
+  flex: 1;
+}
+
+.rightside1 .cart-summary-box table tbody tr td {
+  flex-direction: row;
+  border-bottom: 1px solid rgb(203, 203, 203);
+}
