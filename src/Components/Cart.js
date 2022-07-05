@@ -9,6 +9,8 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useHistory } from "react-router-dom";
 
 import Navbar1 from "./Navbar1";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Cart() {
   const history = useHistory();
@@ -340,7 +342,17 @@ export default function Cart() {
         )
       ) : (
         <div className="basket-empty">
-          <p>Loading...</p>
+          <div
+            style={{
+              display: "flex",
+              backgroundColor: "#fff",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "80vh",
+            }}
+          >
+            <FontAwesomeIcon icon={faSpinner} className="spinner" size="10x" />
+          </div>
         </div>
       )}
       {cartProducts.length > 0 && (

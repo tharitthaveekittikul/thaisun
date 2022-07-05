@@ -974,3 +974,30 @@ a.remove:hover {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+
+/* modal-popup */
+.modal-content {
+  overflow: auto;
+  height: auto;
+  min-height: 10vh;
+  max-height: 90vh;
+}
+
+/* eachorder */
+.orderdetails {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.orderdetails .leftside-orderdetails {
+  text-align: start;
+}
+
+.orderdetails .rightside-orderdetails p {
+  text-align: right;
+  margin-left: 20px;
+  word-break: break-word;
+}

@@ -136,7 +136,7 @@ export default function IndividualFilteredProduct({
         </Modal.Title>
         <hr />
         <Modal.Body>
-          <Scrollbars autoHeight autoHeightMin={"200px"}>
+          <Scrollbars autoHeight autoHeightMin={"10vh"}>
             <Option
               individualProduct={individualFilteredProduct}
               handleOption={handleOption}

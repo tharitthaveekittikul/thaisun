@@ -114,7 +114,7 @@ function Customer() {
             <div
               style={{
                 backgroundColor: "#FFFF",
-                maxWidth: "1200px",
+                maxWidth: "1100px",
                 marginLeft: "auto",
                 marginRight: "auto",
               }}

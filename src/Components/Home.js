@@ -26,6 +26,8 @@ import { ic_shopping_basket } from "react-icons-kit/md/ic_shopping_basket";
 import { shoppingBag } from "react-icons-kit/fa/shoppingBag";
 import { Fab } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home(props) {
   const [show, setShow] = useState(false);
@@ -411,7 +413,21 @@ export default function Home(props) {
                 </>
               )}
               {products.length < 1 && (
-                <div className="my-products please-wait">Loading...</div>
+                <div
+                  style={{
+                    display: "flex",
+                    backgroundColor: "#fff",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "80vh",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faSpinner}
+                    className="spinner"
+                    size="10x"
+                  />
+                </div>
               )}
             </>
           )}

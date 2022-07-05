@@ -77,27 +77,6 @@ function Option({
           }
         }
       }
-      // for (let i = 0; i < options.length; i++) {
-      //   if (options.length == 1) {
-      //     setOptionUse([
-      //       {
-      //         title: options[i].title,
-      //         menu: options[i].menu[0].menuName,
-      //         price: options[i].menu[0].price,
-      //       },
-      //     ]);
-      //   } else if (options.length > 1) {
-      //     setOptionUse([
-      //       {
-      //         ...optionUse,
-      //         title: options[i].title,
-      //         menu: options[i].menu[0].menuName,
-      //         price: options[i].menu[0].price,
-      //       },
-      //     ]);
-      //     console.log("now:" + optionUse);
-      //   }
-      // }
     } catch {}
   }, [options]);
 
@@ -159,48 +138,58 @@ function Option({
   };
 
   // console.log(optionUse);
-  if (options && options[0].title !== "") {
+  if (options) {
     return (
       <>
         <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group>
             {options.map((option, index) => (
               <>
-                <Form.Label>{option.title}</Form.Label>
-                {pushTitle(option.title)}
+                {option.title !== "" ? (
+                  <>
+                    <Form.Label>{option.title}</Form.Label>
+                    {pushTitle(option.title)}
 
-                <div key={`default-radio`}>
-                  <FormControl>
-                    <RadioGroup
-                      aria-labelledby="demo-controlled-radio-buttons-group"
-                      name="controlled-radio-buttons-group"
-                      defaultValue={option.menu[0].menuName}
-                    >
-                      {/* {console.log(optionUse[index])} */}
-                      {option.menu.map((menuField, index_child) => (
-                        <>
-                          <FormControlLabel
-                            value={menuField.menuName}
-                            control={
-                              <Radio
-                                required
-                                onChange={(event) =>
-                                  handleChange(event, index, menuField.price)
+                    <div key={`default-radio`}>
+                      <FormControl>
+                        <RadioGroup
+                          aria-labelledby="demo-controlled-radio-buttons-group"
+                          name="controlled-radio-buttons-group"
+                          defaultValue={option.menu[0].menuName}
+                        >
+                          {/* {console.log(optionUse[index])} */}
+                          {option.menu.map((menuField, index_child) => (
+                            <>
+                              <FormControlLabel
+                                value={menuField.menuName}
+                                control={
+                                  <Radio
+                                    required
+                                    onChange={(event) =>
+                                      handleChange(
+                                        event,
+                                        index,
+                                        menuField.price
+                                      )
+                                    }
+                                  />
+                                }
+                                label={
+                                  menuField.menuName +
+                                  " (£" +
+                                  parseFloat(menuField.price).toFixed(2) +
+                                  ")"
                                 }
                               />
-                            }
-                            label={
-                              menuField.menuName +
-                              " (£" +
-                              parseFloat(menuField.price).toFixed(2) +
-                              ")"
-                            }
-                          />
-                        </>
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                </div>
+                            </>
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </>
             ))}
           </Form.Group>

@@ -98,7 +98,7 @@ function Order() {
                     <div className="text-center mb-3">
                       <Button
                         variant="secondary"
-                        style={{ marginBottom: "20px" }}
+                        style={{ marginBottom: "20px", marginRight: "10px" }}
                       >
                         Completed
                       </Button>
@@ -109,19 +109,38 @@ function Order() {
                       >
                         PRINT
                       </Button>
-                      <p>Date: {orders.date}</p>
-                      <p>Name: {orders.user}</p>
-                      <p>Address: {orders.address}</p>
-                      <p>Town: {orders.town}</p>
-                      <p>County: {orders.county}</p>
-                      <p>Postcode: {orders.postCode}</p>
-                      <p>Phone Number: {orders.Telephone}</p>
-                      <p>Email: {orders.email}</p>
-                      <p>Payment: {orders.payment.type}</p>
+                      <div className="orderdetails">
+                        <div className="leftside-orderdetails">
+                          <p>Date: </p>
+                          <p>Name: </p>
+                          <p>Address: </p>
+                          <p>Town: </p>
+                          <p>County: </p>
+                          <p>Postcode: </p>
+                          <p>Phone Number: </p>
+                          <p>Email: </p>
+                          <p>Payment: </p>
 
-                      <p>Cost: £{parseFloat(orders.Subtotal).toFixed(2)}</p>
-                      <p>Shipping: </p>
-                      <p>Total: £{parseFloat(orders.Total).toFixed(2)}</p>
+                          <p>Cost: </p>
+                          <p>Shipping: </p>
+                          <p>Total: </p>
+                        </div>
+                        <div className="rightside-orderdetails">
+                          <p>{orders.date}</p>
+                          <p>{orders.user}</p>
+                          <p>{orders.address}</p>
+                          <p>{orders.town}</p>
+                          <p>{orders.county}</p>
+                          <p>{orders.postCode}</p>
+                          <p>{orders.Telephone}</p>
+                          <p>{orders.email}</p>
+                          <p>{orders.payment.type}</p>
+
+                          <p>£{parseFloat(orders.Subtotal).toFixed(2)}</p>
+                          <p>£KJ</p>
+                          <p>£{parseFloat(orders.Total).toFixed(2)}</p>
+                        </div>
+                      </div>
                     </div>
                   </Card.Body>
                 </Card>
