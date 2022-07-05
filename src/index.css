@@ -537,12 +537,14 @@ img {
   color: #777;
 }
 .heading {
-  border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid #e80532;
   margin-top: 20px;
 }
 .heading h1 {
   font-family: "Merriweather", serif;
-  font-size: 40px;
+  font-size: 38px;
+  font-weight: 700;
+  margin-top: 10px;
   float: left;
 }
 .heading a.continue:link,
