@@ -7,6 +7,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import { Typography } from "@mui/material";
 
 function Option({
   individualProduct,
@@ -147,7 +148,15 @@ function Option({
               <>
                 {option.title !== "" ? (
                   <>
-                    <Form.Label>{option.title}</Form.Label>
+                    <Form.Label
+                      style={{
+                        fontWeight: "500",
+                        fontSize: "16px",
+                        font: "Rubik",
+                      }}
+                    >
+                      {option.title}
+                    </Form.Label>
                     {pushTitle(option.title)}
 
                     <div key={`default-radio`}>
@@ -175,10 +184,18 @@ function Option({
                                   />
                                 }
                                 label={
-                                  menuField.menuName +
-                                  " (£" +
-                                  parseFloat(menuField.price).toFixed(2) +
-                                  ")"
+                                  <Typography
+                                    style={{
+                                      fontSize: "14px",
+                                      font: "Rubik",
+                                      fontWeight: "400",
+                                    }}
+                                  >
+                                    {menuField.menuName +
+                                      " (£" +
+                                      parseFloat(menuField.price).toFixed(2) +
+                                      ")"}
+                                  </Typography>
                                 }
                               />
                             </>

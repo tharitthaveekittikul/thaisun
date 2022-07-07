@@ -6,6 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormGroup from "@mui/material/FormGroup";
+import { Typography } from "@mui/material";
 
 function FixAdd({ handleAddOn }) {
   const [fixedAddOns, setFixedAddOns] = useState();
@@ -78,7 +79,15 @@ function FixAdd({ handleAddOn }) {
             {fixedAddOns.map((fixedAddOn, index) => (
               <>
                 {pushTitle(fixedAddOn.title)}
-                <Form.Label>{fixedAddOn.title}</Form.Label>
+                <Form.Label
+                  style={{
+                    fontWeight: "500",
+                    fontSize: "16px",
+                    font: "Rubik",
+                  }}
+                >
+                  {fixedAddOn.title}
+                </Form.Label>
                 {fixedAddOn.menu.map((menuField, index_child) => (
                   <FormControlLabel
                     value={menuField.menuName}
@@ -90,10 +99,18 @@ function FixAdd({ handleAddOn }) {
                       />
                     }
                     label={
-                      menuField.menuName +
-                      " (£" +
-                      parseFloat(menuField.price).toFixed(2) +
-                      ")"
+                      <Typography
+                        style={{
+                          fontSize: "14px",
+                          font: "Rubik",
+                          fontWeight: "400",
+                        }}
+                      >
+                        {menuField.menuName +
+                          " (£" +
+                          parseFloat(menuField.price).toFixed(2) +
+                          ")"}
+                      </Typography>
                     }
                   />
                 ))}

@@ -1003,3 +1003,45 @@ a.remove:hover {
   margin-left: 20px;
   word-break: break-word;
 }
+
+/* Porfile */
+.container-profile {
+}
+
+.container-profile .in-profile {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.container-profile .in-profile .leftside-profile {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.container-profile .in-profile .rightside-profile {
+  flex: 1;
+}
+
+/* Signup */
+.container-signup {
+}
+
+.container-signup .in-signup {
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.container-signup .in-signup .leftside-signup {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.container-signup .in-signup .rightside-signup {
+  flex: 1;
+}
