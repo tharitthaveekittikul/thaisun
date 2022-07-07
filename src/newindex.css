@@ -1,8 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap");
-/* . */
+
 /* NAVBAR */
-/* . */
 .navbar-font {
   font-family: "Rubik", sans-serif;
   font-weight: 400;
@@ -13,9 +12,9 @@
   white-space: nowrap;
 }
 
-/* . */
-/* CATEGORY NEW SCROLLBAR */
-/* . */
+/* HOME */
+
+/* HOME: CATEGORY NEW SCROLLBAR */
 .category-container-c {
   display: flex;
   flex-direction: row;
@@ -47,7 +46,6 @@
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.32px;
-  /* color: rgb(77, 77, 77); */
   margin-top: 30px;
   margin-bottom: 20px;
   margin-left: 15px;
@@ -59,9 +57,7 @@
   width: 500;
 }
 
-/* . */
-/* HOME CONTAINER */
-/* . */
+/* HOME */
 .all-home {
   display: flex;
   flex-direction: row;
@@ -70,7 +66,7 @@
 }
 .all-home .menu {
   flex: 1;
-  margin-top: 10px;
+  margin-top: 30px;
   margin-left: 10px;
 }
 .all-home .menu h1 {
@@ -96,11 +92,7 @@
   flex-wrap: wrap;
 }
 
-.leftside-basket {
-}
-/* . */
-/* MENU (INDIVIDUAL PRODUCT) */
-/* . */
+/* HOME: MENU (INDIVIDUAL PRODUCT) */
 .ind-menu {
   margin: 10px;
   float: left;
@@ -133,8 +125,6 @@
   max-width: inherit;
   width: inherit;
 }
-.ind-menu .menu-text {
-}
 .ind-menu .menu-text .title {
   font-family: "Merriweather", serif;
   font-size: 18px;
@@ -155,14 +145,6 @@
   margin-top: 2px;
   margin-bottom: 2px;
 }
-/* @media (max-width: 992px) {
-  .ind-menu .menu-text .title {
-    width: 235px;
-  }
-  .ind-menu .menu-text .desc {
-    width: 235px;
-  }
-} */
 .ind-menu .menu-text .price {
   font-family: "Rubik", sans-serif;
   letter-spacing: 0.32px;
@@ -180,28 +162,24 @@
   margin-left: 5px;
 }
 
+/* HOME: MEDIA YOUR BASKET FLOAT BTN) */
 .yourbasket-floatbtn {
   position: absolute;
   display: block;
   border-radius: 50%;
   box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.1);
 }
-/* .yourbasket-floatbtn:hover {
-  border: 2px solid #e80532;
-} */
 .yourbasket-floatbtn .basket-icon {
   color: #e80532;
   margin: 3px 3px 13px 3px;
 }
 
-/* .yourbasket-floatbtn:hover .basket-icon {
-  color: #fff;
-} */
-
+/* EVERY BTN HAS POINTER */
 .action-btns-pointer {
   cursor: pointer;
 }
 
+/* ORDER: IF BASKET EMPTY SHOW PLAIN TEXT */
 .basket-empty {
   display: flex;
   justify-content: center;
@@ -209,29 +187,31 @@
   height: 85vh;
 }
 
+/* CHECKOUT */
 .checkout-container {
   margin-left: 30px;
   margin-right: 30px;
-  margin-top: 25px;
+  margin-top: 50px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
+
+/* CHECKOUT: FORM (LEFT SIDE) */
 .checkout-container .checkout-form {
   font-family: "Rubik", sans-serif;
   font-weight: 400;
   letter-spacing: 0.32px;
   text-transform: uppercase;
   flex: 1;
+  margin-right: 30px;
 }
 .checkout-container .checkout-form h1 {
   font-family: "Merriweather", serif;
   font-size: 38px;
   font-weight: 700;
   text-align: center;
-}
-.checkout-container .checkout-table {
 }
 .checkout-container .checkout-form .inst-form {
   font-family: "Rubik", sans-serif;
@@ -240,14 +220,14 @@
   text-transform: uppercase;
 }
 
-/* CHECKOUT TABLE */
-
+/* CHECKOUT: SUMMARY TABLE (RIGHT BOX) */
 .checkout-container .checkout-table {
-  width: 440px;
-  box-shadow: -10px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: max-content;
+  border-radius: 20px;
+  border: 1px solid rgb(242, 242, 242);
 }
-
-.checkout-container .checkout-table .cart-summary-box {
+.checkout-container .checkout-table .c-cart-summary-box {
   width: auto;
   display: flex;
   margin-top: 20px;
@@ -256,28 +236,100 @@
   position: sticky;
   top: 90px;
   z-index: 99;
+  margin-left: 15px;
+  margin-right: 15px;
 }
-
-.checkout-container .checkout-table .cart-summary-box h5 {
+.checkout-container .checkout-table .c-cart-summary-box h5 {
   border-bottom: 1px solid #e00a02;
   text-align: center;
-  padding: 0px;
   font-family: "Rubik", sans-serif;
   font-weight: 400;
   letter-spacing: 0.32px;
   text-decoration: none solid rgb(15, 15, 15);
   font-size: 18px;
 }
-
-.checkout-container .checkout-table .cart-summary-box div {
+.checkout-container .checkout-table .c-cart-summary-box table tbody tr {
+  border-bottom: 1px solid rgb(203, 203, 203);
+}
+.checkout-container
+  .checkout-table
+  .c-cart-summary-box
+  table
+  tbody
+  tr
+  .c-price {
+  text-align: right;
+}
+.checkout-container .checkout-table .c-cart-summary-box .c-payment {
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
-
-.checkout-container .checkout-table .cart-summary-box table {
-  flex: 1;
+.checkout-container .checkout-table .c-cart-summary-box .c-payment .c-paypal {
+  margin-bottom: 10px;
 }
-.checkout-container .checkout-table .cart-summary-box table tbody tr td {
-  flex-direction: row;
-  border-bottom: 1px solid rgb(203, 203, 203);
+/* CHECKOUT: RED BTN */
+.checkout-container
+  .checkout-table
+  .c-cart-summary-box
+  .c-payment
+  .c-paypal
+  .btn {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  background-color: #e80532;
+  border-color: #e80532;
+  width: max-content;
+}
+.checkout-container
+  .checkout-table
+  .c-cart-summary-box
+  .c-payment
+  .c-paypal
+  .btn:hover {
+  background-color: #d4062f;
+  border-color: #d4062f;
+}
+.checkout-container
+  .checkout-table
+  .c-cart-summary-box
+  .c-payment
+  .c-cash
+  .btn {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  background-color: #e80532;
+  border-color: #e80532;
+  width: max-content;
+}
+.checkout-container
+  .checkout-table
+  .c-cart-summary-box
+  .c-payment
+  .c-cash
+  .btn:hover {
+  background-color: #d4062f;
+  border-color: #d4062f;
+}
+/* CHECKOUT: RIGHT BOX TO BOTTOM */
+@media (max-width: 900px) {
+  .checkout-container {
+    flex-direction: column;
+  }
+  .checkout-container .checkout-form {
+    margin-right: 0px;
+  }
+  .checkout-container .checkout-table {
+    margin: 0 auto;
+  }
+}
+@media (max-width: 500px) {
+  .checkout-container .checkout-table {
+    width: auto;
+    margin: 0 auto;
+  }
 }

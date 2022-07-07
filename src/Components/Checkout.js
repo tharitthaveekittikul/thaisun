@@ -320,21 +320,6 @@ function Checkout() {
       });
 
     console.log(total);
-
-    // fs.collection("Cart " + uid).onSnapshot((snapshot) => {
-    //   snapshot.docs.map((docID) => {
-    //     fs.collection("Cart " + uid)
-    //       .doc(docID.id)
-    //       .delete()
-    //       .then(() => {
-    //         // history.push("/"); อาจไปหน้า wait for accept????
-    //         setTimeout(() => {
-    //           console.log("order send to restaurant");
-    //           history.push("/");
-    //         }, 2000);
-    //       });
-    //   });
-    // });
   };
   return (
     <>
@@ -343,7 +328,7 @@ function Checkout() {
       {error ? <Alert variant="danger">{error}</Alert> : ""}
       {fromCart ? (
         <div className="checkout-container">
-          <div className="checkout-form" style={{ marginTop: "20px" }}>
+          <div className="checkout-form">
             <h1>Checkout</h1>
             <Form onSubmit={(e) => e.preventDefault()}>
               <FormControl>
@@ -458,95 +443,15 @@ function Checkout() {
                 style={{ marginBottom: "20px" }}
               />
             </Form>
-            <Button
-              variant="primary"
-              disabled={buttonDisable}
-              onClick={() => setModalShow(true)}
-            >
-              Pay with PayPal/Credit Card
-            </Button>
-            <Button
-              variant="primary"
-              disabled={buttonDisable}
-              onClick={() => [
-                handleSubmit("cash", null),
-                setButtonDisable(true),
-              ]}
-            >
-              Pay with Cash
-            </Button>
-
-            <Modal
-              show={modalShow}
-              onHide={() => setModalShow(false)}
-              aria-labelledby="contained-modal-title-vcenter"
-              centered
-            >
-              <PayPalScriptProvider
-                options={{
-                  "client-id":
-                    "Aenfsl6L2c58FzVNtQJZvXe2YkFTa7SqOyvDsVkv1lM5vFprAwk7kIE93_X7Lv7t54uRbjwmWE43MoyE&currency=GBP",
-                }}
-              >
-                <PayPalButtons
-                  createOrder={(data, actions) => {
-                    setButtonDisable(true);
-                    return actions.order.create({
-                      purchase_units: [
-                        {
-                          amount: {
-                            value: Number(fromCart.Total).toFixed(2),
-                          },
-                        },
-                      ],
-                    });
-                  }}
-                  onApprove={async (data, actions) => {
-                    return actions.order.capture().then(function (details) {
-                      alert(
-                        "Transaction completed by " +
-                          details.payer.name.given_name
-                      );
-                      console.log(details);
-                      if (details.status == "COMPLETED") {
-                        handleSubmit("paypal", details);
-                      } else {
-                        setError("Payment failed...");
-                        setButtonDisable(false);
-                        setTimeout(() => {
-                          setError("");
-                        }, 3000);
-                      }
-                    });
-                  }}
-                  onCancel={(data, actions) => {
-                    setError("Payment cancel...");
-                    setButtonDisable(false);
-                    setTimeout(() => {
-                      setError("");
-                    }, 3000);
-                  }}
-                  onShippingChange={(data, actions) => {
-                    setButtonDisable(false);
-                    return actions.resolve();
-                  }}
-                  onError={(err) => {
-                    setError("Payment error...");
-                    setButtonDisable(false);
-                    // For example, redirect to a specific error page
-                    console.log(err);
-                  }}
-                />
-              </PayPalScriptProvider>
-            </Modal>
           </div>
           <div className="checkout-table">
-            <div className="cart-summary-box">
+            <div className="c-cart-summary-box">
+              <h5>Your Basket</h5>
               <table>
                 <tbody>
                   {fromCart.cartProducts.map((pro) => (
                     <tr>
-                      <td>
+                      <td className="c-text">
                         <p
                           style={{
                             paddingTop: "10px",
@@ -587,41 +492,136 @@ function Checkout() {
                           </p>
                         ))}
                       </td>
-                      <td>£{Number(pro.TotalProductPrice).toFixed(2)}</td>
+                      <td className="c-price">
+                        <span>£{Number(pro.TotalProductPrice).toFixed(2)}</span>
+                      </td>
                     </tr>
                   ))}
+                  <tr>
+                    <td className="c-text">
+                      <span>Subtotal</span>
+                    </td>
+                    <td className="c-price">
+                      <span>£{Number(fromCart.Subtotal).toFixed(2)}</span>
+                    </td>
+                  </tr>
+                  {couponType ? (
+                    <tr>
+                      <td className="c-text">
+                        <span>Discount</span>
+                      </td>
+                      <td className="c-price">
+                        <span>£{Number(fromCart.Discount).toFixed(2)}</span>
+                      </td>
+                    </tr>
+                  ) : null}
+                  <tr>
+                    <td className="c-text">
+                      <span>Shipping</span>
+                    </td>
+                    <td className="c-price">
+                      <span>£KJ</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="c-text">
+                      <span>Total</span>
+                    </td>
+                    <td className="c-price">
+                      <span>£{Number(fromCart.Total).toFixed(2)}</span>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
-            </div>
-            <div>
-              <li className="totalRow">
-                <span className="label">Subtotal</span>
-                <span className="value">
-                  £{Number(fromCart.Subtotal).toFixed(2)}
-                </span>
-              </li>
-              {couponType ? (
-                <li className="totalRow">
-                  <span className="label">Discount</span>
-                  <span className="value">
-                    £{Number(fromCart.Discount).toFixed(2)}
-                  </span>
-                </li>
-              ) : null}
-              <li className="totalRow">
-                <span className="label">Shipping</span>
-                <span className="value">£KJ</span>
-              </li>
-              <li className="totalRow final">
-                <span className="label">Total</span>
-                <span className="value">
-                  £{Number(fromCart.Total).toFixed(2)}
-                </span>
-              </li>
+              <div className="c-payment">
+                <div className="c-paypal">
+                  <Button
+                    variant="primary"
+                    disabled={buttonDisable}
+                    onClick={() => setModalShow(true)}
+                  >
+                    Pay with PayPal/Credit Card
+                  </Button>
+                </div>
+                <div className="c-cash">
+                  <Button
+                    variant="primary"
+                    disabled={buttonDisable}
+                    onClick={() => [
+                      handleSubmit("cash", null),
+                      setButtonDisable(true),
+                    ]}
+                  >
+                    Pay with Cash
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       ) : null}
+      <Modal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <PayPalScriptProvider
+          options={{
+            "client-id":
+              "Aenfsl6L2c58FzVNtQJZvXe2YkFTa7SqOyvDsVkv1lM5vFprAwk7kIE93_X7Lv7t54uRbjwmWE43MoyE&currency=GBP",
+          }}
+        >
+          <PayPalButtons
+            createOrder={(data, actions) => {
+              setButtonDisable(true);
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: Number(fromCart.Total).toFixed(2),
+                    },
+                  },
+                ],
+              });
+            }}
+            onApprove={async (data, actions) => {
+              return actions.order.capture().then(function (details) {
+                alert(
+                  "Transaction completed by " + details.payer.name.given_name
+                );
+                console.log(details);
+                if (details.status == "COMPLETED") {
+                  handleSubmit("paypal", details);
+                } else {
+                  setError("Payment failed...");
+                  setButtonDisable(false);
+                  setTimeout(() => {
+                    setError("");
+                  }, 3000);
+                }
+              });
+            }}
+            onCancel={(data, actions) => {
+              setError("Payment cancel...");
+              setButtonDisable(false);
+              setTimeout(() => {
+                setError("");
+              }, 3000);
+            }}
+            onShippingChange={(data, actions) => {
+              setButtonDisable(false);
+              return actions.resolve();
+            }}
+            onError={(err) => {
+              setError("Payment error...");
+              setButtonDisable(false);
+              // For example, redirect to a specific error page
+              console.log(err);
+            }}
+          />
+        </PayPalScriptProvider>
+      </Modal>
     </>
   );
 }

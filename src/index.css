@@ -58,13 +58,6 @@
   background-color: #fff;
 }
 
-@media (max-width: 450px) {
-  .navbar {
-    flex-direction: column;
-    justify-content: center;
-  }
-}
-
 .navbar .logo {
   width: 150px;
   height: auto;
@@ -427,7 +420,6 @@
 }
 
 .rightside .cart-summary-box h5 {
-  border-bottom: 1px solid #e00a02;
   text-align: center;
   padding: 0px;
   font-family: "Rubik", sans-serif;
@@ -435,6 +427,7 @@
   letter-spacing: 0.32px;
   text-decoration: none solid rgb(15, 15, 15);
   font-size: 18px;
+  margin-top: 20px;
 }
 
 .rightside .cart-summary-box div {
@@ -448,7 +441,7 @@
 
 .rightside .cart-summary-box table tbody tr td {
   flex-direction: row;
-  border-bottom: 1px solid rgb(203, 203, 203);
+  border-top: 1px solid rgb(203, 203, 203);
 }
 
 .method-container {
