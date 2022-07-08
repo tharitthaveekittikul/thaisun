@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../Images/thaisunlogo.png";
+import logo from "../Images/thaisunlogo_circle.png";
 import { Icon } from "react-icons-kit";
 import { shoppingCart } from "react-icons-kit/feather/shoppingCart";
 import { auth } from "../Config/Config";
 import { useHistory } from "react-router-dom";
 import { Nav, Navbar, NavLink, NavbarBrand } from "react-bootstrap";
 import { useMediaQuery } from "react-responsive";
+import { user_circle } from "react-icons-kit/ikons/user_circle";
+import { logout } from "react-icons-kit/ikons/logout";
+import { dashboard } from "react-icons-kit/fa/dashboard";
 
 function Navbar1({ user, isAdmin, totalProducts }) {
   const changeHam = useMediaQuery({ query: "(max-width: 991px)" });
@@ -40,11 +43,8 @@ function Navbar1({ user, isAdmin, totalProducts }) {
         {changeHam ? (
           <Nav className="m-auto">
             <NavLink
-              className="navbar-font"
-              style={{
-                color: "black",
-                fontSize: "18px",
-              }}
+              className="navbar-logo-font1"
+              style={{ color: "black" }}
               eventKey="1"
               as={Link}
               to="/"
@@ -54,17 +54,9 @@ function Navbar1({ user, isAdmin, totalProducts }) {
           </Nav>
         ) : (
           <Nav>
-            <NavbarBrand
-              style={{
-                width: "120px",
-                height: "auto",
-              }}
-              eventKey="1"
-              as={Link}
-              to="/"
-            >
-              <img src={logo} alt="thaisun-logo" />
-              <span className="navbar-font"> Thaisun</span>
+            <NavbarBrand eventKey="1" as={Link} to="/">
+              <img src={logo} width="60px" alt="thaisun-logo" />
+              <span className="navbar-logo-font"> Thaisun</span>
             </NavbarBrand>
           </Nav>
         )}
@@ -72,82 +64,135 @@ function Navbar1({ user, isAdmin, totalProducts }) {
           <Nav className="ml-auto">
             {!user ? (
               <>
-                <NavLink
-                  className="navbar-font"
-                  style={{ color: "black", fontSize: "16px" }}
-                  eventKey="1"
-                  as={Link}
-                  to="/signup"
-                >
-                  Sign Up
+                <NavLink eventKey="1" as={Link} to="/signup">
+                  <span className="navbar-font">Sign Up</span>
                 </NavLink>
-                <NavLink
-                  className="navbar-font"
-                  style={{ color: "black", fontSize: "16px" }}
-                  eventKey="2"
-                  as={Link}
-                  to="/login"
-                >
-                  Login
+                <NavLink eventKey="2" as={Link} to="/login">
+                  <span className="navbar-font">Login</span>
                 </NavLink>
               </>
             ) : (
               <>
-                {isAdmin ? (
-                  <NavLink
-                    className="navbar-font"
-                    style={{ color: "black", fontSize: "16px" }}
-                    eventKey="1"
-                    as={Link}
-                    to="/dashboard"
-                  >
-                    Dashboard
-                  </NavLink>
-                ) : null}
                 {changeHam ? (
-                  <NavLink
-                    className="navbar-font"
-                    style={{ color: "black", fontSize: "16px" }}
-                    eventKey="2"
-                    as={Link}
-                    to="/order"
-                  >
-                    My Order
-                  </NavLink>
+                  <>
+                    {isAdmin ? (
+                      <NavLink
+                        className="navbar-font-ham"
+                        eventKey="1"
+                        as={Link}
+                        to="/dashboard"
+                      >
+                        <Icon
+                          className="navbar-icon"
+                          icon={dashboard}
+                          size={26}
+                        />
+                        <span>Dashboard</span>
+                      </NavLink>
+                    ) : null}
+                    <NavLink
+                      className="navbar-font-ham"
+                      style={{
+                        position: "relative",
+                      }}
+                      eventKey="2"
+                      as={Link}
+                      to="/order"
+                    >
+                      <Icon
+                        className="navbar-icon"
+                        icon={shoppingCart}
+                        size={26}
+                      />
+                      <span>Your Basket</span>
+                    </NavLink>
+                    <NavLink
+                      className="navbar-font-ham"
+                      eventKey="3"
+                      as={Link}
+                      to="/profile"
+                    >
+                      <Icon
+                        className="navbar-icon"
+                        icon={user_circle}
+                        size={26}
+                      />
+                      <span>{user}</span>
+                    </NavLink>
+                    <NavLink
+                      className="navbar-font-ham"
+                      eventKey="4"
+                      onClick={handleLogout}
+                    >
+                      <Icon
+                        className="navbar-icon"
+                        icon={logout}
+                        size={26}
+                        style={{ color: "#e80532" }}
+                      />
+                      <span>Logout</span>
+                    </NavLink>
+                  </>
                 ) : (
-                  <NavLink
-                    style={{
-                      position: "relative",
-                      marginLeft: "2px",
-                      marginRight: "4px",
-                    }}
-                    eventKey="2"
-                    as={Link}
-                    to="/order"
-                  >
-                    <Icon icon={shoppingCart} size={20} />
+                  <>
+                    {isAdmin ? (
+                      <NavLink
+                        className="navbar-font"
+                        eventKey="1"
+                        as={Link}
+                        to="/dashboard"
+                      >
+                        <Icon
+                          className="navbar-icon"
+                          icon={dashboard}
+                          size={26}
+                        />
+                      </NavLink>
+                    ) : null}
+                    <NavLink
+                      className="navbar-font"
+                      style={{
+                        position: "relative",
+                      }}
+                      eventKey="2"
+                      as={Link}
+                      to="/order"
+                    >
+                      <Icon
+                        className="navbar-icon"
+                        icon={shoppingCart}
+                        size={26}
+                      />
 
-                    <span className="cart-indicator1">{totalProducts}</span>
-                  </NavLink>
+                      <span className="cart-indicator1">{totalProducts}</span>
+                    </NavLink>
+                    <NavLink
+                      className="navbar-font"
+                      eventKey="3"
+                      as={Link}
+                      to="/profile"
+                    >
+                      <Icon
+                        className="navbar-icon"
+                        icon={user_circle}
+                        size={26}
+                      />
+                      {/* <span style={{}}>{user}</span> */}
+                    </NavLink>
+                    <NavLink
+                      className="navbar-font"
+                      eventKey="4"
+                      onClick={handleLogout}
+                    >
+                      <Icon
+                        className="navbar-icon"
+                        icon={logout}
+                        size={26}
+                        style={{ color: "#e80532" }}
+                      />
+                    </NavLink>
+                  </>
                 )}
-
-                <NavLink
-                  className="navbar-font"
-                  style={{ color: "black", fontSize: "16px" }}
-                  eventKey="3"
-                  as={Link}
-                  to="/profile"
-                >
-                  Profile
-                </NavLink>
-                <NavLink
-                  className="navbar-font"
-                  style={{ color: "red", fontSize: "16px" }}
-                  eventKey="4"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </NavLink>
               </>
             )}
           </Nav>

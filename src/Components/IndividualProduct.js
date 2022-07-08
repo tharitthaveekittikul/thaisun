@@ -7,8 +7,10 @@ import Option from "./Option";
 import { Icon } from "react-icons-kit";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { ic_add_circle } from "react-icons-kit/md/ic_add_circle";
+import { useMediaQuery } from "react-responsive";
 
 export default function IndividualProduct({ individualProduct, addToCart }) {
+  const indMenuQuery = useMediaQuery({ query: "(min-width: 410px)" });
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -90,7 +92,10 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
       </div>
       <div className="menu-text">
         <div className="title">{individualProduct.title}</div>
-        <div className="desc">{individualProduct.description}</div>
+        {indMenuQuery ? (
+          <div className="desc">{individualProduct.description}</div>
+        ) : null}
+
         <div className="price">£ {individualProduct.price}</div>
       </div>
 

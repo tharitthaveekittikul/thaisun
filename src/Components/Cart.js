@@ -433,7 +433,10 @@ export default function Cart() {
                   </span>
                 </div>
               </div>
-              <div className="arrowbtn" style={{ margin: "0 auto" }}>
+              <div
+                className="arrowbtn"
+                style={{ margin: "0 auto", marginBottom: "20px" }}
+              >
                 <Button onClick={handleCheckout}>Checkout</Button>
               </div>
             </div>

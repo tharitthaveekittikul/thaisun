@@ -953,18 +953,189 @@ export default function Home(props) {
   const handleClickDecrease = useCallback((e) => cartProductDecrease(e));
   const handleClickDelete = useCallback((e) => handleCartProductDelete(e));
 
-  const [hideScroll, setHideScoll] = useState(false);
+  const [hideScroll, setHideScroll] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
-      setHideScoll(true);
+      setHideScroll(true);
     }, 5000);
   }, []);
 
   return (
     <>
       <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
+      {!yourBasketQuery ? (
+        <>
+          <Fab
+            sx={{
+              position: "fixed",
+              bottom: (theme) => theme.spacing(1.5),
+              right: (theme) => theme.spacing(1.5),
+              backgroundColor: "#fff",
+              height: 47,
+              width: 47,
+            }}
+            className="yourbasket-floatbtn"
+            onClick={handleShow}
+          >
+            <Icon className="basket-icon" icon={shoppingBag} size={30} />
+          </Fab>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>YOUR BASKET</Modal.Title>
+              <Icon className="your-basket1" icon={shoppingBag} size={20} />
+            </Modal.Header>
+            <Modal.Body>
+              <div className="rightside1">
+                <div className="cart-summary-box">
+                  <Scrollbars autoHeight autoHeightMax={"40vh"}>
+                    <table style={{ marginLeft: "20px", marginRight: "20px" }}>
+                      <tbody>
+                        {cartProducts.map((cartProduct) => {
+                          return (
+                            <tr>
+                              <td>
+                                <div
+                                  className="action-btns-pointer"
+                                  onClick={(e) =>
+                                    handleClickDecrease(cartProduct)
+                                  }
+                                >
+                                  <Icon
+                                    icon={minus}
+                                    size={20}
+                                    style={{
+                                      marginLeft: "10px",
+                                      marginRight: "10px",
+                                    }}
+                                  />
+                                </div>
+                              </td>
+                              <td>{cartProduct.qty}</td>
+                              <td>
+                                <div
+                                  className="action-btns-pointer"
+                                  onClick={(e) =>
+                                    handleClickIncrease(cartProduct)
+                                  }
+                                >
+                                  <Icon
+                                    icon={plus}
+                                    size={20}
+                                    style={{
+                                      marginLeft: "10px",
+                                      marginRight: "10px",
+                                    }}
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <p
+                                  style={{
+                                    paddingTop: "10px",
+                                    paddingBottom: "0",
+                                    margin: "0",
+                                    fontFamily: "Merriweather, serif",
+                                    fontSize: "14px",
+                                    fontWeight: "700",
+                                    color: "black",
+                                  }}
+                                >
+                                  {cartProduct.title}
+                                </p>
+                                {cartProduct.option.map((option) => (
+                                  <p
+                                    style={{
+                                      padding: "0",
+                                      margin: "0",
+                                      textIndent: "15px",
+                                      color: "rgb(130, 130, 130)",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {option.menu}
+                                  </p>
+                                ))}
+                                {cartProduct.addOn.map((addOn) => (
+                                  <p
+                                    style={{
+                                      padding: "0",
+                                      margin: "0",
+                                      textIndent: "15px",
+                                      color: "rgb(130, 130, 130)",
+                                      fontSize: "14px",
+                                    }}
+                                  >
+                                    {addOn.menu}
+                                  </p>
+                                ))}
+                              </td>
+                              <td style={{ textAlign: "right" }}>
+                                £
+                                {Number(
+                                  cartProduct.priceWithAddon * cartProduct.qty
+                                ).toFixed(2)}
+                              </td>
+                              <td>
+                                <div
+                                  className="action-btns-pointer"
+                                  onClick={(e) =>
+                                    handleClickDelete(cartProduct)
+                                  }
+                                  style={{
+                                    marginLeft: "10px",
+                                    marginRight: "10px",
+                                  }}
+                                >
+                                  <Icon
+                                    icon={ic_delete}
+                                    size={20}
+                                    style={{ color: "#c2052a" }}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </Scrollbars>
+                  <br></br>
 
+                  <div
+                    style={{
+                      justifyContent: "flex-end",
+                      marginRight: "60px",
+                      marginTop: "-10px",
+                      marginBottom: "5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      textAlign: "right",
+                    }}
+                  >
+                    <div>Delivery Fee: &nbsp; £{Number(fee).toFixed(2)}</div>
+                    <div>
+                      Total Cost: &nbsp; £{Number(totalPrice).toFixed(2)}
+                    </div>
+                  </div>
+                  <div className="arrowbtn" style={{ margin: "10px auto" }}>
+                    <Button
+                      style={{
+                        backgroundColor: "#e80532",
+                        borderColor: "#e80532",
+                        width: "max-content",
+                      }}
+                      onClick={handleCheckout}
+                    >
+                      My Order
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
+        </>
+      ) : null}
       <Scrollbars
         style={{
           height: 70,
@@ -976,7 +1147,7 @@ export default function Home(props) {
           marginTop: "0px",
         }}
         className="shadow"
-        onScroll={() => setHideScoll(true)}
+        onScroll={() => setHideScroll(true)}
         autoHide={hideScroll}
         autoHideTimeout={500}
         renderThumbHorizontal={({ style }) => (
@@ -990,7 +1161,7 @@ export default function Home(props) {
         )}
       >
         <div className="category-container-c">
-          <div className="category-tab-c" style={{ marginTop: "20px" }}>
+          <div className="category-tab-c">
             {spans ? (
               <>
                 {spans.map((individualSpan, index) => (
@@ -1069,181 +1240,11 @@ export default function Home(props) {
         <div style={{ clear: "both" }}></div>
 
         {!yourBasketQuery ? (
-          <>
-            <Fab
-              sx={{
-                position: "fixed",
-                bottom: (theme) => theme.spacing(2),
-                right: (theme) => theme.spacing(2),
-                backgroundColor: "#fff",
-                height: 65,
-                width: 65,
-              }}
-              className="yourbasket-floatbtn"
-              onClick={handleShow}
-            >
-              <Icon className="basket-icon" icon={shoppingBag} size={40} />
-            </Fab>
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>YOUR BASKET</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <div className="rightside1">
-                  <div className="cart-summary-box">
-                    <Scrollbars autoHeight autoHeightMax={"40vh"}>
-                      <table
-                        style={{ marginLeft: "20px", marginRight: "20px" }}
-                      >
-                        <tbody>
-                          {cartProducts.map((cartProduct) => {
-                            return (
-                              <tr>
-                                <td>
-                                  <div
-                                    className="action-btns-pointer"
-                                    onClick={(e) =>
-                                      handleClickDecrease(cartProduct)
-                                    }
-                                  >
-                                    <Icon
-                                      icon={minus}
-                                      size={20}
-                                      style={{
-                                        marginLeft: "10px",
-                                        marginRight: "10px",
-                                      }}
-                                    />
-                                  </div>
-                                </td>
-                                <td>{cartProduct.qty}</td>
-                                <td>
-                                  <div
-                                    className="action-btns-pointer"
-                                    onClick={(e) =>
-                                      handleClickIncrease(cartProduct)
-                                    }
-                                  >
-                                    <Icon
-                                      icon={plus}
-                                      size={20}
-                                      style={{
-                                        marginLeft: "10px",
-                                        marginRight: "10px",
-                                      }}
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <p
-                                    style={{
-                                      paddingTop: "10px",
-                                      paddingBottom: "0",
-                                      margin: "0",
-                                      fontFamily: "Merriweather, serif",
-                                      fontSize: "14px",
-                                      fontWeight: "700",
-                                      color: "black",
-                                    }}
-                                  >
-                                    {cartProduct.title}
-                                  </p>
-                                  {cartProduct.option.map((option) => (
-                                    <p
-                                      style={{
-                                        padding: "0",
-                                        margin: "0",
-                                        textIndent: "15px",
-                                        color: "rgb(130, 130, 130)",
-                                        fontSize: "14px",
-                                      }}
-                                    >
-                                      {option.menu}
-                                    </p>
-                                  ))}
-                                  {cartProduct.addOn.map((addOn) => (
-                                    <p
-                                      style={{
-                                        padding: "0",
-                                        margin: "0",
-                                        textIndent: "15px",
-                                        color: "rgb(130, 130, 130)",
-                                        fontSize: "14px",
-                                      }}
-                                    >
-                                      {addOn.menu}
-                                    </p>
-                                  ))}
-                                </td>
-                                <td style={{ textAlign: "right" }}>
-                                  £
-                                  {Number(
-                                    cartProduct.priceWithAddon * cartProduct.qty
-                                  ).toFixed(2)}
-                                </td>
-                                <td>
-                                  <div
-                                    className="action-btns-pointer"
-                                    onClick={(e) =>
-                                      handleClickDelete(cartProduct)
-                                    }
-                                    style={{
-                                      marginLeft: "10px",
-                                      marginRight: "10px",
-                                    }}
-                                  >
-                                    <Icon
-                                      icon={ic_delete}
-                                      size={20}
-                                      style={{ color: "#c2052a" }}
-                                    />
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </Scrollbars>
-                    <br></br>
-
-                    <div
-                      style={{
-                        justifyContent: "flex-end",
-                        marginRight: "60px",
-                        marginTop: "-10px",
-                        marginBottom: "5px",
-                        display: "flex",
-                        flexDirection: "column",
-                        textAlign: "right",
-                      }}
-                    >
-                      <div>Delivery Fee: &nbsp; £{Number(fee).toFixed(2)}</div>
-                      <div>
-                        Total Cost: &nbsp; £{Number(totalPrice).toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="arrowbtn" style={{ margin: "10px auto" }}>
-                      <Button
-                        style={{
-                          backgroundColor: "#e80532",
-                          borderColor: "#e80532",
-                          width: "max-content",
-                        }}
-                        onClick={handleCheckout}
-                      >
-                        My Order
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </Modal.Body>
-            </Modal>
-          </>
+          <></>
         ) : (
           <div className="rightside">
             <div className="cart-summary-box">
-              <h5>YOUR BASKET</h5>
+              <Icon className="your-basket" icon={shoppingBag} size={34} />
               <Scrollbars autoHeight autoHeightMax={"40vh"}>
                 <table style={{ marginLeft: "20px", marginRight: "20px" }}>
                   <tbody>

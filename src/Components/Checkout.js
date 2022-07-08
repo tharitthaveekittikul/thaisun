@@ -525,10 +525,12 @@ function Checkout() {
                   </tr>
                   <tr>
                     <td className="c-text">
-                      <span>Total</span>
+                      <span style={{ fontWeight: 700 }}>Total</span>
                     </td>
                     <td className="c-price">
-                      <span>£{Number(fromCart.Total).toFixed(2)}</span>
+                      <span style={{ fontWeight: 700 }}>
+                        £{Number(fromCart.Total).toFixed(2)}
+                      </span>
                     </td>
                   </tr>
                 </tbody>
