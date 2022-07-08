@@ -172,7 +172,7 @@ function Signup() {
                 <div className="container-signup">
                   <h2 className="text-center mb-4">Sign Up</h2>
 
-                  <Form onSubmit={handleSubmit} className="in-signup">
+                  <Form className="in-signup">
                     <div className="leftside-signup">
                       <Form.Group id="firstName" className="mb-3">
                         <Form.Label>First Name</Form.Label>
@@ -236,7 +236,11 @@ function Signup() {
                     </div>
                   </Form>
                 </div>
-                <Button disabled={loading} className="w-100" type="submit">
+                <Button
+                  disabled={loading}
+                  className="w-100"
+                  onClick={handleSubmit}
+                >
                   Sign Up
                 </Button>
               </Card.Body>

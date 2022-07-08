@@ -10,14 +10,50 @@ function Delivery() {
   const handleShow = () => setShow(true);
 
   const [address, setAddress] = useState("");
+  const [town, setTown] = useState("");
+  const [county, setCounty] = useState("");
   const [postCode, setPostCode] = useState("");
 
   const history = useHistory();
 
   const addressRef = useRef();
+  const townRef = useRef();
+  const countyRef = useRef();
   const postCodeRef = useRef();
 
-  const postCodeDeliver = ["123", "234"];
+  const [loadingMsg, setLoadingMsg] = useState("");
+
+  const postCodeDeliver = [
+    "LS1",
+    "LS2",
+    "LS3",
+    "LS4",
+    "LS5",
+    "LS6",
+    "LS7",
+    "LS8",
+    "LS9",
+    "LS10",
+    "LS11",
+    "LS12",
+    "LS13",
+    "LS14",
+    "LS15",
+    "LS16",
+    "LS17",
+    "LS18",
+    "LS19",
+    "LS20",
+    "LS21",
+    "LS22",
+    "LS23",
+    "LS24",
+    "LS25",
+    "LS26",
+    "LS27",
+    "LS28",
+    "LS29",
+  ];
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -32,7 +68,7 @@ function Delivery() {
           .get()
           .then((snapshot) => {
             setAddress(snapshot.data().Address);
-            setPostCode(snapshot.data().PostCode);
+            setCounty(snapshot.data().County);
           });
       } else {
       }
@@ -55,8 +91,18 @@ function Delivery() {
   }
 
   function handleOrder() {
+    if (town === "") {
+      setError("Please select the Town/City");
+      return;
+    }
+    if (postCode === "") {
+      setError("Please select postcode");
+      return;
+    }
+    setError("");
+    setLoadingMsg("Loading...");
     if (
-      postCodeDeliver.toString().includes(postCodeRef.current.value.toString())
+      postCodeDeliver.toString().includes(postCode.toString().toUpperCase())
     ) {
       //   console.log("can deliver");
       auth.onAuthStateChanged((user) => {
@@ -65,9 +111,12 @@ function Delivery() {
             .doc(user.uid)
             .update({
               Address: addressRef.current.value,
-              PostCode: postCodeRef.current.value,
+              Town: town,
+              County: countyRef.current.value,
+              PostCode: postCode,
             })
             .then(() => {
+              setLoadingMsg("");
               setMessage("Automatically Redirect to Menu");
               localStorage.setItem("Delivery", true);
               localStorage.setItem("Pickup", false);
@@ -78,9 +127,19 @@ function Delivery() {
         }
       });
     } else {
-      setError("Your address is too far (Unable to deliver).");
+      setError(
+        "Your postcode is not available for delivery please call restaurant 01133187268."
+      );
       setChangePickup(true);
     }
+  }
+
+  function handleChangeTown(e) {
+    setTown(e.target.value);
+  }
+
+  function handleChangePostCode(e) {
+    setPostCode(e.target.value);
   }
 
   return (
@@ -91,6 +150,7 @@ function Delivery() {
         <Modal.Header closeButton>
           <Modal.Title>Delivery</Modal.Title>
         </Modal.Header>
+        {loadingMsg ? <Alert variant="secondary">{loadingMsg}</Alert> : ""}
         {message ? <Alert variant="success">{message}</Alert> : ""}
         {error ? <Alert variant="danger">{error}</Alert> : ""}
         <Modal.Body>
@@ -104,14 +164,56 @@ function Delivery() {
                 required
               />
             </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Town / City</Form.Label>
+              <select
+                className="form-control"
+                required
+                onChange={(e) => {
+                  handleChangeTown(e);
+                }}
+              >
+                <option value="">Select Town</option>
+                <option value="Calvery">Calvery</option>
+                <option value="Bramley">Bramley</option>
+                <option value="Armley">Armley</option>
+                <option value="Rodley">Rodley</option>
+                <option value="Horstforth">Horstforth</option>
+                <option value="Stanningley">Stanningley</option>
+                <option value="Pudsey">Pudsey</option>
+              </select>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>County</Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={county}
+                ref={countyRef}
+                required
+              />
+            </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Post Code</Form.Label>
-              <Form.Control
+              {/* <Form.Control
                 type="text"
                 defaultValue={postCode}
                 ref={postCodeRef}
                 required
-              />
+              /> */}
+              <select
+                className="form-control"
+                required
+                onChange={(e) => {
+                  handleChangePostCode(e);
+                }}
+              >
+                <option value="">Select Postcode</option>
+                {postCodeDeliver.map((post) => (
+                  <option value={post}>{post}</option>
+                ))}
+              </select>
             </Form.Group>
           </Form>
         </Modal.Body>

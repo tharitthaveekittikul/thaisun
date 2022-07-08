@@ -222,7 +222,7 @@ function Profile() {
                 <div className="container-profile">
                   <h2 className="text-center mb-4">Profile</h2>
 
-                  <Form onSubmit={handleUpdate} className="in-profile">
+                  <Form className="in-profile">
                     <div className="leftside-profile">
                       <Form.Group id="firstName" className="mb-3">
                         <Form.Label>First Name</Form.Label>
@@ -308,7 +308,11 @@ function Profile() {
                       </Form.Group>
                     </div>
                   </Form>
-                  <Button disabled={loading} className="w-100" type="submit">
+                  <Button
+                    disabled={loading}
+                    className="w-100"
+                    onClick={handleUpdate}
+                  >
                     Update
                   </Button>
                 </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { auth, fs } from "../../Config/Config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -91,13 +91,13 @@ function Menu() {
           >
             <li className="nav-header">ORDER</li>
             <li className="nav-item">
-              <Link to="/orderhistory" className="nav-link">
+              <a href="/orderhistory" className="nav-link">
                 <FontAwesomeIcon icon={faHistory} className="fas nav-icon" />
                 <p>Order History</p>
-              </Link>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/liveorder" className="nav-link">
+              <a href="/liveorder" className="nav-link">
                 <FontAwesomeIcon
                   icon={faGaugeSimpleHigh}
                   className="fas nav-icon"
@@ -106,50 +106,50 @@ function Menu() {
                   Live Order
                   <span className="badge badge-info right">{totalOrders}</span>
                 </p>
-              </Link>
+              </a>
             </li>
             <li className="nav-header">Manage</li>
             <li className="nav-item">
-              <Link to="/customer" className="nav-link">
+              <a href="/customer" className="nav-link">
                 <FontAwesomeIcon icon={faUser} className="fas nav-icon" />
                 <p>Customer</p>
-              </Link>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/manageadmin" className="nav-link">
+              <a href="/manageadmin" className="nav-link">
                 <FontAwesomeIcon icon={faUserPlus} className="fas nav-icon" />
                 <p>Manage Admin</p>
-              </Link>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/manageproducts" className="nav-link">
+              <a href="/manageproducts" className="nav-link">
                 <FontAwesomeIcon icon={faBowlRice} className="fas nav-icon" />
                 <p>Manage Products</p>
-              </Link>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/addproducts" className="nav-link">
+              <a href="/addproducts" className="nav-link">
                 <FontAwesomeIcon icon={faCartPlus} className="fas nav-icon" />
                 <p>Add Products</p>
-              </Link>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/managecategory" className="nav-link">
+              <a href="/managecategory" className="nav-link">
                 <FontAwesomeIcon icon={faBarChart} className="fas nav-icon" />
                 <p>Manage Category</p>
-              </Link>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/fixedaddon" className="nav-link">
+              <a href="/fixedaddon" className="nav-link">
                 <i className="fas fa-circle nav-icon" />
                 <p>Fixed Add-on</p>
-              </Link>
+              </a>
             </li>
             <li className="nav-item">
-              <Link to="/managecoupon" className="nav-link">
+              <a href="/managecoupon" className="nav-link">
                 <FontAwesomeIcon icon={faTicket} className="fas nav-icon" />
                 <p>Manage Voucher</p>
-              </Link>
+              </a>
             </li>
           </ul>
         </nav>

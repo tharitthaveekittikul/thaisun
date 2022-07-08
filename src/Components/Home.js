@@ -63,6 +63,9 @@ export default function Home(props) {
 
   const uid = GetUserUid();
 
+  const [town, setTown] = useState("");
+  const [postCode, setPostCode] = useState("");
+
   // getting current user function
   function GetCurrentUser() {
     const [user, setUser] = useState(null);
@@ -74,6 +77,8 @@ export default function Home(props) {
             .get()
             .then((snapshot) => {
               setUser(snapshot.data().FirstName);
+              setTown(snapshot.data().Town);
+              setPostCode(snapshot.data().PostCode);
               setIsAdmin(snapshot.data().isAdmin);
             });
         } else {
@@ -225,6 +230,635 @@ export default function Home(props) {
       }
     });
   }, []);
+
+  const [fee, setFee] = useState(2); // 2 pounds default
+  const miles = 3; //default 3 miles
+  useEffect(() => {
+    if (town === "Calvery") {
+      if (postCode.toUpperCase() === "LS1") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS2") {
+        let distance = Number(8 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS3") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS4") {
+        let distance = Number(5 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS5") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS6") {
+        let distance = Number(8 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS7") {
+        let distance = Number(5 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS8") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS9") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS10") {
+        let distance = Number(5 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS11") {
+        let distance = Number(7 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS12") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS13") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS14") {
+        let distance = Number(20 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS15") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS16") {
+        let distance = Number(8 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS17") {
+        let distance = Number(13 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS18") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS19") {
+        let distance = Number(8 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS20") {
+        let distance = Number(17 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS21") {
+        let distance = Number(11 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS22") {
+        let distance = Number(18 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS23") {
+        let distance = Number(23 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS24") {
+        let distance = Number(22 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS25") {
+        let distance = Number(22 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS26") {
+        let distance = Number(15 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS27") {
+        let distance = Number(8 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS28") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS29") {
+        let distance = Number(21 - miles);
+        setFee(Number(distance + fee));
+      }
+    } else if (town === "Bramley") {
+      if (postCode.toUpperCase() === "LS1") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS2") {
+        let distance = Number(5 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS3") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS4") {
+        let distance = Number(5 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS5") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS6") {
+        let distance = Number(5 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS7") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS8") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS9") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS10") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS11") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS12") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS13") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS14") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS15") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS16") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS17") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS18") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS19") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS20") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS21") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS22") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS23") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS24") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS25") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS26") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS27") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS28") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS29") {
+        let distance = Number(16 - miles);
+        setFee(Number(distance + fee));
+      }
+    } else if (town === "Armley") {
+      if (postCode.toUpperCase() === "LS1") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS2") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS3") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS4") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS5") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS6") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS7") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS8") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS9") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS10") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS11") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS12") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS13") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS14") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS15") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS16") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS17") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS18") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS19") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS20") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS21") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS22") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS23") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS24") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS25") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS26") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS27") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS28") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS29") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      }
+    } else if (town === "Rodley") {
+      if (postCode.toUpperCase() === "LS1") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS2") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS3") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS4") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS5") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS6") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS7") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS8") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS9") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS10") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS11") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS12") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS13") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS14") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS15") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS16") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS17") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS18") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS19") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS20") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS21") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS22") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS23") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS24") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS25") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS26") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS27") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS28") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS29") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      }
+    } else if (town === "Horstforth") {
+      if (postCode.toUpperCase() === "LS1") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS2") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS3") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS4") {
+        let distance = Number(12 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS5") {
+        let distance = Number(5 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS6") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS7") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS8") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS9") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS10") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS11") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS12") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS13") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS14") {
+        let distance = Number(13 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS15") {
+        let distance = Number(18 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS16") {
+        let distance = Number(5 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS17") {
+        let distance = Number(17 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS18") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS19") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS20") {
+        let distance = Number(8 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS21") {
+        let distance = Number(17 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS22") {
+        let distance = Number(20 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS23") {
+        let distance = Number(20 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS24") {
+        let distance = Number(23 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS25") {
+        let distance = Number(18 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS26") {
+        let distance = Number(18 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS27") {
+        let distance = Number(8 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS28") {
+        let distance = Number(3 - miles); // miles < 3 so distance around 3 default
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS29") {
+        let distance = Number(14 - miles);
+        setFee(Number(distance + fee));
+      }
+    } else if (town === "Stanningley") {
+      if (postCode.toUpperCase() === "LS1") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS2") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS3") {
+        let distance = Number(2 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS4") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS5") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS6") {
+        let distance = Number(6 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS7") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS8") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS9") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS10") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS11") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS12") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS13") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS14") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS15") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS16") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS17") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS18") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS19") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS20") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS21") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS22") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS23") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS24") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS25") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS26") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS27") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS28") {
+        let distance = Number(4 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS29") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      }
+    } else if (town === "Pudsey") {
+      if (postCode.toUpperCase() === "LS1") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS2") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS3") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS4") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS5") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS6") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS7") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS8") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS9") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS10") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS11") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS12") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS13") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS14") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS15") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS16") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS17") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS18") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS19") {
+        let distance = Number(8 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS20") {
+        let distance = Number(9 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS21") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS22") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS23") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS24") {
+        let distance = Number(19 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS25") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS26") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS27") {
+        let distance = Number(10 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS28") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      } else if (postCode.toUpperCase() === "LS29") {
+        let distance = Number(3 - miles);
+        setFee(Number(distance + fee));
+      }
+    }
+  }, [town, postCode]);
 
   useEffect(() => {
     console.log(cartProducts);
@@ -584,7 +1218,7 @@ export default function Home(props) {
                         textAlign: "right",
                       }}
                     >
-                      <div>Delivery Fee: &nbsp; £{"test"}</div>
+                      <div>Delivery Fee: &nbsp; £{Number(fee).toFixed(2)}</div>
                       <div>
                         Total Cost: &nbsp; £{Number(totalPrice).toFixed(2)}
                       </div>
@@ -731,7 +1365,7 @@ export default function Home(props) {
                 }}
               >
                 <div style={{ fontWeight: "500" }}>
-                  Delivery Fee: &nbsp; £{"test"}
+                  Delivery Fee: &nbsp; £{Number(fee).toFixed(2)}
                 </div>
                 <div style={{ fontWeight: "500" }}>
                   Total Cost: &nbsp; £{Number(totalPrice).toFixed(2)}
