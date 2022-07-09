@@ -26,6 +26,7 @@ import LiveOrder from "./Components/Dashboard/LiveOrder";
 import Customer from "./Components/Dashboard/Customer";
 import OrderHistory from "./Components/Dashboard/OrderHistory";
 import Order from "./Components/Dashboard/Order";
+import OrderSuccess from "./Components/OrderSuccess";
 
 export const App = () => {
   return (
@@ -52,6 +53,7 @@ export const App = () => {
         <Route path="/customer" component={Customer} />
         <Route path="/orderhistory" component={OrderHistory} />
         <Route path="/eachorder" component={Order} />
+        <Route path="/ordersuccess" component={OrderSuccess} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

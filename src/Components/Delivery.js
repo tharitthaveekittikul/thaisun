@@ -99,38 +99,49 @@ function Delivery() {
       setError("Please select postcode");
       return;
     }
-    setError("");
-    setLoadingMsg("Loading...");
     if (
-      postCodeDeliver.toString().includes(postCode.toString().toUpperCase())
+      postCode.toUpperCase() === "LS12" ||
+      postCode.toUpperCase() === "LS13" ||
+      postCode.toUpperCase() === "LS18" ||
+      postCode.toUpperCase() === "LS28"
     ) {
-      //   console.log("can deliver");
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          fs.collection("users")
-            .doc(user.uid)
-            .update({
-              Address: addressRef.current.value,
-              Town: town,
-              County: countyRef.current.value,
-              PostCode: postCode,
-            })
-            .then(() => {
-              setLoadingMsg("");
-              setMessage("Automatically Redirect to Menu");
-              localStorage.setItem("Delivery", true);
-              localStorage.setItem("Pickup", false);
-              handleClose();
-              history.push("/");
-            });
-        } else {
-        }
-      });
+      setError("");
+      setLoadingMsg("Loading...");
+      if (
+        postCodeDeliver.toString().includes(postCode.toString().toUpperCase())
+      ) {
+        //   console.log("can deliver");
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            fs.collection("users")
+              .doc(user.uid)
+              .update({
+                Address: addressRef.current.value,
+                Town: town,
+                County: countyRef.current.value,
+                PostCode: postCode,
+              })
+              .then(() => {
+                setLoadingMsg("");
+                setMessage("Automatically Redirect to Menu");
+                localStorage.setItem("Delivery", true);
+                localStorage.setItem("Pickup", false);
+                handleClose();
+                history.push("/");
+              });
+          } else {
+          }
+        });
+      } else {
+        setError(
+          "Your postcode is not available for delivery please call restaurant 01133187268."
+        );
+        setChangePickup(true);
+      }
     } else {
       setError(
-        "Your postcode is not available for delivery please call restaurant 01133187268."
+        "Your postcode is not available for delivery. Please change to collection or call restaurant 01133187268."
       );
-      setChangePickup(true);
     }
   }
 

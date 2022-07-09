@@ -262,7 +262,7 @@ function AddCoupon() {
               height: "80vh",
             }}
           >
-            <FontAwesomeIcon icon={faSpinner} className="spinner" size="10x" />
+            <FontAwesomeIcon icon={faSpinner} className="spinner" size="8x" />
           </div>
         </div>
         <Footer />

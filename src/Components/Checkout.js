@@ -311,7 +311,28 @@ function Checkout() {
                         });
                         setTimeout(() => {
                           console.log("order send to restaurant");
-                          history.push("/");
+                          history.push({
+                            pathname: "/ordersuccess",
+                            state: {
+                              ...fromCart,
+                              instructionToRes:
+                                textInstructionRef.current.value,
+                              user: firstName + " " + lastName,
+                              email: email,
+                              address: addressTemp,
+                              town: townTemp,
+                              county: countyTemp,
+                              postCode: postCodeTemp,
+                              Telephone: tel,
+                              pickupState: pickupState,
+                              deliveryState: !pickupState,
+                              date: String(
+                                format(new Date(), "LLLL dd, yyyy kk:mm:ss")
+                              ),
+                              payment: pOrder,
+                              orderNo: totalOrder,
+                            },
+                          });
                         }, 3000);
                       });
                   });

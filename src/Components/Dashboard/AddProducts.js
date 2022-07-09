@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import { Icon } from "react-icons-kit";
 import { plus } from "react-icons-kit/feather/plus";
 import { minus } from "react-icons-kit/feather/minus";
-import { Alert } from "react-bootstrap";
+import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
 
 export default function AddProducts() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
@@ -32,18 +32,6 @@ export default function AddProducts() {
   const categoryRef = useRef();
 
   const [loadingMsg, setLoadingMsg] = useState("");
-
-  // useEffect(() => {
-  //   const getCategoryFormFirebase = [];
-  //   const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       getCategoryFormFirebase.push({ ...doc.data(), key: doc.id });
-  //     });
-  //     setCategoryFs(getCategoryFormFirebase);
-  //     setLoading(false);
-  //   });
-  //   return () => subscriber();
-  // }, []);
 
   function GetCategoryFromFirebase() {
     const getCategoryFromFirebase = [];
@@ -72,6 +60,45 @@ export default function AddProducts() {
       ],
     },
   ]);
+
+  const inputFieldsTemp = [
+    {
+      title: "",
+      menu: [
+        {
+          menuName: "",
+          price: 0,
+        },
+      ],
+    },
+  ];
+
+  // function arrayCompare(_arr1, _arr2) {
+  //   if (
+  //     !Array.isArray(_arr1) ||
+  //     !Array.isArray(_arr2) ||
+  //     _arr1.length !== _arr2.length
+  //   ) {
+  //     return false;
+  //   }
+
+  //   // .concat() to not mutate arguments
+  //   const arr1 = _arr1.concat().sort();
+  //   const arr2 = _arr2.concat().sort();
+
+  //   for (let i = 0; i < arr1.length; i++) {
+  //     if (arr1[i] !== arr2[i]) {
+  //       return false;
+  //     }
+  //   }
+
+  //   return true;
+  // }
+  // console.log(inputFields);
+  // console.log(inputFieldsTemp);
+  const isEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  // console.log(isEqual(inputFields, inputFieldsTemp));
+  // console.log(arrayCompare(inputFields, inputFieldsTemp));
 
   const titleRef = useRef([]);
 
@@ -106,10 +133,24 @@ export default function AddProducts() {
     ]);
   };
 
+  console.log(inputFields);
+
   const handleRemoveTitle = (index) => {
+    if (isEqual(inputFields, inputFieldsTemp)) {
+      console.log("in");
+      handleClose1();
+      return;
+    }
+    if (inputFields.length === 1) {
+      console.log("in lenght 1");
+      handleClose1();
+      return;
+    }
     const values = [...inputFields];
+    console.log(index);
     values.splice(index, 1);
     setInputFields(values);
+    handleClose1();
   };
 
   const handleAddMenu = (index) => {
@@ -147,6 +188,16 @@ export default function AddProducts() {
   };
 
   const handleRemoveMenu = (index, index_child) => {
+    if (inputFields[index].menu.length === 1) {
+      console.log("menu in");
+      handleClose();
+      return;
+    }
+    if (isEqual(inputFields, inputFieldsTemp)) {
+      console.log("in");
+      handleClose();
+      return;
+    }
     const values = inputFields[index].menu;
     // console.log(values);
     values.splice(index_child, 1);
@@ -170,6 +221,8 @@ export default function AddProducts() {
       all.splice(index, 1);
       setInputFields(all);
     }
+
+    handleClose();
     // setInputFields();
     // setInputFields(values);
     // setInputFields([
@@ -184,6 +237,44 @@ export default function AddProducts() {
     // values.splice(index_child, 1);
     // console.log(values);
     // setInputFields(values);
+  };
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const [menuIndex, setMenuIndex] = useState();
+  const [menuIndexChild, setMenuIndexChild] = useState();
+  const handleShow = (index, index_child) => {
+    if (inputFields[index].menu.length === 1) {
+      console.log("menu in");
+      handleClose();
+      return;
+    }
+    if (isEqual(inputFields, inputFieldsTemp)) {
+      console.log("in");
+      handleClose();
+      return;
+    }
+    setMenuIndex(index);
+    setMenuIndexChild(index_child);
+    setShow(true);
+  };
+
+  const [show1, setShow1] = useState(false);
+  const handleClose1 = () => setShow1(false);
+  const [titleIndex, setTitleIndex] = useState();
+  const handleShow1 = (index) => {
+    if (isEqual(inputFields, inputFieldsTemp)) {
+      console.log("in");
+      handleClose1();
+      return;
+    }
+    if (inputFields.length === 1) {
+      console.log("in lenght 1");
+      handleClose1();
+      return;
+    }
+    setTitleIndex(index);
+    setShow1(true);
   };
 
   const handleProductImg = (e) => {
@@ -390,48 +481,94 @@ export default function AddProducts() {
                   onChange={(event) => handleChangeTitle(index, event)}
                 />
                 {titleField.menu.map((menuField, index_child) => (
-                  <div key={index_child} className="d-flex">
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="menuName"
-                      placeholder="Menu Name"
-                      value={menuField.menuName}
-                      onChange={(event) =>
-                        handleChangeMenu(index, index_child, event)
-                      }
-                      autoFocus
-                    />
-                    <input
-                      className="form-control"
-                      type="number"
-                      name="price"
-                      value={menuField.price}
-                      onChange={(event) =>
-                        handleChangeMenu(index, index_child, event)
-                      }
-                    />
-                    <Icon
-                      icon={plus}
-                      size={20}
-                      onClick={() => handleAddMenu(index)}
-                    />
-                    <Icon
-                      icon={minus}
-                      size={20}
-                      onClick={() => handleRemoveMenu(index, index_child)}
-                    />
-                  </div>
+                  <>
+                    <div key={index_child} className="d-flex">
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="menuName"
+                        placeholder="Menu Name"
+                        value={menuField.menuName}
+                        onChange={(event) =>
+                          handleChangeMenu(index, index_child, event)
+                        }
+                        autoFocus
+                      />
+                      <input
+                        className="form-control"
+                        type="number"
+                        name="price"
+                        value={menuField.price}
+                        onChange={(event) =>
+                          handleChangeMenu(index, index_child, event)
+                        }
+                      />
+                      <Icon
+                        icon={plus}
+                        size={20}
+                        onClick={() => handleAddMenu(index)}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <Icon
+                        icon={minus}
+                        size={20}
+                        // onClick={() => handleRemoveMenu(index, index_child)}
+                        onClick={() => handleShow(index, index_child)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                  </>
                 ))}
-                <Icon icon={plus} size={20} onClick={() => handleAddTitle()} />
+                <Icon
+                  icon={plus}
+                  size={20}
+                  onClick={() => handleAddTitle()}
+                  style={{ cursor: "pointer" }}
+                />
                 <Icon
                   icon={minus}
                   size={20}
-                  onClick={() => handleRemoveTitle(index)}
+                  onClick={() => handleShow1(index)}
+                  style={{ cursor: "pointer" }}
                 />
+
                 <hr />
               </div>
             ))}
+
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Are you sure?</Modal.Title>
+              </Modal.Header>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  No
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => handleRemoveMenu(menuIndex, menuIndexChild)}
+                >
+                  Yes
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            <Modal show={show1} onHide={handleClose1}>
+              <Modal.Header closeButton>
+                <Modal.Title>Are you sure?</Modal.Title>
+              </Modal.Header>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose1}>
+                  No
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => handleRemoveTitle(titleIndex)}
+                >
+                  Yes
+                </Button>
+              </Modal.Footer>
+            </Modal>
+
             {imageError && (
               <>
                 <br></br>
