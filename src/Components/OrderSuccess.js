@@ -43,7 +43,21 @@ function OrderSuccess() {
   }
 
   const fromCart = GetCurrentCart();
-  return <div>OrderSuccess</div>;
+  if (fromCart) {
+    return (
+      <>
+        Order No : # {fromCart.orderNo}
+        {fromCart.User}
+        {fromCart.Address}
+        {fromCart.Town}
+        {fromCart.County}
+        {fromCart.Postcode}
+        {fromCart.Telephone}
+        Instruction : {fromCart.instructionToRes}
+      </>
+    );
+  }
+  return null;
 }
 
 export default OrderSuccess;
