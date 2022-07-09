@@ -260,7 +260,15 @@ export default function Home(props) {
   const reducerOfPrice = (accumulator, currentValue) =>
     accumulator + currentValue;
 
-  const totalPrice = price.reduce(reducerOfPrice, 0);
+  const subtotalPrice = price.reduce(reducerOfPrice, 0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  useEffect(() => {
+    if (localStorage.getItem("Delivery")) {
+      setTotalPrice(Number(subtotalPrice) + Number(fee));
+    } else {
+      setTotalPrice(subtotalPrice);
+    }
+  }, [subtotalPrice, price, cartProducts]);
 
   // cart product increase function
   const cartProductIncrease = (cartProduct) => {
@@ -365,131 +373,147 @@ export default function Home(props) {
                   <Scrollbars autoHeight autoHeightMax={"40vh"}>
                     <table style={{ marginLeft: "20px", marginRight: "20px" }}>
                       <tbody>
-                        {cartProducts.map((cartProduct) => {
-                          return (
-                            <tr>
-                              <td>
-                                <div
-                                  className="action-btns-pointer"
-                                  onClick={(e) =>
-                                    handleClickDecrease(cartProduct)
-                                  }
-                                >
-                                  <Icon
-                                    icon={minus}
-                                    size={20}
+                        {Array.isArray(cartProducts) && cartProducts.length ? (
+                          cartProducts.map((cartProduct) => {
+                            return (
+                              <tr>
+                                <td>
+                                  <div
+                                    className="action-btns-pointer"
+                                    onClick={(e) =>
+                                      handleClickDecrease(cartProduct)
+                                    }
+                                  >
+                                    <Icon
+                                      icon={minus}
+                                      size={20}
+                                      style={{
+                                        marginLeft: "10px",
+                                        marginRight: "10px",
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td>{cartProduct.qty}</td>
+                                <td>
+                                  <div
+                                    className="action-btns-pointer"
+                                    onClick={(e) =>
+                                      handleClickIncrease(cartProduct)
+                                    }
+                                  >
+                                    <Icon
+                                      icon={plus}
+                                      size={20}
+                                      style={{
+                                        marginLeft: "10px",
+                                        marginRight: "10px",
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <p
+                                    style={{
+                                      paddingTop: "10px",
+                                      paddingBottom: "0",
+                                      margin: "0",
+                                      fontFamily: "Merriweather, serif",
+                                      fontSize: "14px",
+                                      fontWeight: "700",
+                                      color: "black",
+                                      maxWidth: "250px",
+                                    }}
+                                  >
+                                    {cartProduct.title}
+                                  </p>
+                                  {cartProduct.option.map((option) => (
+                                    <p
+                                      style={{
+                                        padding: "0",
+                                        margin: "0",
+                                        textIndent: "15px",
+                                        color: "rgb(130, 130, 130)",
+                                        fontSize: "14px",
+                                      }}
+                                    >
+                                      {option.menu}
+                                    </p>
+                                  ))}
+                                  {cartProduct.addOn.map((addOn) => (
+                                    <p
+                                      style={{
+                                        padding: "0",
+                                        margin: "0",
+                                        textIndent: "15px",
+                                        color: "rgb(130, 130, 130)",
+                                        fontSize: "14px",
+                                      }}
+                                    >
+                                      {addOn.menu}
+                                    </p>
+                                  ))}
+                                </td>
+                                <td style={{ textAlign: "right" }}>
+                                  £
+                                  {Number(
+                                    cartProduct.priceWithAddon * cartProduct.qty
+                                  ).toFixed(2)}
+                                </td>
+                                <td>
+                                  <div
+                                    className="action-btns-pointer"
+                                    onClick={(e) =>
+                                      handleClickDelete(cartProduct)
+                                    }
                                     style={{
                                       marginLeft: "10px",
                                       marginRight: "10px",
                                     }}
-                                  />
-                                </div>
-                              </td>
-                              <td>{cartProduct.qty}</td>
-                              <td>
-                                <div
-                                  className="action-btns-pointer"
-                                  onClick={(e) =>
-                                    handleClickIncrease(cartProduct)
-                                  }
-                                >
-                                  <Icon
-                                    icon={plus}
-                                    size={20}
-                                    style={{
-                                      marginLeft: "10px",
-                                      marginRight: "10px",
-                                    }}
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                <p
-                                  style={{
-                                    paddingTop: "10px",
-                                    paddingBottom: "0",
-                                    margin: "0",
-                                    fontFamily: "Merriweather, serif",
-                                    fontSize: "14px",
-                                    fontWeight: "700",
-                                    color: "black",
-                                  }}
-                                >
-                                  {cartProduct.title}
-                                </p>
-                                {cartProduct.option.map((option) => (
-                                  <p
-                                    style={{
-                                      padding: "0",
-                                      margin: "0",
-                                      textIndent: "15px",
-                                      color: "rgb(130, 130, 130)",
-                                      fontSize: "14px",
-                                    }}
                                   >
-                                    {option.menu}
-                                  </p>
-                                ))}
-                                {cartProduct.addOn.map((addOn) => (
-                                  <p
-                                    style={{
-                                      padding: "0",
-                                      margin: "0",
-                                      textIndent: "15px",
-                                      color: "rgb(130, 130, 130)",
-                                      fontSize: "14px",
-                                    }}
-                                  >
-                                    {addOn.menu}
-                                  </p>
-                                ))}
-                              </td>
-                              <td style={{ textAlign: "right" }}>
-                                £
-                                {Number(
-                                  cartProduct.priceWithAddon * cartProduct.qty
-                                ).toFixed(2)}
-                              </td>
-                              <td>
-                                <div
-                                  className="action-btns-pointer"
-                                  onClick={(e) =>
-                                    handleClickDelete(cartProduct)
-                                  }
-                                  style={{
-                                    marginLeft: "10px",
-                                    marginRight: "10px",
-                                  }}
-                                >
-                                  <Icon
-                                    icon={ic_delete}
-                                    size={20}
-                                    style={{ color: "#c2052a" }}
-                                  />
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
+                                    <Icon
+                                      icon={ic_delete}
+                                      size={20}
+                                      style={{ color: "#c2052a" }}
+                                    />
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <div className="empty-basket">
+                            <span>Basket is empty.</span>
+                          </div>
+                        )}
                       </tbody>
                     </table>
                   </Scrollbars>
                   <br></br>
 
-                  <div
-                    style={{
-                      justifyContent: "flex-end",
-                      marginRight: "60px",
-                      marginTop: "-10px",
-                      marginBottom: "5px",
-                      display: "flex",
-                      flexDirection: "column",
-                      textAlign: "right",
-                    }}
-                  >
-                    <div>Delivery Fee: &nbsp; £{Number(fee).toFixed(2)}</div>
+                  <div className="total-section">
                     <div>
-                      Total Cost: &nbsp; £{Number(totalPrice).toFixed(2)}
+                      <span>Subtotal:</span>
+                      <span>£{Number(subtotalPrice).toFixed(2)}</span>
+                    </div>
+                    {localStorage.getItem("Delivery") &&
+                    Array.isArray(cartProducts) &&
+                    cartProducts.length ? (
+                      <>
+                        <div>
+                          <span>Delivery Fee:</span>
+                          <span>£{Number(fee).toFixed(2)}</span>
+                        </div>
+                        <span className="del-info">
+                          {town}&nbsp;{postCode}
+                        </span>
+                      </>
+                    ) : null}
+                    <div>
+                      <span className="t-total">Total:</span>
+                      <span className="t-total">
+                        £{Number(totalPrice).toFixed(2)}
+                      </span>
                     </div>
                   </div>
                   <div className="arrowbtn" style={{ margin: "10px auto" }}>
@@ -622,128 +646,144 @@ export default function Home(props) {
               <Scrollbars autoHeight autoHeightMax={"40vh"}>
                 <table style={{ marginLeft: "20px", marginRight: "20px" }}>
                   <tbody>
-                    {cartProducts.map((cartProduct) => {
-                      return (
-                        <tr>
-                          <td>
-                            <div
-                              className="action-btns-pointer"
-                              onClick={(e) => handleClickDecrease(cartProduct)}
-                            >
-                              <Icon
-                                icon={minus}
-                                size={20}
+                    {Array.isArray(cartProducts) && cartProducts.length ? (
+                      cartProducts.map((cartProduct) => {
+                        return (
+                          <tr>
+                            <td>
+                              <div
+                                className="action-btns-pointer"
+                                onClick={(e) =>
+                                  handleClickDecrease(cartProduct)
+                                }
+                              >
+                                <Icon
+                                  icon={minus}
+                                  size={20}
+                                  style={{
+                                    marginLeft: "10px",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                              </div>
+                            </td>
+                            <td>{cartProduct.qty}</td>
+                            <td>
+                              <div
+                                className="action-btns-pointer"
+                                onClick={(e) =>
+                                  handleClickIncrease(cartProduct)
+                                }
+                              >
+                                <Icon
+                                  icon={plus}
+                                  size={20}
+                                  style={{
+                                    marginLeft: "10px",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <p
+                                style={{
+                                  paddingTop: "10px",
+                                  paddingBottom: "0",
+                                  margin: "0",
+                                  fontFamily: "Merriweather, serif",
+                                  fontSize: "14px",
+                                  fontWeight: "700",
+                                  color: "black",
+                                }}
+                              >
+                                {cartProduct.title}
+                              </p>
+                              {cartProduct.option.map((option) => (
+                                <p
+                                  style={{
+                                    padding: "0",
+                                    margin: "0",
+                                    textIndent: "15px",
+                                    color: "rgb(130, 130, 130)",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  {option.menu}
+                                </p>
+                              ))}
+                              {cartProduct.addOn.map((addOn) => (
+                                <p
+                                  style={{
+                                    padding: "0",
+                                    margin: "0",
+                                    textIndent: "15px",
+                                    color: "rgb(130, 130, 130)",
+                                    fontSize: "14px",
+                                  }}
+                                >
+                                  {addOn.menu}
+                                </p>
+                              ))}
+                            </td>
+                            <td style={{ textAlign: "right" }}>
+                              £
+                              {Number(
+                                cartProduct.priceWithAddon * cartProduct.qty
+                              ).toFixed(2)}
+                            </td>
+                            <td>
+                              <div
+                                className="action-btns-pointer"
+                                onClick={(e) => handleClickDelete(cartProduct)}
                                 style={{
                                   marginLeft: "10px",
                                   marginRight: "10px",
                                 }}
-                              />
-                            </div>
-                          </td>
-                          <td>{cartProduct.qty}</td>
-                          <td>
-                            <div
-                              className="action-btns-pointer"
-                              onClick={(e) => handleClickIncrease(cartProduct)}
-                            >
-                              <Icon
-                                icon={plus}
-                                size={20}
-                                style={{
-                                  marginLeft: "10px",
-                                  marginRight: "10px",
-                                }}
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <p
-                              style={{
-                                paddingTop: "10px",
-                                paddingBottom: "0",
-                                margin: "0",
-                                fontFamily: "Merriweather, serif",
-                                fontSize: "14px",
-                                fontWeight: "700",
-                                color: "black",
-                              }}
-                            >
-                              {cartProduct.title}
-                            </p>
-                            {cartProduct.option.map((option) => (
-                              <p
-                                style={{
-                                  padding: "0",
-                                  margin: "0",
-                                  textIndent: "15px",
-                                  color: "rgb(130, 130, 130)",
-                                  fontSize: "14px",
-                                }}
                               >
-                                {option.menu}
-                              </p>
-                            ))}
-                            {cartProduct.addOn.map((addOn) => (
-                              <p
-                                style={{
-                                  padding: "0",
-                                  margin: "0",
-                                  textIndent: "15px",
-                                  color: "rgb(130, 130, 130)",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                {addOn.menu}
-                              </p>
-                            ))}
-                          </td>
-                          <td style={{ textAlign: "right" }}>
-                            £
-                            {Number(
-                              cartProduct.priceWithAddon * cartProduct.qty
-                            ).toFixed(2)}
-                          </td>
-                          <td>
-                            <div
-                              className="action-btns-pointer"
-                              onClick={(e) => handleClickDelete(cartProduct)}
-                              style={{
-                                marginLeft: "10px",
-                                marginRight: "10px",
-                                marginTop: "-3px",
-                              }}
-                            >
-                              <Icon
-                                icon={ic_delete}
-                                size={20}
-                                style={{ color: "#c2052a" }}
-                              />
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                                <Icon
+                                  icon={ic_delete}
+                                  size={20}
+                                  style={{ color: "#c2052a" }}
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <div className="empty-basket">
+                        <span>Basket is empty.</span>
+                      </div>
+                    )}
                   </tbody>
                 </table>
               </Scrollbars>
               <br></br>
 
-              <div
-                style={{
-                  justifyContent: "flex-end",
-                  marginRight: "60px",
-                  marginTop: "-10px",
-                  marginBottom: "5px",
-                  display: "flex",
-                  flexDirection: "column",
-                  textAlign: "right",
-                }}
-              >
-                <div style={{ fontWeight: "500" }}>
-                  Delivery Fee: &nbsp; £{Number(fee).toFixed(2)}
+              <div className="total-section">
+                <div>
+                  <span>Subtotal:</span>
+                  <span>£{Number(subtotalPrice).toFixed(2)}</span>
                 </div>
-                <div style={{ fontWeight: "500" }}>
-                  Total Cost: &nbsp; £{Number(totalPrice).toFixed(2)}
+                {localStorage.getItem("Delivery") &&
+                Array.isArray(cartProducts) &&
+                cartProducts.length ? (
+                  <>
+                    <div>
+                      <span>Delivery Fee:</span>
+                      <span>£{Number(fee).toFixed(2)}</span>
+                    </div>
+                    <span className="del-info">
+                      {town}&nbsp;{postCode}
+                    </span>
+                  </>
+                ) : null}
+                <div>
+                  <span className="t-total">Total:</span>
+                  <span className="t-total">
+                    £{Number(totalPrice).toFixed(2)}
+                  </span>
                 </div>
               </div>
               <div className="arrowbtn" style={{ margin: "10px auto" }}>

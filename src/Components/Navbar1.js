@@ -163,8 +163,9 @@ function Navbar1({ user, isAdmin, totalProducts }) {
                         icon={shoppingCart}
                         size={26}
                       />
-
-                      <span className="cart-indicator1">{totalProducts}</span>
+                      {totalProducts == 0 ? null : (
+                        <span className="cart-indicator1">{totalProducts}</span>
+                      )}
                     </NavLink>
                     <NavLink
                       className="navbar-font"
@@ -177,7 +178,6 @@ function Navbar1({ user, isAdmin, totalProducts }) {
                         icon={user_circle}
                         size={26}
                       />
-                      {/* <span style={{}}>{user}</span> */}
                     </NavLink>
                     <NavLink
                       className="navbar-font"

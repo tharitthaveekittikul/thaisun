@@ -11,8 +11,11 @@ import { useHistory } from "react-router-dom";
 import Navbar1 from "./Navbar1";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import MilesCal from "./MilesCal";
 
 export default function Cart() {
+  const [qtyChange, setQtyChange] = useState(0);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
   const history = useHistory();
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   // getting current user function
@@ -45,6 +48,9 @@ export default function Cart() {
     }, []);
     return uid;
   }
+  const [totalCost, setTotalCost] = useState(0);
+
+  const [lastCoupon, setLastCoupon] = useState(false);
 
   const user = GetCurrentUser();
   const uid = GetUserUid();
@@ -96,11 +102,25 @@ export default function Cart() {
   const reducerOfPrice = (accumulator, currentValue) =>
     accumulator + currentValue;
 
-  const totalPrice = Number(price.reduce(reducerOfPrice, 0)).toFixed(2);
+  const subtotalPrice = Number(price.reduce(reducerOfPrice, 0)).toFixed(2);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const GetFee = () => {
+    let fee;
+    if (localStorage.getItem("Delivery")) {
+      fee = MilesCal();
+    } else {
+      fee = 0;
+    }
+    return fee;
+  };
+
+  const fee = Number(GetFee());
 
   useEffect(() => {
-    setTotalCost(Number(totalPrice).toFixed(2));
-  }, [totalPrice]);
+    setTotalPrice(Number(Number(subtotalPrice) + Number(fee)).toFixed(2));
+    setTotalCost(Number(Number(subtotalPrice) + Number(fee)).toFixed(2));
+  }, [subtotalPrice, fee, qtyChange]);
 
   // global variable
   let Product;
@@ -114,6 +134,7 @@ export default function Cart() {
     // updating in database
     auth.onAuthStateChanged((user) => {
       if (user) {
+        setQtyChange(qtyChange + 1);
         fs.collection("Cart " + user.uid)
           .doc(cartProduct.DOC_ID)
           .update(Product)
@@ -135,6 +156,7 @@ export default function Cart() {
       // updating in database
       auth.onAuthStateChanged((user) => {
         if (user) {
+          setQtyChange(qtyChange + 1);
           fs.collection("Cart " + user.uid)
             .doc(cartProduct.DOC_ID)
             .update(Product)
@@ -153,6 +175,7 @@ export default function Cart() {
   const handleCartProductDelete = (cartProduct) => {
     auth.onAuthStateChanged((user) => {
       if (user) {
+        setQtyChange(qtyChange + 1);
         fs.collection("Cart " + user.uid)
           .doc(cartProduct.DOC_ID)
           .delete()
@@ -205,6 +228,7 @@ export default function Cart() {
   const [couponSuccess, setCouponSuccess] = useState(null);
 
   const handleCouponInput = (e) => {
+    setCheckoutLoading(true);
     var stateTemp = false;
     setCouponCount(1);
     setError("");
@@ -230,6 +254,7 @@ export default function Cart() {
           //already use
           setError("You already use this coupon.");
           setCouponSuccess(null);
+          setCheckoutLoading(false);
         } else {
           //ไปต่อ หา coupon ว่ามีที่ตรงมั้ย
           for (let i = 0; i < couponFs.length; i++) {
@@ -238,13 +263,11 @@ export default function Cart() {
               if (couponFs[i].minimum == "-") {
                 setMinimum(0);
                 stateTemp = true;
-                console.log("- minimummmmmmmm");
                 setCouponSuccess(couponInput);
                 setCouponState(true);
               } else {
                 setMinimum(Number(couponFs[i].minimum));
                 stateTemp = true;
-                console.log("have minimummmmmmmmmmmmmmmmm");
                 setCouponSuccess(couponInput);
                 setCouponState(true);
               }
@@ -252,7 +275,6 @@ export default function Cart() {
           }
           if (stateTemp) {
           } else {
-            console.log("statetemp falseeeeeeeeee");
             setMinimum(0);
             setCouponState(false);
           }
@@ -261,57 +283,81 @@ export default function Cart() {
   };
 
   const [totalDiscount, setTotalDiscount] = useState(0);
-  const [totalCost, setTotalCost] = useState(0);
 
   const [couponType, setCouponType] = useState(false);
 
+  const [couponCheck, setCouponCheck] = useState(null);
+
   useEffect(() => {
+    setMessage("");
+    setError("");
     console.log("coupon check");
-    console.log(totalCost, minimum, couponState);
-    if (couponState && totalCost > minimum) {
+    console.log(subtotalPrice, minimum, couponState);
+    if (couponState && subtotalPrice > minimum) {
       //คูปองมี ใช้ได้
       setMessage("Coupon activated.");
-      handleDiscount(true);
-    } else if (couponState && totalCost < minimum) {
+      setLastCoupon(true);
+      console.log("Coupon activated.");
+      setCouponCheck(true);
+    } else if (couponState && subtotalPrice < minimum) {
       setError("Your total is not reaching the minimum.");
       setCouponSuccess(null);
-      handleDiscount(false);
+      setLastCoupon(false);
+      console.log("Your total is not reaching the minimum.");
+      setCouponCheck(false);
     } else if (couponState == false && couponCount == 1) {
       //ไม่มีในระบบ บอกไม่มีจ้า
       setError("This coupon is not exist.");
       setCouponSuccess(null);
-      handleDiscount(true);
+      setLastCoupon(false);
+      setTotalDiscount(0);
+      console.log("This coupon is not exist.");
+      setCouponCheck(true);
     }
-  }, [couponState]);
+  }, [couponState, qtyChange]);
 
-  const handleDiscount = (check) => {
-    let couponInput = couponInputRef.current.value;
-    console.log(check);
-    for (let i = 0; i < couponFs.length; i++) {
-      if (couponFs[i].coupon == couponInput) {
-        let discount = Number(couponFs[i].value).toFixed(2);
-        if (couponFs[i].type == "fixed" && check == true) {
-          setTotalDiscount(discount);
-          setCouponType(true);
-          if (Number(totalPrice - Number(discount)) < 0) {
-            setTotalCost(0);
-          } else {
-            setTotalCost(Number(totalPrice - Number(discount)).toFixed(2));
+  let finalTotal = Number(totalPrice);
+
+  useEffect(() => {
+    try {
+      let couponInput = couponInputRef.current.value;
+      console.log(couponCheck);
+      for (let i = 0; i < couponFs.length; i++) {
+        if (couponFs[i].coupon == couponInput) {
+          let discount = Number(couponFs[i].value).toFixed(2);
+          if (couponFs[i].type == "fixed" && couponCheck == true) {
+            setTotalDiscount(discount);
+            setCouponType(true);
+            if (Number(Number(subtotalPrice) - Number(discount)) < 0) {
+              finalTotal = 0;
+            } else {
+              finalTotal = Number(
+                Number(subtotalPrice) - Number(discount)
+              ).toFixed(2);
+            }
+          } else if (couponFs[i].type == "percent" && couponCheck == true) {
+            setCouponType(true);
+            setTotalDiscount(
+              Number(
+                Number(subtotalPrice) * ((100 - Number(discount)) / 100)
+              ).toFixed(2)
+            );
+            finalTotal = Number(
+              Number(subtotalPrice) * (Number(discount) / 100)
+            ).toFixed(2);
+          } else if (couponCheck == false) {
+            setTotalDiscount(0);
           }
-        } else if (couponFs[i].type == "percent" && check == true) {
-          setCouponType(true);
-          setTotalDiscount(
-            Number(totalPrice * ((100 - Number(discount)) / 100)).toFixed(2)
-          );
-          setTotalCost(
-            Number(totalPrice * (Number(discount) / 100)).toFixed(2)
-          );
-        } else if (check == false) {
-          setTotalDiscount(0);
         }
       }
-    }
-  };
+      setCheckoutLoading(false);
+      setCouponCheck(null);
+    } catch {}
+  }, [couponCheck]);
+
+  useEffect(() => {
+    setTotalCost(finalTotal);
+  }, [totalCost]);
 
   const handleCheckout = () => {
     console.log(cartProducts);
@@ -321,7 +367,8 @@ export default function Cart() {
       state: {
         cartProducts: cartProducts,
         Coupon: couponSuccess,
-        Subtotal: Number(totalPrice).toFixed(2),
+        Fee: Number(fee).toFixed(2),
+        Subtotal: Number(subtotalPrice).toFixed(2),
         Discount: Number(totalDiscount).toFixed(2),
         Total: Number(totalCost).toFixed(2),
         onCheck: true,
@@ -391,7 +438,9 @@ export default function Cart() {
                     defaultValue={null}
                   />
                   <div>
-                    <Button type="submit">Add</Button>
+                    <Button disabled={checkoutLoading} type="submit">
+                      Add
+                    </Button>
                   </div>
                 </div>
                 {message ? <Alert variant="success">{message}</Alert> : ""}
@@ -403,7 +452,7 @@ export default function Cart() {
                 <div>
                   <span className="label">Subtotal: </span>
                   <span className="value">
-                    £{Number(totalPrice).toFixed(2)}
+                    £{Number(subtotalPrice).toFixed(2)}
                   </span>
                 </div>
                 {couponType ? (
@@ -414,10 +463,12 @@ export default function Cart() {
                     </span>
                   </div>
                 ) : null}
-                <div>
-                  <span className="label">Delivery Fee: </span>
-                  <span className="value">£KJ</span>
-                </div>
+                {localStorage.getItem("Delivery") ? (
+                  <div>
+                    <span className="label">Delivery Fee: </span>
+                    <span className="value"> £{Number(fee).toFixed(2)}</span>
+                  </div>
+                ) : null}
                 <div>
                   <span
                     className="label"
@@ -429,7 +480,12 @@ export default function Cart() {
                     className="value"
                     style={{ fontWeight: 500, fontSize: 28 }}
                   >
-                    £{Number(totalCost).toFixed(2)}
+                    {console.log(Number(subtotalPrice), fee, totalDiscount)}£
+                    {Number(
+                      Number(subtotalPrice) -
+                        Number(totalDiscount).toFixed(2) +
+                        Number(fee)
+                    ).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -437,7 +493,9 @@ export default function Cart() {
                 className="arrowbtn"
                 style={{ margin: "0 auto", marginBottom: "20px" }}
               >
-                <Button onClick={handleCheckout}>Checkout</Button>
+                <Button disabled={checkoutLoading} onClick={handleCheckout}>
+                  Checkout
+                </Button>
               </div>
             </div>
           </div>

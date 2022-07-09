@@ -450,10 +450,48 @@
 .rightside .cart-summary-box table {
   flex: 1;
 }
-
+.empty-basket {
+  text-align: center;
+}
+.rightside .cart-summary-box table {
+  border-bottom: 1px solid rgb(61, 61, 61);
+}
+.rightside .cart-summary-box table tbody {
+}
 .rightside .cart-summary-box table tbody tr td {
   flex-direction: row;
-  border-top: 1px solid rgb(203, 203, 203);
+  border-top: 1px solid rgb(221, 221, 221);
+}
+.rightside .cart-summary-box .total-section {
+  justify-content: flex-end;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  margin-right: 35px;
+  margin-left: 35px;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-weight: 400;
+}
+.rightside .cart-summary-box .total-section div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.rightside .cart-summary-box .total-section span {
+  line-height: 26px;
+}
+
+.rightside .cart-summary-box .total-section .t-total {
+  font-weight: 500;
+}
+.rightside .cart-summary-box .total-section .del-info {
+  font-weight: 400;
+  font-size: 14px;
+  color: #6f6f6f;
+  text-align: left;
+  text-indent: 12px;
+  margin-top: -4px;
 }
 
 .method-container {
@@ -934,19 +972,45 @@ a.remove:hover {
   text-decoration: none solid rgb(15, 15, 15);
   font-size: 18px;
 }
-
-.rightside1 .cart-summary-box div {
-  display: flex;
-  flex-direction: column;
-}
-
 .rightside1 .cart-summary-box table {
-  flex: 1;
+  border-bottom: 1px solid rgb(61, 61, 61);
 }
-
+.rightside1 .cart-summary-box table tbody {
+}
 .rightside1 .cart-summary-box table tbody tr td {
   flex-direction: row;
-  border-bottom: 1px solid rgb(203, 203, 203);
+  border-top: 1px solid rgb(221, 221, 221);
+}
+.rightside1 .cart-summary-box .total-section {
+  justify-content: flex-end;
+  margin-top: -10px;
+  margin-bottom: 5px;
+  margin-right: 35px;
+  margin-left: 35px;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-weight: 400;
+}
+.rightside1 .cart-summary-box .total-section div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.rightside1 .cart-summary-box .total-section span {
+  line-height: 26px;
+}
+
+.rightside1 .cart-summary-box .total-section .t-total {
+  font-weight: 500;
+}
+.rightside1 .cart-summary-box .total-section .del-info {
+  font-weight: 400;
+  font-size: 14px;
+  color: #6f6f6f;
+  text-align: left;
+  text-indent: 12px;
+  margin-top: -4px;
 }
 
 /* Dashboard Loading */
