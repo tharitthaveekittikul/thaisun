@@ -121,8 +121,9 @@ function Order() {
                           <p>Email: </p>
                           <p>Payment: </p>
 
-                          <p>Cost: </p>
-                          <p>Shipping: </p>
+                          <p>Subtotal: </p>
+                          <p>Discount: </p>
+                          <p>Delivery Fee: </p>
                           <p>Total: </p>
                         </div>
                         <div className="rightside-orderdetails">
@@ -137,7 +138,8 @@ function Order() {
                           <p>{orders.payment.type}</p>
 
                           <p>£{parseFloat(orders.Subtotal).toFixed(2)}</p>
-                          <p>£KJ</p>
+                          <p>- £{parseFloat(orders.Discount).toFixed(2)}</p>
+                          <p>£{parseFloat(orders.Fee).toFixed(2)}</p>
                           <p>£{parseFloat(orders.Total).toFixed(2)}</p>
                         </div>
                       </div>

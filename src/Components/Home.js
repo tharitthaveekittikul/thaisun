@@ -42,6 +42,15 @@ export default function Home(props) {
       },
     },
   });
+  useEffect(() => {
+    if (
+      localStorage.getItem("Delivery") === null ||
+      localStorage.getItem("Pickup") === null
+    ) {
+      localStorage.setItem("Pickup", true);
+      localStorage.setItem("Delivery", false);
+    }
+  }, []);
 
   const ScrollRef = useRef(null);
   const [isAdmin, setIsAdmin] = useState(false);

@@ -459,7 +459,7 @@ export default function Cart() {
                   <div>
                     <span className="label">Discount: </span>
                     <span className="value">
-                      £{Number(totalDiscount).toFixed(2)}
+                      - £{Number(totalDiscount).toFixed(2)}
                     </span>
                   </div>
                 ) : null}

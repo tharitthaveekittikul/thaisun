@@ -832,7 +832,9 @@ function LiveOrder() {
                               text-align: center;
                             "
                           >
-                          £ ${liveorder.cartProducts[i].TotalProductPrice}
+                          £ ${Number(
+                            liveorder.cartProducts[i].TotalProductPrice
+                          ).toFixed(2)}
                           </td>
                         </tr>
                       </table>
@@ -957,31 +959,7 @@ function LiveOrder() {
                       £ ${liveorder.Subtotal}
                       </td>
                     </tr>
-                    <tr style="border-collapse: collapse">
-                      <td
-                        style="
-                          padding: 0;
-                          margin: 0;
-                          text-align: right;
-                          font-size: 18px;
-                          line-height: 27px;
-                        "
-                      >
-                        Flat-rate Shipping:
-                      </td>
-                      <td
-                        style="
-                          padding: 0;
-                          margin: 0;
-                          text-align: right;
-                          font-size: 18px;
-                          line-height: 27px;
-                          color: #d48344;
-                        "
-                      >
-                        <strong>FREE</strong>
-                      </td>
-                    </tr>
+                    
                     <tr style="border-collapse: collapse">
                       <td
                         style="
@@ -1003,7 +981,31 @@ function LiveOrder() {
                           line-height: 27px;
                         "
                       >
-                      £ 0.00
+                      £ ${liveorder.Discount}
+                      </td>
+                    </tr>
+                    <tr style="border-collapse: collapse">
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                        Delivery Fee:
+                      </td>
+                      <td
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          text-align: right;
+                          font-size: 18px;
+                          line-height: 27px;
+                        "
+                      >
+                      £ ${Number(liveorder.Fee).toFixed(2)}
                       </td>
                     </tr>
                     <tr style="border-collapse: collapse">
@@ -1065,12 +1067,234 @@ function LiveOrder() {
       .then(() => {
         if (liveorder.pickupState) {
           handleSend(
-            detailsOrder + "The menu takes at least 25 minutes.",
+            `
+        <table
+            class="es-content"
+            cellspacing="0"
+            cellpadding="0"
+            align="center"
+            style="
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+              border-collapse: collapse;
+              border-spacing: 0px;
+              table-layout: fixed !important;
+              width: 100%;
+            "
+          >
+            <tr style="border-collapse: collapse">
+              <td align="center" style="padding: 0; margin: 0">
+                <table
+                  class="es-content-body"
+                  cellspacing="0"
+                  cellpadding="0"
+                  bgcolor="#ffffff"
+                  align="center"
+                  style="
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
+                    border-collapse: collapse;
+                    border-spacing: 0px;
+                    background-color: #ffffff;
+                    width: 600px;
+                  "
+                >
+                  <tr style="border-collapse: collapse">
+                    <td
+                      align="left"
+                      style="
+                        margin: 0;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                      "
+                    >
+                      <table
+                        width="100%"
+                        cellspacing="0"
+                        cellpadding="0"
+                        style="
+                          mso-table-lspace: 0pt;
+                          mso-table-rspace: 0pt;
+                          border-collapse: collapse;
+                          border-spacing: 0px;
+                        "
+                      >
+                        <tr style="border-collapse: collapse">
+                          <td
+                            valign="top"
+                            align="center"
+                            style="padding: 0; margin: 0; width: 560px"
+                          >
+                            <table
+                              style="
+                                mso-table-lspace: 0pt;
+                                mso-table-rspace: 0pt;
+                                border-collapse: separate;
+                                border-spacing: 0px;
+                                border-radius: 0px;
+                              "
+                              width="100%"
+                              cellspacing="0"
+                              cellpadding="0"
+                              role="presentation"
+                            >
+                              <tr style="border-collapse: collapse">
+                                <td
+                                  align="center"
+                                  style="
+                                    padding: 0;
+                                    margin: 0;
+                                    padding-top: 10px;
+                                    padding-bottom: 15px;
+                                  "
+                                >
+                                  <h1
+                                    style="
+                                      margin: 0;
+                                      line-height: 36px;
+                                      mso-line-height-rule: exactly;
+                                      font-family: 'trebuchet ms', helvetica,
+                                        sans-serif;
+                                      font-size: 30px;
+                                      font-style: normal;
+                                      font-weight: normal;
+                                      color: #E44C13;
+                                    "
+                                  >
+                                  The menu takes at least 25 minutes.
+                                  <br/>
+                                  </h1>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        ` + detailsOrder,
             liveorder.email
           );
         } else {
           handleSend(
-            detailsOrder + "The menu takes at least 60 minutes.",
+            `
+        <table
+            class="es-content"
+            cellspacing="0"
+            cellpadding="0"
+            align="center"
+            style="
+              mso-table-lspace: 0pt;
+              mso-table-rspace: 0pt;
+              border-collapse: collapse;
+              border-spacing: 0px;
+              table-layout: fixed !important;
+              width: 100%;
+            "
+          >
+            <tr style="border-collapse: collapse">
+              <td align="center" style="padding: 0; margin: 0">
+                <table
+                  class="es-content-body"
+                  cellspacing="0"
+                  cellpadding="0"
+                  bgcolor="#ffffff"
+                  align="center"
+                  style="
+                    mso-table-lspace: 0pt;
+                    mso-table-rspace: 0pt;
+                    border-collapse: collapse;
+                    border-spacing: 0px;
+                    background-color: #ffffff;
+                    width: 600px;
+                  "
+                >
+                  <tr style="border-collapse: collapse">
+                    <td
+                      align="left"
+                      style="
+                        margin: 0;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                      "
+                    >
+                      <table
+                        width="100%"
+                        cellspacing="0"
+                        cellpadding="0"
+                        style="
+                          mso-table-lspace: 0pt;
+                          mso-table-rspace: 0pt;
+                          border-collapse: collapse;
+                          border-spacing: 0px;
+                        "
+                      >
+                        <tr style="border-collapse: collapse">
+                          <td
+                            valign="top"
+                            align="center"
+                            style="padding: 0; margin: 0; width: 560px"
+                          >
+                            <table
+                              style="
+                                mso-table-lspace: 0pt;
+                                mso-table-rspace: 0pt;
+                                border-collapse: separate;
+                                border-spacing: 0px;
+                                border-radius: 0px;
+                              "
+                              width="100%"
+                              cellspacing="0"
+                              cellpadding="0"
+                              role="presentation"
+                            >
+                              <tr style="border-collapse: collapse">
+                                <td
+                                  align="center"
+                                  style="
+                                    padding: 0;
+                                    margin: 0;
+                                    padding-top: 10px;
+                                    padding-bottom: 15px;
+                                  "
+                                >
+                                  <h1
+                                    style="
+                                      margin: 0;
+                                      line-height: 36px;
+                                      mso-line-height-rule: exactly;
+                                      font-family: 'trebuchet ms', helvetica,
+                                        sans-serif;
+                                      font-size: 30px;
+                                      font-style: normal;
+                                      font-weight: normal;
+                                      color: #E44C13;
+                                    "
+                                  >
+                                  The menu takes at least 60 minutes.
+                                  <br/>
+                                  </h1>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        ` + detailsOrder,
             liveorder.email
           );
         }
@@ -2409,11 +2633,34 @@ function LiveOrder() {
                       {/* end loop order */}
                     </ListGroup>
                     <Card.Body>
-                      <Card.Title style={{ fontWeight: "bold" }}>
-                        TOTAL £{parseFloat(liveorder.Total).toFixed(2)}{" "}
+                      <Card.Title>
+                        Subtotal: £{parseFloat(liveorder.Subtotal).toFixed(2)}
                         <br></br>
+                        {liveorder.Coupon ? (
+                          <>
+                            Discount: £
+                            {parseFloat(liveorder.Discount).toFixed(2)}
+                            <br></br>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                        {liveorder.Fee ? (
+                          <>
+                            Delivery Fee: £
+                            {parseFloat(liveorder.Fee).toFixed(2)}
+                            <br></br>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                        <p style={{ fontWeight: "bold" }}>
+                          TOTAL: £{parseFloat(liveorder.Total).toFixed(2)}{" "}
+                        </p>
                         PHONE: {liveorder.Telephone}
                       </Card.Title>
+                      <br></br>
+
                       <Card.Text>
                         {liveorder.user +
                           " " +

@@ -1119,3 +1119,12 @@ a.remove:hover {
 .container-signup .in-signup .rightside-signup {
   flex: 1;
 }
+
+/* modal-product */
+.modal-title h4 {
+  margin-bottom: 0;
+}
+
+.modal-body {
+  margin-bottom: 0;
+}

@@ -15,6 +15,7 @@ import {
   faTicket,
   faCirclePlus,
 } from "@fortawesome/free-solid-svg-icons";
+import logo from "../../Images/thaisunlogo_circle.png";
 function Menu() {
   const history = useHistory();
   const [user, setUser] = useState("");
@@ -63,12 +64,17 @@ function Menu() {
       {/* Brand Logo */}
       <Link to="/dashboard" className="brand-link">
         <img
-          src="dist/img/AdminLTELogo.png"
-          alt="AdminLTE Logo"
+          src={logo}
+          alt="Thaisun Logo"
           className="brand-image img-circle elevation-3"
           style={{ opacity: ".8" }}
         />
-        <span className="brand-text font-weight-light">AdminLTE 3</span>
+        <span
+          className="brand-text font-weight-light"
+          style={{ fontSize: "18px" }}
+        >
+          Thaisun Dashboard
+        </span>
       </Link>
       {/* Sidebar */}
       <div className="sidebar">

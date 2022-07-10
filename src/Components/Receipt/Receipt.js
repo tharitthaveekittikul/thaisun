@@ -127,7 +127,7 @@ function Receipt() {
                         Discount
                       </td>
                       <td className="price">
-                        £{parseFloat(orders.Discount).toFixed(2)}
+                        - £{parseFloat(orders.Discount).toFixed(2)}
                       </td>
                     </tr>
                   </>
@@ -141,7 +141,9 @@ function Receipt() {
                     <td className="description" style={{ tabSize: "4" }}>
                       Delivery
                     </td>
-                    <td className="price">£ FEE</td>
+                    <td className="price">
+                      £{parseFloat(orders.Fee).toFixed(2)}
+                    </td>
                   </tr>
                 ) : (
                   <></>

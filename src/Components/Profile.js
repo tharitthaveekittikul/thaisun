@@ -76,6 +76,18 @@ function Profile() {
   }, []);
 
   async function handleUpdate(e) {
+    if (
+      firstNameRef.current.value === "" ||
+      lastNameRef.current.value === "" ||
+      addressRef.current.value === "" ||
+      townRef.current.value === "" ||
+      countyRef.current.value === "" ||
+      postCodeRef.current.value === "" ||
+      telRef.current.value === ""
+    ) {
+      setError("Please fill the empty.");
+      return;
+    }
     e.preventDefault();
     setMessage("");
     setError("");
