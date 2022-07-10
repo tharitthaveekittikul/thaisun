@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import { Icon } from "react-icons-kit";
 import { plus } from "react-icons-kit/feather/plus";
 import { minus } from "react-icons-kit/feather/minus";
-import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
+import { Button, Alert, Modal } from "react-bootstrap";
 
 export default function AddProducts() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";

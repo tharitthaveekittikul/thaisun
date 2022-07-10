@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button, Modal, Form, Alert } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Button, Modal, Form } from "react-bootstrap";
 import { fs } from "../Config/Config";
 import FixAdd from "./FixAdd";
 import Option from "./Option";

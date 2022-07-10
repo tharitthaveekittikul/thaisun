@@ -1,10 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import Navbar from "./Navbar";
-import { auth, fs } from "../Config/Config";
-import CartProducts from "./CartProducts";
+import React, { useState, useEffect } from "react";
 
-import { useHistory, useLocation, Redirect } from "react-router-dom";
-import { Button, Modal, Form, Alert } from "react-bootstrap";
+import { useHistory, useLocation } from "react-router-dom";
 
 function OrderSuccess() {
   const local = useLocation();

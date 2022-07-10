@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Receipt.css";
 import logo from "../../Images/thaisunlogo.png";
-import { auth, fs } from "../../Config/Config";
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 function Receipt() {
-  function handlePrint() {
-    window.print();
-  }
-  // const [totalProducts, setTotalProducts] = useState("");
-  // const [orders, setOrders] = useState();
-  const [totalPrice, setTotalPrice] = useState(parseFloat(0));
   const isLogIn = localStorage.getItem("isLogIn") === "True";
-  const location = useLocation();
-
-  // const orders = location.state.orders;
 
   const orders = JSON.parse(localStorage.getItem("orders"));
 
@@ -47,7 +37,6 @@ function Receipt() {
                 display: "block",
                 marginLeft: "auto",
                 marginRight: "auto",
-                // width: "50%",
               }}
             />
             <p className="centered">

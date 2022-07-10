@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import Menu from "./Menu";
 import { Redirect } from "react-router-dom";
 import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
-import { auth, fs } from "../../Config/Config";
+import { fs } from "../../Config/Config";
 import DataTable from "./DataTable";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -65,7 +65,6 @@ function AddCoupon() {
   const isLogIn = localStorage.getItem("isLogIn") === "True";
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  // const [coupon, setCoupon] = useState("");
   const couponRef = useRef();
   const [sendEmail, setSendEmail] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -73,25 +72,10 @@ function AddCoupon() {
   const [dateState, setDateState] = useState(false);
   const [type, setType] = useState(true); //fixed = true, percent = false
   const fixedRef = useRef();
-  const percentRef = useRef();
   const [percent, setPercent] = useState(1);
   const [gName, setgName] = useState("");
   const minimumRef = useRef();
-  const [minimum, setMinimum] = useState(0);
   const [minState, setMinState] = useState(false);
-
-  // useEffect(() => {
-  //   const getCouponFromFirebase = [];
-  //   const subscriber = fs.collection("coupon").onSnapshot((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       getCouponFromFirebase.push({ ...doc.data(), key: doc.id });
-  //     });
-  //     setCoupon(getCouponFromFirebase);
-  //     setLoading(false);
-  //   });
-  //   console.log(getCouponFromFirebase);
-  //   return () => subscriber();
-  // }, []);
 
   function GetCouponFromFirebase() {
     const getCouponFromFirebase = [];

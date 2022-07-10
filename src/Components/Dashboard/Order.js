@@ -1,6 +1,5 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Form, Card, Button, Container, Alert } from "react-bootstrap";
-import { auth, fs } from "../../Config/Config";
+import React, { useState, useEffect } from "react";
+import { Card, Button, Container } from "react-bootstrap";
 import { useHistory, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -41,13 +40,6 @@ function Order() {
         },
         false
       );
-
-      //   history.push({
-      //     pathname: "/receipt",
-      //     state: {
-      //       orders: orders,
-      //     },
-      //   });
     }
   }
 

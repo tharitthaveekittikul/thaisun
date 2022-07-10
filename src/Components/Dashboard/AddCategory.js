@@ -3,8 +3,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Menu from "./Menu";
 import { Redirect } from "react-router-dom";
-import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
-import { auth, fs } from "../../Config/Config";
+import { Button, Alert, Card, Form, Modal } from "react-bootstrap";
+import { fs } from "../../Config/Config";
 import DataTable from "./DataTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -49,22 +49,9 @@ function AddCategory() {
   const isLogIn = localStorage.getItem("isLogIn") === "True";
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  // const [category, setCategory] = useState("");
   const categoryRef = useRef();
   const [sendEmail, setSendEmail] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const getCategoryFromFirebase = [];
-  //   const subscriber = fs.collection("category").onSnapshot((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       getCategoryFromFirebase.push({ ...doc.data(), key: doc.id });
-  //     });
-  //     setCategory(getCategoryFromFirebase);
-  //     setLoading(false);
-  //   });
-  //   return () => subscriber();
-  // }, []);
 
   function GetCategoryFromFirebase() {
     const getCategoryFromFirebase = [];

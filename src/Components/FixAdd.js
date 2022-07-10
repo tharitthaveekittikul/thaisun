@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button, Modal, Form, Alert } from "react-bootstrap";
-import { auth, fs } from "../Config/Config";
+import React, { useState, useEffect } from "react";
+import { Form } from "react-bootstrap";
+import { fs } from "../Config/Config";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import FormGroup from "@mui/material/FormGroup";
 import { Typography } from "@mui/material";
 

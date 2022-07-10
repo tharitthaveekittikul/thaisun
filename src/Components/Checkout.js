@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import Navbar from "./Navbar";
-import { auth, fs } from "../Config/Config";
-import CartProducts from "./CartProducts";
 
-import { useHistory, useLocation, Redirect } from "react-router-dom";
+import { auth, fs } from "../Config/Config";
+
+import { useHistory, useLocation } from "react-router-dom";
 import { Button, Modal, Form, Alert } from "react-bootstrap";
 
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
@@ -14,7 +13,6 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { format } from "date-fns";
 import Navbar1 from "./Navbar1";
-import { gridColumnsTotalWidthSelector } from "@mui/x-data-grid";
 
 function Checkout() {
   const local = useLocation();
@@ -29,7 +27,6 @@ function Checkout() {
   const [county, setCounty] = useState("");
   const [postCode, setPostCode] = useState("");
   const [tel, setTel] = useState("");
-  const [getCouponsFromFirebase, setGetCouponsFromFirebase] = useState([]);
   const [modalShow, setModalShow] = useState(false);
 
   const [error, setError] = useState("");
@@ -42,14 +39,11 @@ function Checkout() {
   );
   const [buttonDisable, setButtonDisable] = useState(true);
 
-  const postCodeRef = useRef();
   const addressRef = useRef();
-  const townRef = useRef();
+
   const countyRef = useRef();
 
   const [deliveryChange, setDeliveryChange] = useState(false);
-
-  // const postCodeDeliver = ["LS12", "LS13", "LS18", "LS28"];
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -58,8 +52,6 @@ function Checkout() {
           .doc(user.uid)
           .get()
           .then((snapshot) => {
-            // console.log(user);
-            // console.log(user.uid);
             setFirstName(snapshot.data().FirstName);
             setLastName(snapshot.data().LastName);
             setEmail(snapshot.data().Email);
@@ -104,9 +96,6 @@ function Checkout() {
 
   Coupons = GetCouponsUser();
 
-  // let fee_new = MilesCal();
-
-  // const [fee, setFee] = useState(2); // 2 pounds default
   let fee = 2;
   useEffect(() => {
     try {
@@ -236,34 +225,6 @@ function Checkout() {
       ).toFixed(2),
     });
   }, [town, postCode, buttonDisable, deliveryChange]);
-  // useEffect(() => {
-  //   fee_new = MilesCal();
-  // }, [town, postCode]);
-  // function GetCurrentCart() {
-  //   const [fromCart, setFromCart] = useState();
-  //   useEffect(() => {
-  //     try {
-  //       setFromCart({
-  //         cartProducts: local.state.cartProducts,
-  //         Coupon: local.state.Coupon,
-  //         Subtotal: local.state.Subtotal,
-  //         Fee: local.state.Fee,
-  //         Discount: local.state.Discount,
-  //         // Total: local.state.Total,
-  //         Total: Number(
-  //           Number(local.state.Subtotal) -
-  //             Number(local.state.Discount).toFixed(2) +
-  //             Number(local.state.Fee)
-  //         ).toFixed(2),
-  //       });
-  //     } catch {
-  //       history.push("/");
-  //     }
-  //   }, []);
-  //   return fromCart;
-  // }
-
-  // const fromCarts = GetCurrentCart();
 
   const [fromCart, setFromCart] = useState();
   useEffect(() => {
@@ -285,16 +246,7 @@ function Checkout() {
       history.push("/");
     }
   }, []);
-  // useEffect(() => {
-  //   setFromCart(fromCarts);
-  // }, []);
 
-  // useEffect(() => {
-  //   setGetCouponsFromFirebase((prevState) => [
-  //     ...prevState,
-  //     local.state.Coupon,
-  //   ]);
-  // }, []); // getCouponsFromFirebase = [] -> edit this
   useEffect(() => {
     try {
       console.log(Coupons);
@@ -334,41 +286,10 @@ function Checkout() {
     return user;
   }
 
-  // function GetUserCoupons() {
-  //   const [getCouponsFromFirebase, setGetCouponsFromFirebase] = useState([]);
-
-  //   useEffect(() => {
-  //     auth.onAuthStateChanged((user) => {
-  //       if (user) {
-  //         fs.collection("users")
-  //           .doc(user.uid)
-  //           .get()
-  //           .then((snapshot) => {
-  //             setGetCouponsFromFirebase(snapshot.data().Coupons);
-  //           });
-  //       } else {
-  //         setGetCouponsFromFirebase([]);
-  //       }
-  //     });
-  //   }, []);
-  //   return getCouponsFromFirebase;
-  // }
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setTownTemp(town);
-  //     setPostCodeTemp(postCode);
-  //   }, 2000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
   useEffect(() => {
     setTownTemp(town);
     setPostCodeTemp(postCode);
   }, [buttonDisable]);
-
-  // const getCategoryFromFirebase = GetUserCoupons;
-  // const fee_new = MilesCal_new(townTemp, postCodeTemp);
 
   function handleChangeState(event) {
     if (event.target.value == "pickup") {
@@ -407,22 +328,12 @@ function Checkout() {
   }
 
   function handleChangeTown(e) {
-    // fee = Number(MilesCal_new(e.target.value, postCode));
     setDeliveryChange(!deliveryChange);
     console.log(fee);
     setTown(e.target.value);
     fs.collection("users").doc(uid).update({
       Town: e.target.value,
     });
-    // setFromCart({
-    //   ...fromCart,
-    //   Fee: fee,
-    //   Total: Number(
-    //     Number(local.state.Subtotal) -
-    //       Number(local.state.Discount).toFixed(2) +
-    //       Number(fee)
-    //   ).toFixed(2),
-    // });
   }
 
   function handleChangePostCode(e) {
@@ -433,15 +344,6 @@ function Checkout() {
     fs.collection("users").doc(uid).update({
       PostCode: e.target.value,
     });
-    // setFromCart({
-    //   ...fromCart,
-    //   Fee: fee,
-    //   Total: Number(
-    //     Number(local.state.Subtotal) -
-    //       Number(local.state.Discount).toFixed(2) +
-    //       Number(fee)
-    //   ).toFixed(2),
-    // });
   }
 
   useEffect(() => {
@@ -676,13 +578,6 @@ function Checkout() {
                         *
                       </span>
                     </FormLabel>
-                    {/* <Form.Control
-                      type="text"
-                      ref={townRef}
-                      defaultValue={town}
-                      required
-                      style={{ marginBottom: "20px" }}
-                    /> */}
                     <select
                       className="form-control"
                       required
@@ -720,13 +615,6 @@ function Checkout() {
                         *
                       </span>
                     </FormLabel>
-                    {/* <Form.Control
-                      type="text"
-                      ref={postCodeRef}
-                      defaultValue={postCode}
-                      required
-                      style={{ marginBottom: "20px" }}
-                    /> */}
                     <select
                       className="form-control"
                       required
@@ -741,9 +629,6 @@ function Checkout() {
                       <option value="LS13">LS13</option>
                       <option value="LS18">LS18</option>
                       <option value="LS28">LS28</option>
-                      {/* {postCodeDeliver.map((post) => (
-                        <option value={post}>{post}</option>
-                      ))} */}
                     </select>
                   </div>
                 )}

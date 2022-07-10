@@ -30,16 +30,6 @@ function Navbar({ user, isAdmin, totalProducts }) {
         </div>
       </div>
       <div className="rightside">
-        {/* <div>
-          <Link className="navlink" to="signup">
-            SIGN UP
-          </Link>
-        </div>
-        <div>
-          <Link className="navlink" to="login">
-            LOGIN
-          </Link>
-        </div> */}
         {!user ? (
           <>
             <div>

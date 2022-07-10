@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Menu from "./Menu";
 import { Redirect, useHistory } from "react-router-dom";
-import { Button, Alert, Container, Card, Form } from "react-bootstrap";
-import { auth, fs } from "../../Config/Config";
+import { Button } from "react-bootstrap";
+import { fs } from "../../Config/Config";
 import DataTable from "./DataTable";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -52,23 +52,7 @@ function OrderHistory() {
   ];
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
-  // const [orders, setOrders] = useState("");
   const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const getOrderFromFirebase = [];
-  //   const subscriber = fs
-  //     .collection("orderHistory")
-  //     .onSnapshot((querySnapshot) => {
-  //       querySnapshot.forEach((doc) => {
-  //         getOrderFromFirebase.push({ ...doc.data(), key: doc.id });
-  //       });
-  //       setOrders(getOrderFromFirebase);
-  //       setLoading(false);
-  //     });
-  //   console.log(getOrderFromFirebase);
-  //   return () => subscriber();
-  // }, []);
 
   function GetOrderFromFirebase() {
     const getOrderFromFirebase = [];

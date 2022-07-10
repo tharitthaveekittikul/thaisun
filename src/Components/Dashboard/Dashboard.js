@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect, Link } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Content from "./Content";
 import Header from "./Header";
 import Menu from "./Menu";

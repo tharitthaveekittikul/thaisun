@@ -6,7 +6,7 @@ export default function Paypal(cost) {
   const history = useHistory();
 
   useEffect(() => {
-    console.log(Object.values(cost)[0])
+    console.log(Object.values(cost)[0]);
     window.paypal
       .Buttons({
         upgradeLSAT: true,
@@ -25,13 +25,13 @@ export default function Paypal(cost) {
           });
         },
         onApprove: async (data, actions) => {
-            const order = await actions.order.capture(); 
-            console.log("order", order);
-            console.log('DONEEEEEEEEEEEEEEe')
-            history.push('/menu')
+          const order = await actions.order.capture();
+          console.log("order", order);
+          console.log("DONEEEEEEEEEEEEEEe");
+          history.push("/menu");
         },
-        onShippingChange: function(data,actions){
-            return actions.resolve();
+        onShippingChange: function (data, actions) {
+          return actions.resolve();
         },
         onError: (err) => {
           console.log(err);

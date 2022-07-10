@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Menu from "./Menu";
 import { Redirect, useHistory } from "react-router-dom";
-import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
-import { auth, fs } from "../../Config/Config";
+import { Button, Alert, Modal } from "react-bootstrap";
+import { fs } from "../../Config/Config";
 import DataTable from "./DataTable";
-import EditProducts from "./EditProducts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
@@ -39,11 +38,6 @@ function ManageProducts() {
             <Button
               color="error"
               variant="success"
-              // onClick={() => {
-              //   // console.log(cellValues.id);
-              //   // handleUpdateButton(cellValues.id);
-              //   handleEditButton(cellValues.id);
-              // }}
               onClick={() => handleEditButton(cellValues.id)}
             >
               Edit
@@ -77,7 +71,6 @@ function ManageProducts() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
   const [loading, setLoading] = useState(true);
-  // const [products, setProducts] = useState();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [title, setTitle] = useState("");
@@ -102,18 +95,6 @@ function ManageProducts() {
       },
     });
   }
-
-  // useEffect(() => {
-  //   const getProductFromFirebase = [];
-  //   const subscriber = fs.collection("Products").onSnapshot((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       getProductFromFirebase.push({ ...doc.data(), key: doc.id });
-  //     });
-  //     setProducts(getProductFromFirebase);
-  //     setLoading(false);
-  //   });
-  //   return () => subscriber();
-  // }, []);
 
   function GetProductFromFirebase() {
     const getProductFromFirebase = [];
@@ -194,7 +175,6 @@ function ManageProducts() {
     setLoading(false);
   }
 
-  // console.log(users);
   if (loading) {
     return (
       <div className="wrapper">

@@ -17,9 +17,7 @@ function Delivery() {
   const history = useHistory();
 
   const addressRef = useRef();
-  const townRef = useRef();
   const countyRef = useRef();
-  const postCodeRef = useRef();
 
   const [loadingMsg, setLoadingMsg] = useState("");
 

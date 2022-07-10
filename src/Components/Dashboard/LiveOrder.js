@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Menu from "./Menu";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import {
   Button,
-  Alert,
   Container,
   Card,
   Form,
@@ -13,7 +12,7 @@ import {
   ListGroupItem,
   Modal,
 } from "react-bootstrap";
-import { auth, fs } from "../../Config/Config";
+import { fs } from "../../Config/Config";
 import sound from "../../sound/new_order.mp3";
 import axios from "axios";
 
@@ -23,8 +22,6 @@ function LiveOrder() {
 
   const colors = ["#ee786e", "#ffff"];
   const [value, setValue] = useState(0);
-
-  const history = useHistory();
 
   const [showSure, setShowSure] = useState(false);
   const handleCloseSure = () => setShowSure(false);
@@ -80,7 +77,7 @@ function LiveOrder() {
 
   window.setTimeout(function () {
     window.location.reload();
-  }, 30000);
+  }, 60000);
 
   const [clear, setClear] = useState(true);
 
@@ -98,31 +95,6 @@ function LiveOrder() {
     return liveOrders;
   }
   const liveOrders = GetLiveOrderFromFirebase();
-
-  // function ChangeBackground() {
-  //   useEffect(() => {
-  //     const interval = setInterval(() => {
-  //       setValue((v) => {
-  //         return v === 1 ? 0 : v + 1;
-  //       });
-  //     }, 1000);
-  //     setClear(false);
-  //     return () => clearInterval(interval);
-  //   }, []);
-  // }
-  // setTimeout(() => {
-  //   ChangeBackground();
-  // }, 2000);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setValue((v) => {
-  //       return v === 1 ? 0 : v + 1;
-  //     });
-  //   }, 1000);
-  //   setClear(false);
-  //   return () => clearInterval(interval);
-  // }, []);
 
   function ChangeBackground() {
     const interval = setInterval(() => {
@@ -2692,7 +2664,6 @@ function LiveOrder() {
                         variant="danger"
                         onClick={() => {
                           handleShowReason(liveorder, liveorder.key);
-                          // handleDecline(liveorder, liveorder.key);
                         }}
                       >
                         DECLINE

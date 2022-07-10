@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-import { auth, fs } from "../../Config/Config";
-import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { fs } from "../../Config/Config";
+import { Button, Alert, Modal } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import DataTable from "./DataTable";
 import Header from "./Header";
@@ -72,22 +72,8 @@ function ManageAdmin() {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
   const isLogIn = localStorage.getItem("isLogIn") === "True";
   const [loading, setLoading] = useState(true);
-  // const [users, setUsers] = useState();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  // const [uid, setUid] = useState("");
-
-  // useEffect(() => {
-  //   const getUserFormFirebase = [];
-  //   const subscriber = fs.collection("users").onSnapshot((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       getUserFormFirebase.push({ ...doc.data(), key: doc.id });
-  //     });
-  //     setUsers(getUserFormFirebase);
-  //     setLoading(false);
-  //   });
-  //   return () => subscriber();
-  // }, []);
 
   function GetUserFromFirebase() {
     const getUserFromFirebase = [];
@@ -105,7 +91,6 @@ function ManageAdmin() {
 
   const users = GetUserFromFirebase();
 
-  // console.log(users);
   if (loading) {
     return (
       <div className="wrapper">

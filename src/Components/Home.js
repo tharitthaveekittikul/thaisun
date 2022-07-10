@@ -1,28 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import Navbar from "./Navbar";
 import Products from "./Products";
 import { auth, fs } from "../Config/Config";
 import IndividualFilteredProduct from "./IndividualFilteredProduct";
-import CartProducts from "./CartProducts";
-import {
-  Accordion,
-  Button,
-  Table,
-  AccordionContext,
-  Modal,
-} from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { Icon } from "react-icons-kit";
 import { plus } from "react-icons-kit/feather/plus";
 import { ic_delete } from "react-icons-kit/md/ic_delete";
 import { minus } from "react-icons-kit/feather/minus";
-import Delivery from "./Delivery";
-import Pickup from "./Pickup";
 import { useHistory } from "react-router-dom";
 import Navbar1 from "./Navbar1";
 import { useMediaQuery } from "react-responsive";
 import { Scrollbars } from "react-custom-scrollbars-2";
-import { fontSize } from "@mui/system";
-import { ic_shopping_basket } from "react-icons-kit/md/ic_shopping_basket";
 import { shoppingBag } from "react-icons-kit/fa/shoppingBag";
 import { Fab } from "@mui/material";
 import { createTheme } from "@mui/material/styles";

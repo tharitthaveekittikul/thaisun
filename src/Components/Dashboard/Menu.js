@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { auth, fs } from "../../Config/Config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCoffee,
   faHistory,
-  faRectangleAd,
   faUser,
   faUserPlus,
   faGaugeSimpleHigh,
@@ -13,7 +11,6 @@ import {
   faCartPlus,
   faBarChart,
   faTicket,
-  faCirclePlus,
 } from "@fortawesome/free-solid-svg-icons";
 import logo from "../../Images/thaisunlogo_circle.png";
 function Menu() {
@@ -33,15 +30,6 @@ function Menu() {
       }
     });
   }, []);
-
-  // get live order length
-  // const [totalOrders, setOrders] = useState();
-  // useEffect(() => {
-  //   fs.collection("liveorder").onSnapshot((snapshot) => {
-  //     const qty = snapshot.docs.length;
-  //     setOrders(qty);
-  //   });
-  // }, []);
 
   function GetTotalOrdersFromFirebase() {
     const getTotalOrdersFromFirebase = [];

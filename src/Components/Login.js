@@ -21,8 +21,7 @@ function Login() {
     try {
       setError("");
       setLoading(true);
-      //   console.log(emailRef.current.value);
-      //   console.log(passwordRef.current.value);
+
       await auth
         .signInWithEmailAndPassword(
           emailRef.current.value,
@@ -35,19 +34,9 @@ function Login() {
             await auth.signOut();
           } else {
             setSuccess("Log In Successfull.");
-            // localStorage.setItem(
-            //   "isLogIn",
-            //   JSON.stringify({
-            //     status: true,
-            //     expiry: new Date().getTime() + (6 + 1) * 3600000,
-            //   }) // 6 is 6 hours and 1 is GMT+1
-            // );
 
             localStorage.setItem("isLogIn", "True");
             history.push("/");
-            // setTimeout(() => {
-            //   history.push("/");
-            // }, 1000);
           }
         })
         .catch((error) => setError(error.message));

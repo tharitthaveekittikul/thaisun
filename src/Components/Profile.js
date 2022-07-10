@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { Form, Card, Button, Container, Alert } from "react-bootstrap";
 import { auth, fs } from "../Config/Config";
 import { useHistory } from "react-router-dom";
-import Navbar from "./Navbar";
 import Navbar1 from "./Navbar1";
 import { useMediaQuery } from "react-responsive";
 
