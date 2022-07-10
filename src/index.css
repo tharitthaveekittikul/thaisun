@@ -499,7 +499,6 @@
   height: 100vh;
   display: flex;
   justify-content: center;
-  border: 3px solid green;
 }
 
 .method {
@@ -514,7 +513,14 @@
   align-items: center;
   transition: all 0.3s ease-in-out;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 30px;
+}
+
+@media (max-width: 400px) {
+  .method {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 }
 
 .method:hover {
@@ -1012,7 +1018,9 @@ a.remove:hover {
   text-indent: 12px;
   margin-top: -4px;
 }
-
+.rightside1 .cart-summary-box table tbody .empty-basket {
+  text-align: center;
+}
 /* Dashboard Loading */
 .spinner {
   animation: spin infinite 5s linear;

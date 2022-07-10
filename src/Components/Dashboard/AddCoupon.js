@@ -131,7 +131,7 @@ function AddCoupon() {
 
       fs.collection("coupon")
         .add({
-          coupon: couponRef.current.value,
+          coupon: couponRef.current.value.toUpperCase(),
           expireddate: expired,
           type: couponType,
           value: value,
@@ -210,8 +210,7 @@ function AddCoupon() {
 
   function generateName() {
     var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     var charactersLength = characters.length;
     for (var i = 0; i < 8; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));

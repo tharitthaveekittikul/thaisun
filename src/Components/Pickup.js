@@ -16,7 +16,11 @@ function Pickup() {
   }
   return (
     <>
-      <Button onClick={handlePickup}>Pickup</Button>
+      <div className="method-btn">
+        <Button variant="danger" onClick={handlePickup}>
+          Pickup
+        </Button>
+      </div>
     </>
   );
 }

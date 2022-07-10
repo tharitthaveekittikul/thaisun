@@ -10,6 +10,7 @@ import { useMediaQuery } from "react-responsive";
 
 export default function IndividualProduct({ individualProduct, addToCart }) {
   const indMenuQuery = useMediaQuery({ query: "(min-width: 410px)" });
+  const smallQuery = useMediaQuery({ query: "(min-width: 340px)" });
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -78,16 +79,29 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
   return (
     <div className="ind-menu">
       <div className="menu-img">
-        <img
-          style={{
-            alignContent: "center",
-            width: "100px",
-            height: "100px",
-            borderRadius: "10px",
-          }}
-          src={individualProduct.img}
-          alt="Menu image"
-        />
+        {smallQuery ? (
+          <img
+            style={{
+              alignContent: "center",
+              width: "100px",
+              height: "100px",
+              borderRadius: "10px",
+            }}
+            src={individualProduct.img}
+            alt="Menu image"
+          />
+        ) : (
+          <img
+            style={{
+              alignContent: "center",
+              width: "60px",
+              height: "60px",
+              borderRadius: "10px",
+            }}
+            src={individualProduct.img}
+            alt="Menu image"
+          />
+        )}
       </div>
       <div className="menu-text">
         <div className="title">{individualProduct.title}</div>

@@ -95,6 +95,7 @@ function Checkout() {
   }
 
   Coupons = GetCouponsUser();
+  const [fromCart, setFromCart] = useState(null);
 
   let fee = 2;
   useEffect(() => {
@@ -106,127 +107,132 @@ function Checkout() {
 
   const miles = 3; //default 3 miles
   useEffect(() => {
-    // setFee(2);
-    let fee_temp = 2;
-    if (town === "Calvery") {
+    if (localStorage.getItem("Delivery") == "true") {
       // setFee(2);
-      if (postCode.toUpperCase() === "LS12") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS13") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS18") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS28") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
+      let fee_temp = 2;
+      if (town === "Calvery") {
+        // setFee(2);
+        if (postCode.toUpperCase() === "LS12") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS13") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS18") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS28") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        }
+      } else if (town === "Bramley") {
+        // setFee(2);
+        if (postCode.toUpperCase() === "LS12") {
+          let distance = Number(16 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS13") {
+          let distance = Number(16 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS18") {
+          let distance = Number(16 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS28") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        }
+      } else if (town === "Armley") {
+        // setFee(2);
+        if (postCode.toUpperCase() === "LS12") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+          // setFee(20);
+        } else if (postCode.toUpperCase() === "LS13") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS18") {
+          let distance = Number(6 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS28") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        }
+      } else if (town === "Rodley") {
+        // setFee(2);
+        if (postCode.toUpperCase() === "LS12") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS13") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS18") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS28") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        }
+      } else if (town === "Horstforth") {
+        // setFee(2);
+        if (postCode.toUpperCase() === "LS12") {
+          let distance = Number(6 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS13") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS18") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS28") {
+          let distance = Number(3 - miles); // miles < 3 so distance around 3 default
+          fee = Number(distance + fee_temp);
+        }
+      } else if (town === "Stanningley") {
+        // setFee(2);
+        if (postCode.toUpperCase() === "LS12") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS13") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS18") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS28") {
+          let distance = Number(4 - miles);
+          fee = Number(distance + fee_temp);
+        }
+      } else if (town === "Pudsey") {
+        // setFee(2);
+        if (postCode.toUpperCase() === "LS12") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS13") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS18") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        } else if (postCode.toUpperCase() === "LS28") {
+          let distance = Number(3 - miles);
+          fee = Number(distance + fee_temp);
+        }
       }
-    } else if (town === "Bramley") {
-      // setFee(2);
-      if (postCode.toUpperCase() === "LS12") {
-        let distance = Number(16 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS13") {
-        let distance = Number(16 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS18") {
-        let distance = Number(16 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS28") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      }
-    } else if (town === "Armley") {
-      // setFee(2);
-      if (postCode.toUpperCase() === "LS12") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-        // setFee(20);
-      } else if (postCode.toUpperCase() === "LS13") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS18") {
-        let distance = Number(6 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS28") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      }
-    } else if (town === "Rodley") {
-      // setFee(2);
-      if (postCode.toUpperCase() === "LS12") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS13") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS18") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS28") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      }
-    } else if (town === "Horstforth") {
-      // setFee(2);
-      if (postCode.toUpperCase() === "LS12") {
-        let distance = Number(6 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS13") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS18") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS28") {
-        let distance = Number(3 - miles); // miles < 3 so distance around 3 default
-        fee = Number(distance + fee_temp);
-      }
-    } else if (town === "Stanningley") {
-      // setFee(2);
-      if (postCode.toUpperCase() === "LS12") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS13") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS18") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS28") {
-        let distance = Number(4 - miles);
-        fee = Number(distance + fee_temp);
-      }
-    } else if (town === "Pudsey") {
-      // setFee(2);
-      if (postCode.toUpperCase() === "LS12") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS13") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS18") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
-      } else if (postCode.toUpperCase() === "LS28") {
-        let distance = Number(3 - miles);
-        fee = Number(distance + fee_temp);
+      try {
+        setFromCart({
+          ...fromCart,
+          Fee: fee,
+          Total: Number(
+            Number(local.state.Subtotal) -
+              Number(local.state.Discount).toFixed(2) +
+              Number(fee)
+          ).toFixed(2),
+        });
+      } catch {
+        history.push("/");
       }
     }
-    setFromCart({
-      ...fromCart,
-      Fee: fee,
-      Total: Number(
-        Number(local.state.Subtotal) -
-          Number(local.state.Discount).toFixed(2) +
-          Number(fee)
-      ).toFixed(2),
-    });
   }, [town, postCode, buttonDisable, deliveryChange]);
 
-  const [fromCart, setFromCart] = useState();
   useEffect(() => {
     try {
       setFromCart({
@@ -557,7 +563,9 @@ function Checkout() {
                     </>
                   )}
                 </FormControl>
-                {pickupState ? null : (
+                {pickupState ? (
+                  <div></div>
+                ) : (
                   <div>
                     <FormLabel>
                       Address{" "}
@@ -715,14 +723,19 @@ function Checkout() {
                         </td>
                       </tr>
                     ) : null}
-                    <tr>
-                      <td className="c-text">
-                        <span>Delivery Fee</span>
-                      </td>
-                      <td className="c-price">
-                        <span>£{Number(fromCart.Fee).toFixed(2)}</span>
-                      </td>
-                    </tr>
+                    {fromCart.Fee == 0 ||
+                    fromCart.Fee == "0.00" ||
+                    fromCart == "0" ? null : (
+                      <tr>
+                        <td className="c-text">
+                          <span>Delivery Fee</span>
+                        </td>
+                        <td className="c-price">
+                          <span>£{Number(fromCart.Fee).toFixed(2)}</span>
+                        </td>
+                      </tr>
+                    )}
+
                     <tr>
                       <td className="c-text">
                         <span style={{ fontWeight: 700 }}>Total</span>

@@ -11,11 +11,19 @@ export default function Method() {
     <>
       <div className="method-container">
         <div className="method">
-          <Icon icon={ic_directions_bike} size={60} />
+          <Icon
+            icon={ic_directions_bike}
+            size={60}
+            style={{ marginBottom: "10px" }}
+          />
           <Delivery />
         </div>
         <div className="method">
-          <Icon icon={ic_restaurant} size={60} />
+          <Icon
+            icon={ic_restaurant}
+            size={60}
+            style={{ marginBottom: "10px" }}
+          />
           <Pickup />
         </div>
       </div>

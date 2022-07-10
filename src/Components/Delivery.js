@@ -153,7 +153,11 @@ function Delivery() {
 
   return (
     <>
-      <Button onClick={handleDelivery}>Delivery</Button>
+      <div className="method-btn">
+        <Button variant="danger" onClick={handleDelivery}>
+          Delivery
+        </Button>
+      </div>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -227,19 +231,25 @@ function Delivery() {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            I don't want to order
-          </Button>
-          {changePickup ? (
-            <Button variant="primary" onClick={handlePickup}>
-              Change to Pickup
+          <div>
+            <Button variant="secondary" onClick={handleClose}>
+              I don't want to order
             </Button>
+          </div>
+          {changePickup ? (
+            <div className="method-btn">
+              <Button variant="danger" onClick={handlePickup}>
+                Change to Pickup
+              </Button>
+            </div>
           ) : (
             <></>
           )}
-          <Button variant="primary" onClick={handleOrder}>
-            Order Now
-          </Button>
+          <div className="method-btn">
+            <Button variant="danger" onClick={handleOrder}>
+              Order Now
+            </Button>
+          </div>
         </Modal.Footer>
       </Modal>
     </>

@@ -14,6 +14,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import MilesCal from "./MilesCal";
 
 export default function Cart() {
+  const [discountChange, setDiscountChange] = useState(0);
   const [qtyChange, setQtyChange] = useState(0);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const history = useHistory();
@@ -50,6 +51,10 @@ export default function Cart() {
   }
   const [totalCost, setTotalCost] = useState(0);
 
+  useEffect(() => {
+    console.log("totalcost change: ", totalCost);
+  }, [totalCost]);
+
   const [lastCoupon, setLastCoupon] = useState(false);
 
   const user = GetCurrentUser();
@@ -78,6 +83,18 @@ export default function Cart() {
     });
   }, []);
 
+  // getting the TotalProductPrice from cartProducts in a seperate array
+  const price = cartProducts.map((cartProduct) => {
+    return cartProduct.TotalProductPrice;
+  });
+
+  // reducing the price in a single value
+  const reducerOfPrice = (accumulator, currentValue) =>
+    accumulator + currentValue;
+
+  const subtotalPrice = Number(price.reduce(reducerOfPrice, 0)).toFixed(2);
+  const [totalPrice, setTotalPrice] = useState(0);
+
   // console.log(cartProducts);
 
   // getting the qty from cartProducts in a seperate array
@@ -93,23 +110,12 @@ export default function Cart() {
 
   // console.log(totalQty);
 
-  // getting the TotalProductPrice from cartProducts in a seperate array
-  const price = cartProducts.map((cartProduct) => {
-    return cartProduct.TotalProductPrice;
-  });
-
-  // reducing the price in a single value
-  const reducerOfPrice = (accumulator, currentValue) =>
-    accumulator + currentValue;
-
-  const subtotalPrice = Number(price.reduce(reducerOfPrice, 0)).toFixed(2);
-  const [totalPrice, setTotalPrice] = useState(0);
-
   const GetFee = () => {
     let fee;
-    if (localStorage.getItem("Delivery")) {
+    if (localStorage.getItem("Delivery") == "true") {
       fee = MilesCal();
     } else {
+      fee = 1;
       fee = 0;
     }
     return fee;
@@ -118,9 +124,15 @@ export default function Cart() {
   const fee = Number(GetFee());
 
   useEffect(() => {
+    console.log(fee, qtyChange);
+    console.log(
+      "change qty: ",
+      Number(Number(subtotalPrice) + Number(fee)).toFixed(2),
+      Number(Number(subtotalPrice) + Number(fee)).toFixed(2)
+    );
     setTotalPrice(Number(Number(subtotalPrice) + Number(fee)).toFixed(2));
     setTotalCost(Number(Number(subtotalPrice) + Number(fee)).toFixed(2));
-  }, [subtotalPrice, fee, qtyChange]);
+  }, [fee, cartProducts]);
 
   // global variable
   let Product;
@@ -240,7 +252,7 @@ export default function Cart() {
     setCouponType(false);
 
     e.preventDefault();
-    let couponInput = couponInputRef.current.value;
+    let couponInput = couponInputRef.current.value.toUpperCase();
     fs.collection("users")
       .doc(uid)
       .get()
@@ -259,7 +271,7 @@ export default function Cart() {
           //ไปต่อ หา coupon ว่ามีที่ตรงมั้ย
           for (let i = 0; i < couponFs.length; i++) {
             if (couponFs[i].coupon == couponInput) {
-              console.log(couponFs[i].minimum);
+              console.log("minimum: ", couponFs[i].minimum);
               if (couponFs[i].minimum == "-") {
                 setMinimum(0);
                 stateTemp = true;
@@ -291,8 +303,15 @@ export default function Cart() {
   useEffect(() => {
     setMessage("");
     setError("");
-    console.log("coupon check");
-    console.log(subtotalPrice, minimum, couponState);
+    console.log("USEEFFECT SEND TO COUPON DO");
+    console.log(
+      "subtotal: ",
+      subtotalPrice,
+      "minimum: ",
+      minimum,
+      "coupon state: ",
+      couponState
+    );
     if (couponState && subtotalPrice > minimum) {
       //คูปองมี ใช้ได้
       setMessage("Coupon activated.");
@@ -304,7 +323,9 @@ export default function Cart() {
       setCouponSuccess(null);
       setLastCoupon(false);
       console.log("Your total is not reaching the minimum.");
-      setCouponCheck(false);
+      setTotalDiscount(0);
+      setCouponType(false);
+      setCheckoutLoading(false);
     } else if (couponState == false && couponCount == 1) {
       //ไม่มีในระบบ บอกไม่มีจ้า
       setError("This coupon is not exist.");
@@ -314,54 +335,75 @@ export default function Cart() {
       console.log("This coupon is not exist.");
       setCouponCheck(true);
     }
-  }, [couponState, qtyChange]);
+  }, [couponState, cartProducts]);
 
-  let finalTotal = Number(totalPrice);
+  var finalTotal;
+  useEffect(() => {
+    finalTotal = Number(totalPrice);
+  }, []);
 
   useEffect(() => {
+    console.log("COUPON DO");
     try {
-      let couponInput = couponInputRef.current.value;
-      console.log(couponCheck);
-      for (let i = 0; i < couponFs.length; i++) {
-        if (couponFs[i].coupon == couponInput) {
-          let discount = Number(couponFs[i].value).toFixed(2);
-          if (couponFs[i].type == "fixed" && couponCheck == true) {
-            setTotalDiscount(discount);
-            setCouponType(true);
-            if (Number(Number(subtotalPrice) - Number(discount)) < 0) {
-              finalTotal = 0;
-            } else {
+      if (couponCheck !== null) {
+        let couponInput = couponInputRef.current.value.toUpperCase();
+        console.log("couponCheck: ", couponCheck);
+        for (let i = 0; i < couponFs.length; i++) {
+          if (couponFs[i].coupon == couponInput) {
+            let discount = Number(couponFs[i].value).toFixed(2);
+            if (couponFs[i].type == "fixed" && couponCheck == true) {
+              setTotalDiscount(discount);
+              setCouponType(true);
+              console.log(
+                "subtotal - discount = ",
+                Number(Number(subtotalPrice) - Number(discount))
+              );
+              if (Number(Number(subtotalPrice) - Number(discount)) < 0) {
+                setTotalDiscount(subtotalPrice);
+                finalTotal = 0;
+                console.log("subtotal < discount => total = 0", finalTotal);
+                setTotalCost(Number(finalTotal) + Number(fee));
+                setDiscountChange(discountChange + 1);
+              } else {
+                finalTotal = Number(
+                  Number(subtotalPrice) - Number(discount)
+                ).toFixed(2);
+                setTotalCost(Number(finalTotal) + Number(fee));
+                setDiscountChange(discountChange + 1);
+              }
+            } else if (couponFs[i].type == "percent" && couponCheck == true) {
+              console.log("percent coupon");
+              setCouponType(true);
+              setTotalDiscount(
+                Number(
+                  Number(subtotalPrice) * ((100 - Number(discount)) / 100)
+                ).toFixed(2)
+              );
               finalTotal = Number(
-                Number(subtotalPrice) - Number(discount)
+                Number(subtotalPrice) * (Number(discount) / 100)
               ).toFixed(2);
+              setTotalCost(Number(finalTotal) + Number(fee));
+              setDiscountChange(discountChange + 1);
             }
-          } else if (couponFs[i].type == "percent" && couponCheck == true) {
-            setCouponType(true);
-            setTotalDiscount(
-              Number(
-                Number(subtotalPrice) * ((100 - Number(discount)) / 100)
-              ).toFixed(2)
-            );
-            finalTotal = Number(
-              Number(subtotalPrice) * (Number(discount) / 100)
-            ).toFixed(2);
-          } else if (couponCheck == false) {
-            setTotalDiscount(0);
           }
         }
+        setCheckoutLoading(false);
+        setCouponCheck(null);
+      } else {
+        console.log("couponcheck to null");
+        setCheckoutLoading(false);
+        setCouponCheck(null);
       }
-      setCheckoutLoading(false);
-      setCouponCheck(null);
     } catch {}
   }, [couponCheck]);
 
   useEffect(() => {
-    setTotalCost(finalTotal);
-  }, [totalCost]);
+    console.log(discountChange);
+    console.log("change total cost: ", totalCost, finalTotal);
+  }, [discountChange]);
 
   const handleCheckout = () => {
-    console.log(cartProducts);
-    console.log(couponSuccess);
+    console.log(fee);
     history.push({
       pathname: "/checkout",
       state: {
@@ -377,15 +419,35 @@ export default function Cart() {
   };
 
   useEffect(() => {
-    console.log(couponSuccess);
+    console.log("coupon name: ", couponSuccess);
   }, [couponSuccess]);
+
+  const handleBackHome = (e) => {
+    history.push("/");
+  };
 
   return (
     <>
       <Navbar1 user={user} totalProducts={totalProducts} isAdmin={isAdmin} />
       {loading ? (
         cartProducts.length < 1 && (
-          <div className="basket-empty">Basket is empty.</div>
+          <>
+            <div className="basket-empty">
+              <h1>Basket is empty.</h1>
+              <div className="arrowbtn">
+                <Button
+                  style={{
+                    backgroundColor: "#e80532",
+                    borderColor: "#e80532",
+                    width: "max-content",
+                  }}
+                  onClick={(e) => handleBackHome()}
+                >
+                  Back to Menu
+                </Button>
+              </div>
+            </div>
+          </>
         )
       ) : (
         <div className="basket-empty">
@@ -463,7 +525,7 @@ export default function Cart() {
                     </span>
                   </div>
                 ) : null}
-                {localStorage.getItem("Delivery") ? (
+                {localStorage.getItem("Delivery") == "true" ? (
                   <div>
                     <span className="label">Delivery Fee: </span>
                     <span className="value"> £{Number(fee).toFixed(2)}</span>
@@ -480,12 +542,7 @@ export default function Cart() {
                     className="value"
                     style={{ fontWeight: 500, fontSize: 28 }}
                   >
-                    {console.log(Number(subtotalPrice), fee, totalDiscount)}£
-                    {Number(
-                      Number(subtotalPrice) -
-                        Number(totalDiscount).toFixed(2) +
-                        Number(fee)
-                    ).toFixed(2)}
+                    £{Number(totalCost).toFixed(2)}
                   </span>
                 </div>
               </div>

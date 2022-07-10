@@ -6,11 +6,14 @@ import Option from "./Option";
 import { Icon } from "react-icons-kit";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { ic_add_circle } from "react-icons-kit/md/ic_add_circle";
+import { useMediaQuery } from "react-responsive";
 
 export default function IndividualFilteredProduct({
   individualFilteredProduct,
   addToCart,
 }) {
+  const indMenuQuery = useMediaQuery({ query: "(min-width: 410px)" });
+  const smallQuery = useMediaQuery({ query: "(min-width: 340px)" });
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -80,20 +83,36 @@ export default function IndividualFilteredProduct({
   return (
     <div className="ind-menu">
       <div className="menu-img">
-        <img
-          style={{
-            alignContent: "center",
-            width: "100px",
-            height: "100px",
-            borderRadius: "10px",
-          }}
-          src={individualFilteredProduct.img}
-          alt="Menu image"
-        />
+        {smallQuery ? (
+          <img
+            style={{
+              alignContent: "center",
+              width: "100px",
+              height: "100px",
+              borderRadius: "10px",
+            }}
+            src={individualFilteredProduct.img}
+            alt="Menu image"
+          />
+        ) : (
+          <img
+            style={{
+              alignContent: "center",
+              width: "60px",
+              height: "60px",
+              borderRadius: "10px",
+            }}
+            src={individualFilteredProduct.img}
+            alt="Menu image"
+          />
+        )}
       </div>
       <div className="menu-text">
         <div className="title">{individualFilteredProduct.title}</div>
-        <div className="desc">{individualFilteredProduct.description}</div>
+        {indMenuQuery ? (
+          <div className="desc">{individualFilteredProduct.description}</div>
+        ) : null}
+
         <div className="price">£ {individualFilteredProduct.price}</div>
       </div>
 
@@ -118,9 +137,30 @@ export default function IndividualFilteredProduct({
               objectFit: "cover",
             }}
           />
-          <p style={{ margin: "10px", fontWeight: "700", fontSize: "24px" }}>
-            {individualFilteredProduct.title} (£{" "}
-            {individualFilteredProduct.price})
+          <p
+            style={{
+              margin: "10px",
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "Merriweather",
+                fontWeight: "700",
+                fontSize: "26px",
+              }}
+            >
+              {individualFilteredProduct.title}
+            </span>{" "}
+            <span
+              style={{
+                fontFamily: "Rubik",
+                fontWeight: "500",
+                fontSize: "26px",
+                color: "#e80532",
+              }}
+            >
+              (£ {individualFilteredProduct.price})
+            </span>
           </p>
           <p
             style={{

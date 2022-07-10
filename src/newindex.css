@@ -290,6 +290,25 @@
     word-wrap: break-word;
   }
 }
+@media (max-width: 340px) {
+  .ind-menu {
+    float: none;
+    margin: 0 auto;
+    height: 100px;
+  }
+  .ind-menu .menu-text .title {
+    font-family: "Merriweather", serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+  }
+  .ind-menu .menu-img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 60px;
+    height: 60px;
+  }
+}
 
 /* HOME: MEDIA YOUR BASKET FLOAT BTN) */
 .yourbasket-floatbtn {
@@ -309,9 +328,25 @@
 /* ORDER: IF BASKET EMPTY SHOW PLAIN TEXT */
 .basket-empty {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 85vh;
+}
+.basket-empty h1 {
+  font-size: 26px;
+}
+.basket-empty .btn {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  background-color: #e80532;
+  border-color: #e80532;
+  width: max-content;
+}
+.basket-empty .btn:hover {
+  background-color: #d4062f;
+  border-color: #d4062f;
 }
 
 /* CHECKOUT */
@@ -458,4 +493,88 @@
     width: auto;
     margin: 0 auto;
   }
+}
+
+.ordersuccess-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 85vh;
+}
+.ordersuccess-container h1 {
+  text-align: center;
+  font-size: 26px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.ordersuccess-container .order-box {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #efefef;
+  text-align: center;
+  width: max-content;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.ordersuccess-container .order-box span {
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.ordersuccess-container .btn {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  background-color: #e80532;
+  border-color: #e80532;
+  width: max-content;
+}
+.ordersuccess-container .btn:hover {
+  background-color: #d4062f;
+  border-color: #d4062f;
+}
+
+.container-profile .btn {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  background-color: #e80532;
+  border-color: #e80532;
+  width: max-content;
+}
+.container-profile .btn:hover {
+  background-color: #d4062f;
+  border-color: #d4062f;
+}
+
+.queryProfilebtn .btn {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  background-color: #e80532;
+  border-color: #e80532;
+  width: max-content;
+}
+.queryProfilebtn .btn:hover {
+  background-color: #d4062f;
+  border-color: #d4062f;
+}
+
+.method-btn .btn {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.32px;
+  background-color: #e80532;
+  border-color: #e80532;
+  width: max-content;
+}
+.method-btn .btn:hover,
+.method-btn .btn:active,
+.method-btn .btn:focus,
+.method-btn .btn:active:focus {
+  background-color: #d4062f;
+  border-color: #d4062f;
 }

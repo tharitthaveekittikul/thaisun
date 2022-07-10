@@ -211,9 +211,11 @@ function Profile() {
                     />
                   </Form.Group>
 
-                  <Button disabled={loading} className="w-100" type="submit">
-                    Update
-                  </Button>
+                  <div className="queryProfilebtn">
+                    <Button disabled={loading} className="w-100" type="submit">
+                      Update
+                    </Button>
+                  </div>
                 </Form>
               </Card.Body>
             </Card>

@@ -38,6 +38,14 @@ export default function Home(props) {
       localStorage.setItem("Pickup", true);
       localStorage.setItem("Delivery", false);
     }
+    if (localStorage.getItem("Delivery") == "true") {
+      setTotalPrice(Number(subtotalPrice) + Number(fee));
+      console.log("dapodmdd");
+    }
+    if (localStorage.getItem("Pickup") == "true") {
+      setTotalPrice(subtotalPrice);
+      console.log("dapodmdd false");
+    }
   }, []);
 
   const ScrollRef = useRef(null);
@@ -212,7 +220,6 @@ export default function Home(props) {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(cartProducts);
         fs.collection("Cart " + user.uid).onSnapshot((snapshot) => {
           const newCartProduct = snapshot.docs.map((doc) => ({
             DOC_ID: doc.id,
@@ -230,10 +237,6 @@ export default function Home(props) {
   }, []);
 
   const fee = MilesCal();
-
-  useEffect(() => {
-    console.log(cartProducts);
-  }, [cartProducts]);
 
   // getting the qty from cartProducts in a seperate array
   const qty = cartProducts.map((cartProduct) => {
@@ -260,12 +263,12 @@ export default function Home(props) {
   const subtotalPrice = price.reduce(reducerOfPrice, 0);
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
-    if (localStorage.getItem("Delivery")) {
+    if (localStorage.getItem("Delivery") == "true") {
       setTotalPrice(Number(subtotalPrice) + Number(fee));
     } else {
       setTotalPrice(subtotalPrice);
     }
-  }, [subtotalPrice, price, cartProducts]);
+  }, [cartProducts]);
 
   // cart product increase function
   const cartProductIncrease = (cartProduct) => {
@@ -493,7 +496,7 @@ export default function Home(props) {
                       <span>Subtotal:</span>
                       <span>£{Number(subtotalPrice).toFixed(2)}</span>
                     </div>
-                    {localStorage.getItem("Delivery") &&
+                    {localStorage.getItem("Delivery") == "true" &&
                     Array.isArray(cartProducts) &&
                     cartProducts.length ? (
                       <>
@@ -763,9 +766,7 @@ export default function Home(props) {
                   <span>Subtotal:</span>
                   <span>£{Number(subtotalPrice).toFixed(2)}</span>
                 </div>
-                {localStorage.getItem("Delivery") &&
-                Array.isArray(cartProducts) &&
-                cartProducts.length ? (
+                {localStorage.getItem("Delivery") == "true" ? (
                   <>
                     <div>
                       <span>Delivery Fee:</span>
