@@ -1059,6 +1059,10 @@ a.remove:hover {
   }
 }
 
+/* .card-body .btn-liveorder {
+  margin: 0 auto;
+} */
+
 /* modal-popup */
 .modal-content {
   overflow: auto;
@@ -1129,10 +1133,337 @@ a.remove:hover {
 }
 
 /* modal-product */
-.modal-title h4 {
+/* individual products  */
+.modal-product .modal-title img {
+  width: 500px;
+  height: 200px;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.modal-product .modal-title .title-product {
+  margin: 10px;
+  margin-bottom: 0;
+  border-bottom: 1px solid rgb(167, 167, 167);
+  padding-bottom: 2px;
+}
+
+.modal-product .modal-title .title-product p {
+  margin-bottom: 2px;
+}
+
+.modal-product .modal-title .title-product #span-title {
+  font-family: "Merriweather";
+  font-weight: 700;
+  font-size: 26px;
+}
+
+.modal-product .modal-title .title-product #span-price {
+  font-family: "Rubik";
+  font-weight: 500;
+  font-size: 26px;
+  color: #e80532;
+}
+
+.modal-product .modal-title #p-description {
+  font-family: "Rubik";
+  font-weight: 300;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+.modal-product .modal-body .scrollbar-modal {
+  height: auto;
+  min-height: 190px;
+}
+
+/* option and add-on*/
+.option-label-title {
+  font-family: "Rubik";
+  font-weight: 500;
+  font-size: 16px;
   margin-bottom: 0;
 }
 
-.modal-body {
+.radio-margin {
+  margin: 0;
+  /* padding: 0; */
+  /* border: 1px solid black; */
+}
+
+.option-label-menu {
+  font-family: "Rubik";
+  font-weight: 400;
+  font-size: 14px;
   margin-bottom: 0;
+}
+
+.modal-product .modal-body .instruction {
+  margin-bottom: 0px;
+  margin-top: 10px;
+  font-size: 16;
+}
+
+.modal-product .modal-body .instruction .text-instruction {
+  font-size: 16px;
+}
+
+.modal-product .modal-footer .btn-basket {
+  background-color: #e80532;
+  border-color: #e80532;
+}
+
+@media (max-height: 855px) {
+  .modal-product .modal-title img {
+    height: 180px;
+  }
+
+  .modal-product .modal-title .title-product {
+    margin: 10px;
+    margin-bottom: 0;
+  }
+
+  .modal-product .modal-title .title-product #span-title {
+    font-size: 24px;
+  }
+
+  .modal-product .modal-title .title-product #span-price {
+    font-size: 24px;
+  }
+
+  .modal-product .modal-title #p-description {
+    font-size: 14px;
+  }
+
+  .modal-product .modal-body .scrollbar-modal {
+    height: auto;
+    min-height: 180px;
+  }
+
+  /* option and add-on*/
+  .option-label-title {
+    font-size: 14px;
+  }
+
+  .option-label-menu {
+    font-size: 12px;
+  }
+
+  .modal-product .modal-body .instruction {
+    margin-bottom: 0px;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  .modal-product .modal-body .instruction .text-instruction {
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 825px) {
+  .modal-product .modal-title img {
+    height: 180px;
+  }
+
+  .modal-product .modal-title .title-product {
+    margin: 10px;
+    margin-bottom: 0;
+  }
+
+  .modal-product .modal-title .title-product #span-title {
+    font-size: 22px;
+  }
+
+  .modal-product .modal-title .title-product #span-price {
+    font-size: 22px;
+  }
+
+  .modal-product .modal-title #p-description {
+    font-size: 14px;
+  }
+
+  .modal-product .modal-body .scrollbar-modal {
+    height: auto;
+    min-height: 150px;
+  }
+
+  /* option and add-on*/
+  .option-label-title {
+    font-size: 14px;
+  }
+
+  .modal-product .modal-body .instruction {
+    margin-bottom: 0px;
+    margin-top: 10px;
+  }
+  .modal-product .modal-body .instruction .text-instruction {
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 785px) {
+  .modal-product .modal-title img {
+    height: 180px;
+  }
+
+  .modal-product .modal-title .title-product {
+    margin: 10px;
+    margin-bottom: 0;
+  }
+
+  .modal-product .modal-title .title-product #span-title {
+    font-size: 20px;
+  }
+
+  .modal-product .modal-title .title-product #span-price {
+    font-size: 20px;
+  }
+
+  .modal-product .modal-title #p-description {
+    font-size: 14px;
+  }
+
+  .modal-product .modal-body .scrollbar-modal {
+    height: auto;
+    min-height: 130px;
+  }
+
+  /* option and add-on*/
+  .option-label-title {
+    font-size: 14px;
+  }
+
+  .modal-product .modal-body .instruction {
+    font-size: 14px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+  }
+  .modal-product .modal-body .instruction .text-instruction {
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 760px) {
+  .modal-product .modal-title img {
+    height: 160px;
+  }
+
+  .modal-product .modal-title .title-product {
+    margin: 10px;
+    margin-bottom: 0;
+  }
+
+  .modal-product .modal-title .title-product #span-title {
+    font-size: 18px;
+  }
+
+  .modal-product .modal-title .title-product #span-price {
+    font-size: 18px;
+  }
+
+  .modal-product .modal-title #p-description {
+    font-size: 12px;
+  }
+
+  .modal-product .modal-body .scrollbar-modal {
+    height: auto;
+    min-height: 130px;
+  }
+
+  /* option and add-on*/
+  .option-label-title {
+    font-size: 14px;
+  }
+
+  .modal-product .modal-body .instruction {
+    font-size: 14px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+  }
+  .modal-product .modal-body .instruction .text-instruction {
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 710px) {
+  .modal-product .modal-title img {
+    height: 140px;
+  }
+
+  .modal-product .modal-title .title-product {
+    margin: 10px;
+    margin-bottom: 0;
+  }
+
+  .modal-product .modal-title .title-product #span-title {
+    font-size: 16px;
+  }
+
+  .modal-product .modal-title .title-product #span-price {
+    font-size: 16px;
+  }
+
+  .modal-product .modal-title #p-description {
+    font-size: 12px;
+  }
+
+  .modal-product .modal-body .scrollbar-modal {
+    height: auto;
+    min-height: 110px;
+  }
+
+  /* option and add-on*/
+  .option-label-title {
+    font-size: 14px;
+  }
+
+  .modal-product .modal-body .instruction {
+    font-size: 14px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+  }
+  .modal-product .modal-body .instruction .text-instruction {
+    font-size: 14px;
+  }
+}
+
+@media (max-height: 652px) {
+  .modal-product .modal-title img {
+    height: 120px;
+  }
+
+  .modal-product .modal-title .title-product {
+    margin: 10px;
+    margin-bottom: 0;
+  }
+
+  .modal-product .modal-title .title-product #span-title {
+    font-size: 16px;
+  }
+
+  .modal-product .modal-title .title-product #span-price {
+    font-size: 16px;
+  }
+
+  .modal-product .modal-title #p-description {
+    font-size: 10px;
+  }
+
+  .modal-product .modal-body .scrollbar-modal {
+    height: auto;
+    min-height: 100px;
+  }
+
+  /* option and add-on*/
+  .option-label-title {
+    font-size: 12px;
+  }
+
+  .modal-product .modal-body .instruction {
+    font-size: 12px;
+    margin-bottom: 0px;
+    margin-top: 10px;
+  }
+  .modal-product .modal-body .instruction .text-instruction {
+    font-size: 12px;
+  }
 }

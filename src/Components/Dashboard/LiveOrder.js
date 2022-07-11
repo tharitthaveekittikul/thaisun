@@ -928,7 +928,7 @@ function LiveOrder() {
                           line-height: 27px;
                         "
                       >
-                      £ ${liveorder.Subtotal}
+                      £ ${Number(liveorder.Subtotal).toFixed(2)}
                       </td>
                     </tr>
                     
@@ -953,7 +953,7 @@ function LiveOrder() {
                           line-height: 27px;
                         "
                       >
-                      £ ${liveorder.Discount}
+                      £ ${Number(liveorder.Discount).toFixed(2)}
                       </td>
                     </tr>
                     <tr style="border-collapse: collapse">
@@ -2122,31 +2122,6 @@ function LiveOrder() {
                           line-height: 27px;
                         "
                       >
-                        Flat-rate Shipping:
-                      </td>
-                      <td
-                        style="
-                          padding: 0;
-                          margin: 0;
-                          text-align: right;
-                          font-size: 18px;
-                          line-height: 27px;
-                          color: #d48344;
-                        "
-                      >
-                        <strong>FREE</strong>
-                      </td>
-                    </tr>
-                    <tr style="border-collapse: collapse">
-                      <td
-                        style="
-                          padding: 0;
-                          margin: 0;
-                          text-align: right;
-                          font-size: 18px;
-                          line-height: 27px;
-                        "
-                      >
                         Discount:
                       </td>
                       <td
@@ -2158,7 +2133,7 @@ function LiveOrder() {
                           line-height: 27px;
                         "
                       >
-                      £ 0.00
+                      £ ${Number(orderTemp[0].Discount).toFixed(2)}
                       </td>
                     </tr>
                     <tr style="border-collapse: collapse">
@@ -2617,7 +2592,7 @@ function LiveOrder() {
                         ) : (
                           <></>
                         )}
-                        {liveorder.Fee ? (
+                        {liveorder.Fee && liveorder.pickupState === false ? (
                           <>
                             Delivery Fee: £
                             {parseFloat(liveorder.Fee).toFixed(2)}
@@ -2653,8 +2628,15 @@ function LiveOrder() {
                         <></>
                       )}
                     </Card.Body>
-                    <Card.Body>
+                    <Card.Body
+                      style={{
+                        margin: "0 auto",
+                        // display: "flex",
+                        // justifyContent: "space-around",
+                      }}
+                    >
                       <Button
+                        style={{ marginRight: "10px" }}
                         variant="success"
                         onClick={() => handleAccept(liveorder, liveorder.key)}
                       >

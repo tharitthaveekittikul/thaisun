@@ -77,17 +77,12 @@ function FixAdd({ handleAddOn }) {
             {fixedAddOns.map((fixedAddOn, index) => (
               <>
                 {pushTitle(fixedAddOn.title)}
-                <Form.Label
-                  style={{
-                    fontWeight: "500",
-                    fontSize: "16px",
-                    font: "Rubik",
-                  }}
-                >
+                <Form.Label className="option-label-title">
                   {fixedAddOn.title}
                 </Form.Label>
                 {fixedAddOn.menu.map((menuField, index_child) => (
                   <FormControlLabel
+                    className="radio-margin"
                     value={menuField.menuName}
                     control={
                       <Checkbox
@@ -97,13 +92,7 @@ function FixAdd({ handleAddOn }) {
                       />
                     }
                     label={
-                      <Typography
-                        style={{
-                          fontSize: "14px",
-                          font: "Rubik",
-                          fontWeight: "400",
-                        }}
-                      >
+                      <Typography className="option-label-menu">
                         {menuField.menuName +
                           " (£" +
                           parseFloat(menuField.price).toFixed(2) +

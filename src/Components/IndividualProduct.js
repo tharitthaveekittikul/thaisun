@@ -121,57 +121,20 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
         />
       </div>
 
-      <Modal show={show} onHide={handleClose} className="modal-popup">
+      <Modal show={show} onHide={handleClose} contentClassName="modal-product">
         <Modal.Header closeButton></Modal.Header>
-        <Modal.Title>
-          <img
-            src={individualProduct.img}
-            width={500}
-            height={200}
-            style={{
-              overflow: "hidden",
-              objectFit: "cover",
-            }}
-          />
-          <p
-            style={{
-              margin: "10px",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "Merriweather",
-                fontWeight: "700",
-                fontSize: "26px",
-              }}
-            >
-              {individualProduct.title}
-            </span>{" "}
-            <span
-              style={{
-                fontFamily: "Rubik",
-                fontWeight: "500",
-                fontSize: "26px",
-                color: "#e80532",
-              }}
-            >
-              (£ {individualProduct.price})
-            </span>
-          </p>
-          <p
-            style={{
-              fontSize: "14px",
-              fontWeight: "300",
-              margin: "10px",
-              wordWrap: "break-word",
-            }}
-          >
-            {individualProduct.description}
-          </p>
+        <Modal.Title bsPrefix="modal-title">
+          <img src={individualProduct.img} width={500} height={200} />
+          <div className="title-product">
+            <p>
+              <span id="span-title">{individualProduct.title}</span>{" "}
+              <span id="span-price">(£ {individualProduct.price})</span>
+            </p>
+            <p id="p-description">{individualProduct.description}</p>
+          </div>
         </Modal.Title>
-        <hr />
-        <Modal.Body>
-          <Scrollbars autoHeight autoHeightMin={"10vh"}>
+        <Modal.Body bsPrefix="modal-body">
+          <Scrollbars className="scrollbar-modal">
             <Option
               individualProduct={individualProduct}
               handleOption={handleOption}
@@ -180,13 +143,12 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
           </Scrollbars>
           <Form onSubmit={(event) => event.preventDefault()}>
             <Form.Group
-              className="mb-3"
+              className="instruction"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label style={{ marginTop: "10px" }}>
-                Special Instructions
-              </Form.Label>
+              <Form.Label>Special Instructions</Form.Label>
               <Form.Control
+                className="text-instruction"
                 type="text"
                 onChange={(event) => handleInstruction(event)}
                 placeholder="Eg. Food allergies, food strength etc..."
@@ -194,11 +156,8 @@ export default function IndividualProduct({ individualProduct, addToCart }) {
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            style={{ backgroundColor: "#e80532", borderColor: "#e80532" }}
-            onClick={handleAddToCart}
-          >
+        <Modal.Footer bsPrefix="modal-footer">
+          <Button className="btn-basket" onClick={handleAddToCart}>
             ADD TO BASKET
           </Button>
         </Modal.Footer>

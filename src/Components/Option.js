@@ -146,13 +146,7 @@ function Option({
               <>
                 {option.title !== "" ? (
                   <>
-                    <Form.Label
-                      style={{
-                        fontWeight: "500",
-                        fontSize: "16px",
-                        font: "Rubik",
-                      }}
-                    >
+                    <Form.Label className="option-label-title">
                       {option.title}
                     </Form.Label>
                     {pushTitle(option.title)}
@@ -168,6 +162,7 @@ function Option({
                           {option.menu.map((menuField, index_child) => (
                             <>
                               <FormControlLabel
+                                className="radio-margin"
                                 value={menuField.menuName}
                                 control={
                                   <Radio
@@ -182,13 +177,7 @@ function Option({
                                   />
                                 }
                                 label={
-                                  <Typography
-                                    style={{
-                                      fontSize: "14px",
-                                      font: "Rubik",
-                                      fontWeight: "400",
-                                    }}
-                                  >
+                                  <Typography className="option-label-menu">
                                     {menuField.menuName +
                                       " (£" +
                                       parseFloat(menuField.price).toFixed(2) +

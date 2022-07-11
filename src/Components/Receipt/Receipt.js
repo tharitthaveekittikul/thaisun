@@ -91,14 +91,6 @@ function Receipt() {
                     </td>
                   </tr>
                 ))}
-                {orders.instructionToRes ? (
-                  <tr>
-                    <td className="quantity" />
-                    <td className="description" style={{ tabSize: "4" }}>
-                      Instructions: {orders.instructionToRes}
-                    </td>
-                  </tr>
-                ) : null}
                 <tr>
                   <td className="quantity" />
                   <td className="description" style={{ tabSize: "4" }}>
@@ -150,6 +142,9 @@ function Receipt() {
               </tbody>
             </table>
             <p style={{ paddingLeft: "0.8em" }}>
+              {orders.instructionToRes ? (
+                <>Instructions: {orders.instructionToRes}</>
+              ) : null}
               <br />
               {orders.user}
               <br />
