@@ -86,6 +86,7 @@ function FixAdd({ handleAddOn }) {
                     value={menuField.menuName}
                     control={
                       <Checkbox
+                        style={{ color: "#e80532" }}
                         onChange={(event) =>
                           handleChange(event, index, menuField.price)
                         }

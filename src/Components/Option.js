@@ -166,6 +166,7 @@ function Option({
                                 value={menuField.menuName}
                                 control={
                                   <Radio
+                                    style={{ color: "#e80532" }}
                                     required
                                     onChange={(event) =>
                                       handleChange(

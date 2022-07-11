@@ -515,7 +515,7 @@ function Checkout() {
               <h1>Checkout</h1>
               <Form onSubmit={(e) => e.preventDefault()}>
                 <FormControl>
-                  <FormLabel>
+                  <FormLabel style={{ color: "#6b6b6b" }}>
                     Pick Up or Delivery{" "}
                     <span style={{ color: "#e80532", fontWeight: "500" }}>
                       *
@@ -531,12 +531,12 @@ function Checkout() {
                       >
                         <FormControlLabel
                           value="pickup"
-                          control={<Radio />}
+                          control={<Radio style={{ color: "#e80532" }} />}
                           label="Pick Up"
                         />
                         <FormControlLabel
                           value="delivery"
-                          control={<Radio />}
+                          control={<Radio style={{ color: "#e80532" }} />}
                           label="Delivery"
                         />
                       </RadioGroup>
@@ -551,12 +551,12 @@ function Checkout() {
                       >
                         <FormControlLabel
                           value="pickup"
-                          control={<Radio />}
+                          control={<Radio style={{ color: "#e80532" }} />}
                           label="Pick Up"
                         />
                         <FormControlLabel
                           value="delivery"
-                          control={<Radio />}
+                          control={<Radio style={{ color: "#e80532" }} />}
                           label="Delivery"
                         />
                       </RadioGroup>

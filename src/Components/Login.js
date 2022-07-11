@@ -67,18 +67,24 @@ function Login() {
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" ref={passwordRef} required />
               </Form.Group>
-
-              <Button disabled={loading} className="w-100" type="submit">
-                Log In
-              </Button>
+              <div className="queryProfilebtn">
+                <Button disabled={loading} className="w-100" type="submit">
+                  Log In
+                </Button>
+              </div>
             </Form>
             <div className="w-100 text-center mt-3">
-              <Link to="/forgot-password">Forgot Password?</Link>
+              <Link style={{ color: "#e80532" }} to="/forgot-password">
+                Forgot Password?
+              </Link>
             </div>
           </Card.Body>
         </Card>
         <div className="w-100 text-center mt-2">
-          Need an account? <Link to="/signup">Sign Up</Link>
+          Need an account?{" "}
+          <Link style={{ color: "#e80532" }} to="/signup">
+            Sign Up
+          </Link>
         </div>
       </div>
     </Container>

@@ -148,14 +148,19 @@ function Signup() {
                     <Form.Control type="tel" ref={telRef} required />
                   </Form.Group>
 
-                  <Button disabled={loading} className="w-100" type="submit">
-                    Sign Up
-                  </Button>
+                  <div className="queryProfilebtn">
+                    <Button disabled={loading} className="w-100" type="submit">
+                      Sign Up
+                    </Button>
+                  </div>
                 </Form>
               </Card.Body>
             </Card>
             <div className="w-100 text-center mt-2">
-              Already have an account? <Link to="/login">Log In</Link>
+              Already have an account?{" "}
+              <Link style={{ color: "#e80532" }} to="/login">
+                Log In
+              </Link>
             </div>
           </div>
         </Container>
@@ -236,17 +241,22 @@ function Signup() {
                     </div>
                   </Form>
                 </div>
-                <Button
-                  disabled={loading}
-                  className="w-100"
-                  onClick={handleSubmit}
-                >
-                  Sign Up
-                </Button>
+                <div className="queryProfilebtn">
+                  <Button
+                    disabled={loading}
+                    className="w-100"
+                    onClick={handleSubmit}
+                  >
+                    Sign Up
+                  </Button>
+                </div>
               </Card.Body>
             </Card>
             <div className="w-100 text-center mt-2">
-              Already have an account? <Link to="/login">Log In</Link>
+              Already have an account?{" "}
+              <Link style={{ color: "#e80532" }} to="/login">
+                Log In
+              </Link>
             </div>
           </div>
         </Container>

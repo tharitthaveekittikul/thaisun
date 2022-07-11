@@ -376,11 +376,11 @@ export default function Cart() {
               setCouponType(true);
               setTotalDiscount(
                 Number(
-                  Number(subtotalPrice) * ((100 - Number(discount)) / 100)
+                  Number(subtotalPrice) * (Number(discount) / 100)
                 ).toFixed(2)
               );
               finalTotal = Number(
-                Number(subtotalPrice) * (Number(discount) / 100)
+                Number(subtotalPrice) * ((100 - Number(discount)) / 100)
               ).toFixed(2);
               setTotalCost(Number(finalTotal) + Number(fee));
               setDiscountChange(discountChange + 1);
