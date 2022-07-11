@@ -32,7 +32,6 @@ export default function IndividualFilteredProduct({
     img: individualFilteredProduct.img,
     instruction: instruction,
   });
-
   // console.log(individualFilteredProduct);
 
   useEffect(() => {
@@ -43,9 +42,9 @@ export default function IndividualFilteredProduct({
         setOptions(snapshot.data().option);
       });
   }, []);
-
-  console.log(individualFilteredProduct);
-
+  // console.log(options);
+  // console.log(individualFilteredProduct);
+  // console.log(product);
   const handleAddToCart = () => {
     handleClose();
     addToCart(product);
@@ -125,57 +124,20 @@ export default function IndividualFilteredProduct({
         />
       </div>
 
-      <Modal show={show} onHide={handleClose} className="modal-popup">
+      <Modal show={show} onHide={handleClose} contentClassName="modal-product">
         <Modal.Header closeButton></Modal.Header>
-        <Modal.Title>
-          <img
-            src={individualFilteredProduct.img}
-            width={500}
-            height={200}
-            style={{
-              overflow: "hidden",
-              objectFit: "cover",
-            }}
-          />
-          <p
-            style={{
-              margin: "10px",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "Merriweather",
-                fontWeight: "700",
-                fontSize: "26px",
-              }}
-            >
-              {individualFilteredProduct.title}
-            </span>{" "}
-            <span
-              style={{
-                fontFamily: "Rubik",
-                fontWeight: "500",
-                fontSize: "26px",
-                color: "#e80532",
-              }}
-            >
-              (£ {individualFilteredProduct.price})
-            </span>
-          </p>
-          <p
-            style={{
-              fontSize: "14px",
-              fontWeight: "300",
-              margin: "10px",
-              wordWrap: "break-word",
-            }}
-          >
-            {individualFilteredProduct.description}
-          </p>
+        <Modal.Title bsPrefix="modal-title">
+          <img src={individualFilteredProduct.img} width={500} height={200} />
+          <div className="title-product">
+            <p>
+              <span id="span-title">{individualFilteredProduct.title}</span>{" "}
+              <span id="span-price">(£ {individualFilteredProduct.price})</span>
+            </p>
+            <p id="p-description">{individualFilteredProduct.description}</p>
+          </div>
         </Modal.Title>
-        <hr />
-        <Modal.Body>
-          <Scrollbars autoHeight autoHeightMin={"10vh"}>
+        <Modal.Body bsPrefix="modal-body">
+          <Scrollbars className="scrollbar-modal">
             <Option
               individualProduct={individualFilteredProduct}
               handleOption={handleOption}
@@ -184,13 +146,12 @@ export default function IndividualFilteredProduct({
           </Scrollbars>
           <Form onSubmit={(event) => event.preventDefault()}>
             <Form.Group
-              className="mb-3"
+              className="instruction"
               controlId="exampleForm.ControlTextarea1"
             >
-              <Form.Label style={{ marginTop: "10px" }}>
-                Special Instructions
-              </Form.Label>
+              <Form.Label>Special Instructions</Form.Label>
               <Form.Control
+                className="text-instruction"
                 type="text"
                 onChange={(event) => handleInstruction(event)}
                 placeholder="Eg. Food allergies, food strength etc..."
@@ -198,11 +159,8 @@ export default function IndividualFilteredProduct({
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            style={{ backgroundColor: "#e80532", borderColor: "#e80532" }}
-            onClick={handleAddToCart}
-          >
+        <Modal.Footer bsPrefix="modal-footer">
+          <Button className="btn-basket" onClick={handleAddToCart}>
             ADD TO BASKET
           </Button>
         </Modal.Footer>
