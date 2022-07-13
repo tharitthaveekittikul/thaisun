@@ -6,8 +6,6 @@ import { Redirect } from "react-router-dom";
 import { Button, Alert, Container, Card, Form, Modal } from "react-bootstrap";
 import { fs } from "../../Config/Config";
 import DataTable from "./DataTable";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -29,12 +27,6 @@ function AddCoupon() {
   const columns = [
     { field: "key", headerName: "UID", width: 250 },
     { field: "coupon", headerName: "Coupon", width: 200 },
-    {
-      field: "expireddate",
-      headerName: "Expired Date",
-      width: 150,
-      sortable: false,
-    },
     { field: "type", headerName: "Discount Type", width: 150 },
     { field: "value", headerName: "Discount Value", width: 150 },
     { field: "minimum", headerName: "Minimum Total", width: 150 },
@@ -68,8 +60,6 @@ function AddCoupon() {
   const couponRef = useRef();
   const [sendEmail, setSendEmail] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [expiredDate, setExpiredDate] = useState(new Date());
-  const [dateState, setDateState] = useState(false);
   const [type, setType] = useState(true); //fixed = true, percent = false
   const fixedRef = useRef();
   const [percent, setPercent] = useState(1);
@@ -102,14 +92,6 @@ function AddCoupon() {
       setError("");
       setLoading(true);
 
-      let expired = "";
-
-      if (dateState == false) {
-        expired = "-";
-      } else {
-        expired = expiredDate.toLocaleDateString();
-      }
-
       let couponType = "";
       let value = 0;
 
@@ -132,7 +114,6 @@ function AddCoupon() {
       fs.collection("coupon")
         .add({
           coupon: couponRef.current.value.toUpperCase(),
-          expireddate: expired,
           type: couponType,
           value: value,
           minimum: min,
@@ -183,14 +164,6 @@ function AddCoupon() {
   if (!isAdmin) {
     console.log(isAdmin);
     return <Redirect to="/" />;
-  }
-
-  function handleDateChange(event) {
-    if (event.target.value == "yes") {
-      setDateState(true);
-    } else if (event.target.value == "no") {
-      setDateState(false);
-    }
   }
 
   function handleTypeChange(event) {
@@ -337,37 +310,6 @@ function AddCoupon() {
                             >
                               Generate Voucher
                             </Button>
-                          </div>
-                          <div>
-                            <FormControl>
-                              <FormLabel>Expired Date?</FormLabel>
-                              <RadioGroup
-                                aria-labelledby="demo-controlled-radio-buttons-group"
-                                name="controlled-radio-buttons-group"
-                                defaultValue="no"
-                                onChange={handleDateChange}
-                              >
-                                <FormControlLabel
-                                  value="yes"
-                                  control={<Radio />}
-                                  label="Yes"
-                                />
-                                <FormControlLabel
-                                  value="no"
-                                  control={<Radio />}
-                                  label="No"
-                                />
-                              </RadioGroup>
-                            </FormControl>
-                            {dateState ? (
-                              <DatePicker
-                                selected={expiredDate}
-                                onChange={(date) => [
-                                  setExpiredDate(date),
-                                  console.log(date.toLocaleDateString()),
-                                ]}
-                              />
-                            ) : null}
                           </div>
                           <div style={{ marginTop: "20px" }}>
                             <FormControl>

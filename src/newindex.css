@@ -562,6 +562,13 @@
   background-color: #d4062f;
   border-color: #d4062f;
 }
+.queryProfilebtn .btn:hover,
+.queryProfilebtn .btn:active,
+.queryProfilebtn .btn:focus,
+.queryProfilebtn .btn:active:focus {
+  background-color: #d4062f;
+  border-color: #d4062f;
+}
 
 .method-btn .btn {
   font-family: "Rubik", sans-serif;

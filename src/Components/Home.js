@@ -30,23 +30,6 @@ export default function Home(props) {
       },
     },
   });
-  useEffect(() => {
-    if (
-      localStorage.getItem("Delivery") === null ||
-      localStorage.getItem("Pickup") === null
-    ) {
-      localStorage.setItem("Pickup", true);
-      localStorage.setItem("Delivery", false);
-    }
-    if (localStorage.getItem("Delivery") == "true") {
-      setTotalPrice(Number(subtotalPrice) + Number(fee));
-      console.log("dapodmdd");
-    }
-    if (localStorage.getItem("Pickup") == "true") {
-      setTotalPrice(subtotalPrice);
-      console.log("dapodmdd false");
-    }
-  }, []);
 
   const ScrollRef = useRef(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -64,7 +47,11 @@ export default function Home(props) {
   }
   const history = useHistory();
   const handleCheckout = () => {
-    history.push("/order");
+    if (localStorage.getItem("isLogIn") !== null) {
+      history.push("/order");
+    } else {
+      props.history.push("/login");
+    }
   };
 
   const uid = GetUserUid();
@@ -126,7 +113,7 @@ export default function Home(props) {
 
   // add to cart
   const addToCart = (product) => {
-    if (uid !== null) {
+    if (uid !== null && localStorage.getItem("isLogIn") !== null) {
       let totalProductPrice = 0;
       if (product.option) {
         if (product.option.length > 0) {
@@ -231,7 +218,9 @@ export default function Home(props) {
           setCartProducts(newCartProduct);
         });
       } else {
-        console.log("user is not signed in to retrieve cart");
+        //ไม่ได้ login
+        setCartProducts([]);
+        setTotalPrice(0);
       }
     });
   }, []);
@@ -262,13 +251,43 @@ export default function Home(props) {
 
   const subtotalPrice = price.reduce(reducerOfPrice, 0);
   const [totalPrice, setTotalPrice] = useState(0);
+
   useEffect(() => {
+    //เซ็นเงินเริ่มต้น delivery=>+fee, pickup=>no
+    if (
+      localStorage.getItem("Delivery") === null ||
+      localStorage.getItem("Pickup") === null
+    ) {
+      localStorage.setItem("Pickup", true);
+      localStorage.setItem("Delivery", false);
+    }
+    if (localStorage.getItem("Delivery") == "true") {
+      setTotalPrice(Number(subtotalPrice) + Number(fee));
+      console.log("dapodmdd");
+    }
+    if (localStorage.getItem("Pickup") == "true") {
+      setTotalPrice(subtotalPrice);
+      console.log("dapodmdd false");
+    }
+  }, []);
+
+  useEffect(() => {
+    //ทำทุกครั้งที่แก้ไขตะกร้า
     if (localStorage.getItem("Delivery") == "true") {
       setTotalPrice(Number(subtotalPrice) + Number(fee));
     } else {
       setTotalPrice(subtotalPrice);
     }
   }, [cartProducts]);
+
+  useEffect(() => {
+    //fee เปลี่ยน total เปลี่ยนตามด้วย เวลา push จาก back to menu
+    if (localStorage.getItem("Delivery") == "true") {
+      setTotalPrice(Number(subtotalPrice) + Number(fee));
+    } else {
+      setTotalPrice(subtotalPrice);
+    }
+  }, [fee]);
 
   // cart product increase function
   const cartProductIncrease = (cartProduct) => {
@@ -287,6 +306,7 @@ export default function Home(props) {
           });
       } else {
         console.log("user is not logged in to increment");
+        props.history.push("/login");
       }
     });
   };
@@ -309,6 +329,7 @@ export default function Home(props) {
             });
         } else {
           console.log("user is not logged in to decrement");
+          props.history.push("/login");
         }
       });
     } else if (Product.qty == 1) {
@@ -327,6 +348,7 @@ export default function Home(props) {
           });
       } else {
         console.log("user is not logged in to decrement");
+        props.history.push("/login");
       }
     });
   };
