@@ -40,7 +40,7 @@ function AddCoupon() {
               color="error"
               variant="danger"
               onClick={() => {
-                console.log(cellValues.id);
+                // console.log(cellValues.id);
                 // handleRemoveButton(cellValues.id);
                 setUIDCoupon(cellValues.id);
                 handleShow();
@@ -162,7 +162,7 @@ function AddCoupon() {
     return <Redirect to="/login" />;
   }
   if (!isAdmin) {
-    console.log(isAdmin);
+    // console.log(isAdmin);
     return <Redirect to="/" />;
   }
 

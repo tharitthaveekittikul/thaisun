@@ -25,7 +25,7 @@ export default function IndividualCartProduct({
           .doc(cartProduct.DOC_ID)
           .delete()
           .then(() => {
-            console.log("successfully deleted");
+            // console.log("successfully deleted");
           });
       }
     });

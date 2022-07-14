@@ -41,9 +41,9 @@ function FixedAddOn() {
   if (!isLogIn) {
     return <Redirect to="/login" />;
   }
-  console.log(isAdmin);
+  // console.log(isAdmin);
   if (!isAdmin) {
-    console.log(isAdmin);
+    // console.log(isAdmin);
     return <Redirect to="/" />;
   }
 
@@ -51,14 +51,14 @@ function FixedAddOn() {
     const values = [...inputFields];
     values[index]["title"] = event.target.value;
     setInputFields(values);
-    console.log(inputFields);
+    // console.log(inputFields);
   };
 
   const handleChangeMenu = (index, index_child, event) => {
     const values = [...inputFields];
     values[index]["menu"][index_child][event.target.name] = event.target.value;
     setInputFields(values);
-    console.log(inputFields);
+    // console.log(inputFields);
   };
 
   const handleAddTitle = () => {

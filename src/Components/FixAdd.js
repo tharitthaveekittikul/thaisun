@@ -27,11 +27,11 @@ function FixAdd({ handleAddOn }) {
   }, [addOnUse]);
 
   const handleChange = (e, index, price) => {
-    console.log(e.target.checked);
+    // console.log(e.target.checked);
 
     if (!e.target.checked) {
       const same = addOnUse;
-      console.log(e.target.value);
+      // console.log(e.target.value);
       for (let i = 0; i < same.length; i++) {
         if (same[i].menu == e.target.value) {
           console.log(same[i].menu);

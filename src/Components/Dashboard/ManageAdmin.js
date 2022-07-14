@@ -36,7 +36,7 @@ function ManageAdmin() {
               color="error"
               variant="success"
               onClick={() => {
-                console.log(cellValues.id);
+                // console.log(cellValues.id);
                 handleAddButton(cellValues.id);
               }}
             >
@@ -56,7 +56,7 @@ function ManageAdmin() {
               color="error"
               variant="danger"
               onClick={() => {
-                console.log(cellValues.id);
+                // console.log(cellValues.id);
                 // handleRemoveButton(cellValues.id);
                 setUIDUser(cellValues.id);
                 handleShow();
@@ -118,7 +118,7 @@ function ManageAdmin() {
     return <Redirect to="/login" />;
   }
   if (!isAdmin) {
-    console.log(isAdmin);
+    // console.log(isAdmin);
     return <Redirect to="/" />;
   }
 

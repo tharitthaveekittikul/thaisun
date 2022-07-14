@@ -68,7 +68,12 @@ function Login() {
                 <Form.Control type="password" ref={passwordRef} required />
               </Form.Group>
               <div className="queryProfilebtn">
-                <Button disabled={loading} className="w-100" type="submit">
+                <Button
+                  variant="danger"
+                  disabled={loading}
+                  className="w-100"
+                  type="submit"
+                >
                   Log In
                 </Button>
               </div>

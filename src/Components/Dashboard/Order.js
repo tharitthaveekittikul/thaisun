@@ -19,13 +19,13 @@ function Order() {
   }, []);
 
   useEffect(() => {
-    console.log(orders);
+    // console.log(orders);
   }, [orders]);
 
   function handlePrint() {
     if (orders) {
       //use localStorage send data
-      console.log(orders);
+      // console.log(orders);
       localStorage.setItem("orders", JSON.stringify(orders));
       let newWindow = window.open(
         "/receipt",

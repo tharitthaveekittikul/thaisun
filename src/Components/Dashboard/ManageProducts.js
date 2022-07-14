@@ -56,7 +56,7 @@ function ManageProducts() {
               color="error"
               variant="danger"
               onClick={() => {
-                console.log(cellValues.id);
+                // console.log(cellValues.id);
                 handleShow();
                 setUIDProduct(cellValues.id);
               }}
@@ -117,7 +117,7 @@ function ManageProducts() {
   const [countUsed, setCountUsed] = useState();
 
   useEffect(() => {
-    console.log(categoryID);
+    // console.log(categoryID);
   }, [categoryID]);
 
   useEffect(() => {
@@ -125,13 +125,13 @@ function ManageProducts() {
       .doc(categoryID)
       .get()
       .then((snapshot) => {
-        console.log(categoryID);
+        // console.log(categoryID);
         setCountUsed(snapshot.data().countUse);
       })
       .catch((error) => {
-        console.log(error.message);
+        // console.log(error.message);
       });
-    console.log(countUsed);
+    // console.log(countUsed);
   }, [categoryID, countUsed]);
 
   useEffect(() => {
@@ -167,7 +167,7 @@ function ManageProducts() {
             });
         })
         .catch((error) => {
-          console.log(error.message);
+          // console.log(error.message);
         });
     } catch {
       setError("Failed to remove products");
@@ -201,7 +201,7 @@ function ManageProducts() {
     return <Redirect to="/login" />;
   }
   if (!isAdmin) {
-    console.log(isAdmin);
+    // console.log(isAdmin);
     return <Redirect to="/" />;
   }
   return (

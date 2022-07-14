@@ -43,7 +43,7 @@ function Signup() {
           passwordRef.current.value
         )
         .then(async (credentials) => {
-          console.log(credentials);
+          // console.log(credentials);
           await credentials.user.sendEmailVerification();
           fs.collection("users")
             .doc(credentials.user.uid)
@@ -149,7 +149,12 @@ function Signup() {
                   </Form.Group>
 
                   <div className="queryProfilebtn">
-                    <Button disabled={loading} className="w-100" type="submit">
+                    <Button
+                      variant="danger"
+                      disabled={loading}
+                      className="w-100"
+                      type="submit"
+                    >
                       Sign Up
                     </Button>
                   </div>
@@ -243,6 +248,7 @@ function Signup() {
                 </div>
                 <div className="queryProfilebtn">
                   <Button
+                    variant="danger"
                     disabled={loading}
                     className="w-100"
                     onClick={handleSubmit}

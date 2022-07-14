@@ -46,15 +46,15 @@ export default function EditProducts() {
       ],
     },
   ]);
-  console.log(location.state.uid);
+  //console.log(location.state.uid);
   const uidProducts = location.state.uid;
   useEffect(() => {
     fs.collection("Products")
       .doc(uidProducts)
       .get()
       .then((snapshot) => {
-        // console.log(user);
-        // console.log(user.uid);
+        // //console.log(user);
+        // //console.log(user.uid);
         setTitle(snapshot.data().title);
         setDescription(snapshot.data().description);
         setPrice(snapshot.data().price);
@@ -63,24 +63,24 @@ export default function EditProducts() {
         setInputFields(snapshot.data().option);
       });
   }, []);
-  console.log(image);
+  //console.log(image);
 
   const titleRef = useRef([]);
 
   const handleChangeTitle = (index, event) => {
-    // console.log(index, event.target.value);
+    // //console.log(index, event.target.value);
     const values = [...inputFields];
     values[index]["title"] = event.target.value;
     setInputFields(values);
-    console.log(inputFields);
+    //console.log(inputFields);
   };
 
   const handleChangeMenu = (index, index_child, event) => {
-    // console.log(index, event.target.value);
+    // //console.log(index, event.target.value);
     const values = [...inputFields];
     values[index]["menu"][index_child][event.target.name] = event.target.value;
     setInputFields(values);
-    console.log(inputFields);
+    //console.log(inputFields);
   };
 
   function GetCategoryFromFirebase() {
@@ -121,8 +121,8 @@ export default function EditProducts() {
   };
 
   const handleAddMenu = (index) => {
-    // console.log(inputFields[index].menu[0]);
-    // console.log(titleRef.current[index].value);
+    // //console.log(inputFields[index].menu[0]);
+    // //console.log(titleRef.current[index].value);
     if (inputFields.length == 1) {
       setInputFields([
         {
@@ -138,7 +138,7 @@ export default function EditProducts() {
       ]);
     } else {
       const values = [...inputFields];
-      // console.log(values);
+      // //console.log(values);
       values.push({
         title: titleRef.current[index].value,
         menu: [
@@ -156,9 +156,9 @@ export default function EditProducts() {
 
   const handleRemoveMenu = (index, index_child) => {
     const values = inputFields[index].menu;
-    // console.log(values);
+    // //console.log(values);
     values.splice(index_child, 1);
-    // console.log(values);
+    // //console.log(values);
     if (inputFields.length == 1) {
       setInputFields([
         {
@@ -188,9 +188,9 @@ export default function EditProducts() {
     // ]);
 
     // ดูตัวแปร object กับ array ของ menu ใหม่ด้วย
-    // console.log(index_child);
+    // //console.log(index_child);
     // values.splice(index_child, 1);
-    // console.log(values);
+    // //console.log(values);
     // setInputFields(values);
   };
 
@@ -207,14 +207,14 @@ export default function EditProducts() {
         setImageError("please select a valid image file type (png or jpg)");
       }
     } else {
-      console.log("please select your file");
+      //console.log("please select your file");
     }
   };
 
   const handleUpdateProducts = (e) => {
     e.preventDefault();
-    // console.log(title, description, price);
-    // console.log(image);
+    // //console.log(title, description, price);
+    // //console.log(image);
     setLoadingMsg("Loading...");
     window.scrollTo(0, 0);
     if (UpdateImg) {
@@ -224,7 +224,7 @@ export default function EditProducts() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(progress);
+          //console.log(progress);
         },
         (error) => setUploadError(error.message),
         () => {
@@ -309,7 +309,7 @@ export default function EditProducts() {
       });
     let values = e.target.value;
     values = values.split(",");
-    console.log(values);
+    //console.log(values);
     setCategory(values[1]);
     setCategoryUID(values[0]);
     fs.collection("category")
@@ -342,9 +342,9 @@ export default function EditProducts() {
   if (!isLogIn) {
     return <Redirect to="/login" />;
   }
-  console.log(isAdmin);
+  //console.log(isAdmin);
   if (!isAdmin) {
-    console.log(isAdmin);
+    //console.log(isAdmin);
     return <Redirect to="/" />;
   }
 
@@ -405,8 +405,8 @@ export default function EditProducts() {
               }}
               defaultValue={category}
             >
-              {console.log(category)}
-              {console.log(categoryUID)}
+              {/* {console.log(category)}
+              {console.log(categoryUID)} */}
               <option value="">Select Product Category</option>
               {loading ? (
                 <>

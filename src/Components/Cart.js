@@ -52,7 +52,7 @@ export default function Cart() {
   const [totalCost, setTotalCost] = useState(0);
 
   useEffect(() => {
-    console.log("totalcost change: ", totalCost);
+    // console.log("totalcost change: ", totalCost);
   }, [totalCost]);
 
   const [lastCoupon, setLastCoupon] = useState(false);
@@ -78,7 +78,7 @@ export default function Cart() {
           setLoading(true);
         });
       } else {
-        console.log("user is not signed in to retrieve cart");
+        // console.log("user is not signed in to retrieve cart");
       }
     });
   }, []);
@@ -95,7 +95,7 @@ export default function Cart() {
   const subtotalPrice = Number(price.reduce(reducerOfPrice, 0)).toFixed(2);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // console.log(cartProducts);
+  // // console.log(cartProducts);
 
   // getting the qty from cartProducts in a seperate array
   const qty = cartProducts.map((cartProduct) => {
@@ -108,7 +108,7 @@ export default function Cart() {
 
   const totalQty = qty.reduce(reducerOfQty, 0);
 
-  // console.log(totalQty);
+  // // console.log(totalQty);
 
   const GetFee = () => {
     let fee;
@@ -124,12 +124,12 @@ export default function Cart() {
   const fee = Number(GetFee());
 
   useEffect(() => {
-    console.log(fee, qtyChange);
-    console.log(
-      "change qty: ",
-      Number(Number(subtotalPrice) + Number(fee)).toFixed(2),
-      Number(Number(subtotalPrice) + Number(fee)).toFixed(2)
-    );
+    // console.log(fee, qtyChange);
+    // console.log(
+    //   "change qty: ",
+    //   Number(Number(subtotalPrice) + Number(fee)).toFixed(2),
+    //   Number(Number(subtotalPrice) + Number(fee)).toFixed(2)
+    // );
     setTotalPrice(Number(Number(subtotalPrice) + Number(fee)).toFixed(2));
     setTotalCost(Number(Number(subtotalPrice) + Number(fee)).toFixed(2));
   }, [fee, cartProducts]);
@@ -139,7 +139,7 @@ export default function Cart() {
 
   // cart product increase function
   const cartProductIncrease = (cartProduct) => {
-    // console.log(cartProduct);
+    // // console.log(cartProduct);
     Product = cartProduct;
     Product.qty = Product.qty + 1;
     Product.TotalProductPrice = Product.qty * Product.priceWithAddon;
@@ -151,10 +151,10 @@ export default function Cart() {
           .doc(cartProduct.DOC_ID)
           .update(Product)
           .then(() => {
-            console.log("increment added");
+            // console.log("increment added");
           });
       } else {
-        console.log("user is not logged in to increment");
+        // console.log("user is not logged in to increment");
       }
     });
   };
@@ -173,10 +173,10 @@ export default function Cart() {
             .doc(cartProduct.DOC_ID)
             .update(Product)
             .then(() => {
-              console.log("decrement");
+              // console.log("decrement");
             });
         } else {
-          console.log("user is not logged in to decrement");
+          // console.log("user is not logged in to decrement");
         }
       });
     } else if (Product.qty == 1) {
@@ -192,10 +192,10 @@ export default function Cart() {
           .doc(cartProduct.DOC_ID)
           .delete()
           .then(() => {
-            console.log("successfully deleted");
+            // console.log("successfully deleted");
           });
       } else {
-        console.log("user is not logged in to decrement");
+        // console.log("user is not logged in to decrement");
       }
     });
   };
@@ -271,7 +271,7 @@ export default function Cart() {
           //ไปต่อ หา coupon ว่ามีที่ตรงมั้ย
           for (let i = 0; i < couponFs.length; i++) {
             if (couponFs[i].coupon == couponInput) {
-              console.log("minimum: ", couponFs[i].minimum);
+              // console.log("minimum: ", couponFs[i].minimum);
               if (couponFs[i].minimum == "-") {
                 setMinimum(0);
                 stateTemp = true;
@@ -303,26 +303,27 @@ export default function Cart() {
   useEffect(() => {
     setMessage("");
     setError("");
-    console.log("USEEFFECT SEND TO COUPON DO");
-    console.log(
-      "subtotal: ",
-      subtotalPrice,
-      "minimum: ",
-      minimum,
-      "coupon state: ",
-      couponState
-    );
+    // console.log("USEEFFECT SEND TO COUPON DO");
+    // console.log(
+    //   "subtotal: ",
+    //   subtotalPrice,
+    //   "minimum: ",
+    //   minimum,
+    //   "coupon state: ",
+    //   couponState
+    // );
     if (couponState && subtotalPrice > minimum) {
       //คูปองมี ใช้ได้
       setMessage("Coupon activated.");
       setLastCoupon(true);
-      console.log("Coupon activated.");
+      // console.log("Coupon activated.");
       setCouponCheck(true);
+      setCouponSuccess(couponInputRef.current.value.toUpperCase());
     } else if (couponState && subtotalPrice < minimum) {
       setError("Your total is not reaching the minimum.");
       setCouponSuccess(null);
       setLastCoupon(false);
-      console.log("Your total is not reaching the minimum.");
+      // console.log("Your total is not reaching the minimum.");
       setTotalDiscount(0);
       setCouponType(false);
       setCheckoutLoading(false);
@@ -332,7 +333,7 @@ export default function Cart() {
       setCouponSuccess(null);
       setLastCoupon(false);
       setTotalDiscount(0);
-      console.log("This coupon is not exist.");
+      // console.log("This coupon is not exist.");
       setCouponCheck(true);
     }
   }, [couponState, cartProducts]);
@@ -343,25 +344,25 @@ export default function Cart() {
   }, []);
 
   useEffect(() => {
-    console.log("COUPON DO");
+    // console.log("COUPON DO");
     try {
       if (couponCheck !== null) {
         let couponInput = couponInputRef.current.value.toUpperCase();
-        console.log("couponCheck: ", couponCheck);
+        // console.log("couponCheck: ", couponCheck);
         for (let i = 0; i < couponFs.length; i++) {
           if (couponFs[i].coupon == couponInput) {
             let discount = Number(couponFs[i].value).toFixed(2);
             if (couponFs[i].type == "fixed" && couponCheck == true) {
               setTotalDiscount(discount);
               setCouponType(true);
-              console.log(
-                "subtotal - discount = ",
-                Number(Number(subtotalPrice) - Number(discount))
-              );
+              // console.log(
+              //   "subtotal - discount = ",
+              //   Number(Number(subtotalPrice) - Number(discount))
+              // );
               if (Number(Number(subtotalPrice) - Number(discount)) < 0) {
                 setTotalDiscount(subtotalPrice);
                 finalTotal = 0;
-                console.log("subtotal < discount => total = 0", finalTotal);
+                // console.log("subtotal < discount => total = 0", finalTotal);
                 setTotalCost(Number(finalTotal) + Number(fee));
                 setDiscountChange(discountChange + 1);
               } else {
@@ -372,7 +373,7 @@ export default function Cart() {
                 setDiscountChange(discountChange + 1);
               }
             } else if (couponFs[i].type == "percent" && couponCheck == true) {
-              console.log("percent coupon");
+              // console.log("percent coupon");
               setCouponType(true);
               setTotalDiscount(
                 Number(
@@ -390,7 +391,7 @@ export default function Cart() {
         setCheckoutLoading(false);
         setCouponCheck(null);
       } else {
-        console.log("couponcheck to null");
+        // console.log("couponcheck to null");
         setCheckoutLoading(false);
         setCouponCheck(null);
       }
@@ -398,12 +399,12 @@ export default function Cart() {
   }, [couponCheck]);
 
   useEffect(() => {
-    console.log(discountChange);
-    console.log("change total cost: ", totalCost, finalTotal);
+    // console.log(discountChange);
+    // console.log("change total cost: ", totalCost, finalTotal);
   }, [discountChange]);
 
   const handleCheckout = () => {
-    console.log(fee);
+    // console.log(fee);
     history.push({
       pathname: "/checkout",
       state: {
@@ -419,7 +420,7 @@ export default function Cart() {
   };
 
   useEffect(() => {
-    console.log("coupon name: ", couponSuccess);
+    // console.log("coupon name: ", couponSuccess);
   }, [couponSuccess]);
 
   const handleBackHome = (e) => {
@@ -499,8 +500,12 @@ export default function Cart() {
                     ref={couponInputRef}
                     defaultValue={null}
                   />
-                  <div>
-                    <Button disabled={checkoutLoading} type="submit">
+                  <div className="queryProfilebtn">
+                    <Button
+                      variant="danger"
+                      disabled={checkoutLoading}
+                      type="submit"
+                    >
                       Add
                     </Button>
                   </div>
@@ -589,11 +594,11 @@ export default function Cart() {
                 alert(
                   "Transaction completed by " + details.payer.name.given_name
                 );
-                console.log(details);
+                // console.log(details);
               });
             }}
             onCancel={(data, actions) => {
-              console.log("cancel=======");
+              // console.log("cancel=======");
             }}
           />
         </PayPalScriptProvider>

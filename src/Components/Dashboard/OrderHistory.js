@@ -39,7 +39,7 @@ function OrderHistory() {
               color="error"
               variant="success"
               onClick={() => {
-                console.log(cellValues.id);
+                // console.log(cellValues.id);
                 handleView(cellValues.id);
               }}
             >
@@ -82,12 +82,12 @@ function OrderHistory() {
   }
 
   if (orders) {
-    console.log(orders);
+    // console.log(orders);
   }
 
   useEffect(() => {
     if (order) {
-      console.log(order);
+      // console.log(order);
       history.push({
         pathname: "/eachorder",
         state: {
@@ -101,7 +101,7 @@ function OrderHistory() {
     return <Redirect to="/login" />;
   }
   if (!isAdmin) {
-    console.log(isAdmin);
+    // console.log(isAdmin);
     return <Redirect to="/" />;
   }
   if (loading) {

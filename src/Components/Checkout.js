@@ -255,16 +255,16 @@ function Checkout() {
 
   useEffect(() => {
     try {
-      console.log(Coupons);
-      console.log(fromCart);
-      console.log(String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")));
+      // console.log(Coupons);
+      // console.log(fromCart);
+      // console.log(String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")));
 
       if (local.state.Coupon == undefined || local.state.Coupon == null) {
-        console.log("not use coupon", Coupons);
+        // console.log("not use coupon", Coupons);
       } else {
         Coupons.push(local.state.Coupon);
         setCouponType(true);
-        console.log("push coupon", local.state.Coupon);
+        // console.log("push coupon", local.state.Coupon);
       }
     } catch {
       history.push("/");
@@ -299,7 +299,7 @@ function Checkout() {
 
   function handleChangeState(event) {
     if (event.target.value == "pickup") {
-      console.log("pickup");
+      // console.log("pickup");
       setPickupState(true);
       localStorage.setItem("Delivery", false);
       localStorage.setItem("Pickup", true);
@@ -314,9 +314,9 @@ function Checkout() {
       });
     } else if (event.target.value == "delivery") {
       setDeliveryChange(!deliveryChange);
-      console.log("delivery");
+      // console.log("delivery");
       setPickupState(false);
-      console.log(fee);
+      // console.log(fee);
       setTownTemp(town);
       setPostCodeTemp(postCode);
       localStorage.setItem("Delivery", true);
@@ -335,7 +335,7 @@ function Checkout() {
 
   function handleChangeTown(e) {
     setDeliveryChange(!deliveryChange);
-    console.log(fee);
+    // console.log(fee);
     setTown(e.target.value);
     fs.collection("users").doc(uid).update({
       Town: e.target.value,
@@ -344,7 +344,7 @@ function Checkout() {
 
   function handleChangePostCode(e) {
     // fee = Number(MilesCal_new(town, e.target.value));
-    console.log(fee);
+    // console.log(fee);
     setDeliveryChange(!deliveryChange);
     setPostCode(e.target.value);
     fs.collection("users").doc(uid).update({
@@ -353,7 +353,7 @@ function Checkout() {
   }
 
   useEffect(() => {
-    console.log(fromCart);
+    // console.log(fromCart);
   }, [fromCart]);
 
   function GetUserUid() {
@@ -409,7 +409,7 @@ function Checkout() {
       countyTemp = countyRef.current.value;
       // postCodeTemp = postCodeRef.current.value;
       postCodeTemp = postCode;
-      console.log("delivery=================");
+      // console.log("delivery=================");
     } else {
       addressTemp = address;
       townTemp = town;
@@ -419,17 +419,17 @@ function Checkout() {
 
     setMessage("");
     setError("");
-    console.log("coupons : " + Coupons);
+    // console.log("coupons : " + Coupons);
 
     fs.collection("orderHistory")
       .get()
       .then((order) => {
-        console.log("order History " + order.docs.length);
+        // console.log("order History " + order.docs.length);
         total = total + order.docs.length;
         fs.collection("liveorder")
           .get()
           .then((live) => {
-            console.log("liveorder " + live.docs.length);
+            // console.log("liveorder " + live.docs.length);
             total = total + live.docs.length;
             let totalOrder = Number(total) + 1;
             fs.collection("liveorder")
@@ -470,7 +470,7 @@ function Checkout() {
                             .then(() => {});
                         });
                         setTimeout(() => {
-                          console.log("order send to restaurant");
+                          // console.log("order send to restaurant");
                           history.push({
                             pathname: "/ordersuccess",
                             state: {
@@ -500,7 +500,7 @@ function Checkout() {
           });
       });
 
-    console.log(total);
+    // console.log(total);
   };
 
   if (townTemp !== "" || postCodeTemp !== "") {
@@ -719,7 +719,7 @@ function Checkout() {
                           <span>Discount</span>
                         </td>
                         <td className="c-price">
-                          <span>£{Number(fromCart.Discount).toFixed(2)}</span>
+                          <span>-£{Number(fromCart.Discount).toFixed(2)}</span>
                         </td>
                       </tr>
                     ) : null}
@@ -757,7 +757,7 @@ function Checkout() {
                 <div className="c-payment">
                   <div className="c-paypal">
                     <Button
-                      variant="primary"
+                      variant="danger"
                       disabled={buttonDisable}
                       onClick={() => setModalShow(true)}
                     >
@@ -766,7 +766,7 @@ function Checkout() {
                   </div>
                   <div className="c-cash">
                     <Button
-                      variant="primary"
+                      variant="danger"
                       disabled={buttonDisable}
                       onClick={() => [
                         handleSubmit("cash", null),
@@ -811,7 +811,7 @@ function Checkout() {
                   alert(
                     "Transaction completed by " + details.payer.name.given_name
                   );
-                  console.log(details);
+                  // console.log(details);
                   if (details.status == "COMPLETED") {
                     handleSubmit("paypal", details);
                   } else {
@@ -838,7 +838,7 @@ function Checkout() {
                 setError("Payment error...");
                 setButtonDisable(false);
                 // For example, redirect to a specific error page
-                console.log(err);
+                // console.log(err);
               }}
             />
           </PayPalScriptProvider>

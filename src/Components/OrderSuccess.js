@@ -52,7 +52,7 @@ function OrderSuccess() {
     const [fromCart, setFromCart] = useState();
     useEffect(() => {
       try {
-        console.log(local.state);
+        // console.log(local.state);
         setFromCart({
           cartProducts: local.state.cartProducts,
           Coupon: local.state.Coupon,

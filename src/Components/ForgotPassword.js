@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         })
         .catch((error) => setError(error.message));
     } catch {
-      console.log(e);
+      // console.log(e);
       setError("Failed to reset password");
     }
 
@@ -54,13 +54,22 @@ export default function ForgotPassword() {
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="email" ref={emailRef} required />
                   </Form.Group>
-                  <Button disabled={loading} className="w-100" type="submit">
-                    Reset Password
-                  </Button>
+                  <div className="queryProfilebtn">
+                    <Button
+                      variant="danger"
+                      disabled={loading}
+                      className="w-100"
+                      type="submit"
+                    >
+                      Reset Password
+                    </Button>
+                  </div>
                 </Form>
               )}
               <div className="w-100 text-center mt-3">
-                <Link to="/login">Login</Link>
+                <Link style={{ color: "#e80532" }} to="/login">
+                  Login
+                </Link>
               </div>
             </Card.Body>
           </Card>

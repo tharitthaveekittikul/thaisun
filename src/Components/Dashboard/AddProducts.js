@@ -107,7 +107,7 @@ export default function AddProducts() {
     const values = [...inputFields];
     values[index]["title"] = event.target.value;
     setInputFields(values);
-    console.log(inputFields);
+    // console.log(inputFields);
   };
 
   const handleChangeMenu = (index, index_child, event) => {
@@ -115,7 +115,7 @@ export default function AddProducts() {
     const values = [...inputFields];
     values[index]["menu"][index_child][event.target.name] = event.target.value;
     setInputFields(values);
-    console.log(inputFields);
+    // console.log(inputFields);
   };
 
   const handleAddTitle = () => {
@@ -133,21 +133,21 @@ export default function AddProducts() {
     ]);
   };
 
-  console.log(inputFields);
+  // console.log(inputFields);
 
   const handleRemoveTitle = (index) => {
     if (isEqual(inputFields, inputFieldsTemp)) {
-      console.log("in");
+      // console.log("in");
       handleClose1();
       return;
     }
     if (inputFields.length === 1) {
-      console.log("in lenght 1");
+      // console.log("in lenght 1");
       handleClose1();
       return;
     }
     const values = [...inputFields];
-    console.log(index);
+    // console.log(index);
     values.splice(index, 1);
     setInputFields(values);
     handleClose1();
@@ -189,12 +189,12 @@ export default function AddProducts() {
 
   const handleRemoveMenu = (index, index_child) => {
     if (inputFields[index].menu.length === 1) {
-      console.log("menu in");
+      // console.log("menu in");
       handleClose();
       return;
     }
     if (isEqual(inputFields, inputFieldsTemp)) {
-      console.log("in");
+      // console.log("in");
       handleClose();
       return;
     }
@@ -245,12 +245,12 @@ export default function AddProducts() {
   const [menuIndexChild, setMenuIndexChild] = useState();
   const handleShow = (index, index_child) => {
     if (inputFields[index].menu.length === 1) {
-      console.log("menu in");
+      // console.log("menu in");
       handleClose();
       return;
     }
     if (isEqual(inputFields, inputFieldsTemp)) {
-      console.log("in");
+      // console.log("in");
       handleClose();
       return;
     }
@@ -264,12 +264,12 @@ export default function AddProducts() {
   const [titleIndex, setTitleIndex] = useState();
   const handleShow1 = (index) => {
     if (isEqual(inputFields, inputFieldsTemp)) {
-      console.log("in");
+      // console.log("in");
       handleClose1();
       return;
     }
     if (inputFields.length === 1) {
-      console.log("in lenght 1");
+      // console.log("in lenght 1");
       handleClose1();
       return;
     }
@@ -288,7 +288,7 @@ export default function AddProducts() {
         setImageError("please select a valid image file type (png or jpg)");
       }
     } else {
-      console.log("please select your file");
+      // console.log("please select your file");
     }
   };
 
@@ -304,7 +304,7 @@ export default function AddProducts() {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(progress);
+        // console.log(progress);
       },
       (error) => setUploadError(error.message),
       () => {
@@ -324,7 +324,7 @@ export default function AddProducts() {
                 option: inputFields,
               })
               .then(() => {
-                console.log(countCategory);
+                // console.log(countCategory);
                 fs.collection("category")
                   .doc(categoryUID)
                   .update({
@@ -351,7 +351,7 @@ export default function AddProducts() {
   function handleChangeCategory(e) {
     let values = e.target.value;
     values = values.split(",");
-    console.log(values);
+    // console.log(values);
     setCategory(values[1]);
     setCategoryUID(values[0]);
     fs.collection("category")
@@ -384,9 +384,9 @@ export default function AddProducts() {
   if (!isLogIn) {
     return <Redirect to="/login" />;
   }
-  console.log(isAdmin);
+  // console.log(isAdmin);
   if (!isAdmin) {
-    console.log(isAdmin);
+    // console.log(isAdmin);
     return <Redirect to="/" />;
   }
 
@@ -447,8 +447,8 @@ export default function AddProducts() {
               }}
               defaultValue={category}
             >
-              {console.log(category)}
-              {console.log(categoryUID)}
+              {/* {console.log(category)}
+              {console.log(categoryUID)} */}
               <option value="">Select Product Category</option>
               {loading ? (
                 <>

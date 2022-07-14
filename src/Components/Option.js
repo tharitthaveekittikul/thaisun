@@ -38,14 +38,14 @@ function Option({
 
   useEffect(() => {
     handleOption(optionUse);
-    console.log(optionUse);
+    // console.log(optionUse);
   }, [optionUse]);
 
   useEffect(() => {
     try {
-      console.log(options);
+      // console.log(options);
       if (options.length == 1) {
-        console.log("1");
+        // console.log("1");
         setOptionUse([
           {
             title: options[0].title,
@@ -54,7 +54,7 @@ function Option({
           },
         ]);
       } else if (options.length > 1) {
-        console.log("2");
+        // console.log("2");
         for (let i = 0; i < options.length; i++) {
           if (i == 0) {
             setOptionUse([
@@ -86,7 +86,7 @@ function Option({
     // console.log(options);
     e.preventDefault();
     if (optionUse.length == 0) {
-      console.log("First");
+      // console.log("First");
       const values = {
         title: titleList[index],
         menu: e.target.value,
@@ -104,7 +104,7 @@ function Option({
       //   console.log(titles);
 
       if (!titles.includes(titleList[index])) {
-        console.log("Not same");
+        // console.log("Not same");
         setOptionUse([
           ...optionUse,
           {
@@ -114,7 +114,7 @@ function Option({
           },
         ]);
       } else {
-        console.log("Same");
+        // console.log("Same");
         const same = optionUse;
         const same_title = options[index].title;
         for (let i = 0; i < same.length; i++) {

@@ -51,7 +51,7 @@ function Customer() {
           getUserFromFirebase.push({ ...doc.data(), key: doc.id });
         }
       });
-      console.log(getUserFromFirebase);
+      // console.log(getUserFromFirebase);
       setUsers(getUserFromFirebase);
       setLoading(false);
     }, []);
@@ -63,7 +63,7 @@ function Customer() {
     return <Redirect to="/login" />;
   }
   if (!isAdmin) {
-    console.log(isAdmin);
+    // console.log(isAdmin);
     return <Redirect to="/" />;
   }
 

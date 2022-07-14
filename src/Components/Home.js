@@ -83,7 +83,7 @@ export default function Home(props) {
   }
 
   const user = GetCurrentUser();
-  // console.log(user);
+  // // console.log(user);
 
   // state of products
   const [products, setProducts] = useState([]);
@@ -119,7 +119,7 @@ export default function Home(props) {
         if (product.option.length > 0) {
           for (let i = 0; i < product.option.length; i++) {
             totalProductPrice += Number(product.option[i].price);
-            console.log(product.option[i].menu, product.option[i].price);
+            // console.log(product.option[i].menu, product.option[i].price);
           }
         }
       }
@@ -127,11 +127,11 @@ export default function Home(props) {
         if (product.addOn.length > 0) {
           for (let j = 0; j < product.addOn.length; j++) {
             totalProductPrice += Number(product.addOn[j].price);
-            console.log(product.addOn[j].menu, product.addOn[j].price);
+            // console.log(product.addOn[j].menu, product.addOn[j].price);
           }
         }
       }
-      console.log("==============");
+      // console.log("==============");
       Product = product;
       Product["qty"] = 1;
       Product["priceWithAddon"] = Product.price + totalProductPrice;
@@ -140,7 +140,7 @@ export default function Home(props) {
       fs.collection("Cart " + uid)
         .add(Product)
         .then(() => {
-          console.log("successfully added to cart");
+          // console.log("successfully added to cart");
         });
     } else {
       props.history.push("/login");
@@ -189,7 +189,7 @@ export default function Home(props) {
       const filter = products.filter((product) => product.category === text);
       setFilteredProducts(filter);
     } else {
-      console.log("no products to filter");
+      // console.log("no products to filter");
     }
   };
 
@@ -214,7 +214,7 @@ export default function Home(props) {
           }));
           const qty = snapshot.docs.length;
           setTotalProducts(qty);
-          // console.log(newCartProduct);
+          // // console.log(newCartProduct);
           setCartProducts(newCartProduct);
         });
       } else {
@@ -238,7 +238,7 @@ export default function Home(props) {
 
   const totalQty = qty.reduce(reducerOfQty, 0);
 
-  // console.log(totalQty);
+  // // console.log(totalQty);
 
   // getting the TotalProductPrice from cartProducts in a seperate array
   const price = cartProducts.map((cartProduct) => {
@@ -263,11 +263,11 @@ export default function Home(props) {
     }
     if (localStorage.getItem("Delivery") == "true") {
       setTotalPrice(Number(subtotalPrice) + Number(fee));
-      console.log("dapodmdd");
+      // console.log("dapodmdd");
     }
     if (localStorage.getItem("Pickup") == "true") {
       setTotalPrice(subtotalPrice);
-      console.log("dapodmdd false");
+      // console.log("dapodmdd false");
     }
   }, []);
 
@@ -291,7 +291,7 @@ export default function Home(props) {
 
   // cart product increase function
   const cartProductIncrease = (cartProduct) => {
-    console.log(cartProduct);
+    // console.log(cartProduct);
     Product = cartProduct;
     Product.qty = Product.qty + 1;
     Product.TotalProductPrice = Product.qty * Product.priceWithAddon;
@@ -302,10 +302,10 @@ export default function Home(props) {
           .doc(cartProduct.DOC_ID)
           .update(Product)
           .then(() => {
-            console.log("increment added");
+            // console.log("increment added");
           });
       } else {
-        console.log("user is not logged in to increment");
+        // console.log("user is not logged in to increment");
         props.history.push("/login");
       }
     });
@@ -313,7 +313,7 @@ export default function Home(props) {
 
   // cart product decrease functionality
   const cartProductDecrease = (cartProduct) => {
-    console.log(cartProduct);
+    // console.log(cartProduct);
     Product = cartProduct;
     if (Product.qty > 1) {
       Product.qty = Product.qty - 1;
@@ -325,10 +325,10 @@ export default function Home(props) {
             .doc(cartProduct.DOC_ID)
             .update(Product)
             .then(() => {
-              console.log("decrement");
+              // console.log("decrement");
             });
         } else {
-          console.log("user is not logged in to decrement");
+          // console.log("user is not logged in to decrement");
           props.history.push("/login");
         }
       });
@@ -344,10 +344,10 @@ export default function Home(props) {
           .doc(cartProduct.DOC_ID)
           .delete()
           .then(() => {
-            console.log("successfully deleted");
+            // console.log("successfully deleted");
           });
       } else {
-        console.log("user is not logged in to decrement");
+        // console.log("user is not logged in to decrement");
         props.history.push("/login");
       }
     });

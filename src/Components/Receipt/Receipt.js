@@ -22,7 +22,7 @@ function Receipt() {
 
   if (orders) {
     {
-      console.log(orders);
+      // console.log(orders);
     }
     return (
       <>

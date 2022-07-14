@@ -33,7 +33,7 @@ function AddCategory() {
               color="error"
               variant="danger"
               onClick={() => {
-                console.log(cellValues.id);
+                // console.log(cellValues.id);
                 setUIDCategory(cellValues.id);
                 handleShow();
               }}
@@ -129,7 +129,7 @@ function AddCategory() {
     return <Redirect to="/login" />;
   }
   if (!isAdmin) {
-    console.log(isAdmin);
+    // console.log(isAdmin);
     return <Redirect to="/" />;
   }
   if (loading) {

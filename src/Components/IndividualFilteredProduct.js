@@ -160,9 +160,15 @@ export default function IndividualFilteredProduct({
           </Form>
         </Modal.Body>
         <Modal.Footer bsPrefix="modal-footer">
-          <Button className="btn-basket" onClick={handleAddToCart}>
-            ADD TO BASKET
-          </Button>
+          <div className="queryProfilebtn">
+            <Button
+              variant="danger"
+              className="btn-basket"
+              onClick={handleAddToCart}
+            >
+              ADD TO BASKET
+            </Button>
+          </div>
         </Modal.Footer>
       </Modal>
     </div>

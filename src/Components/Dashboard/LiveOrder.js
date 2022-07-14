@@ -26,7 +26,7 @@ function LiveOrder() {
   const [showSure, setShowSure] = useState(false);
   const handleCloseSure = () => setShowSure(false);
   const handleShowSure = () => {
-    console.log(orderTemp);
+    //console.log(orderTemp);
     setShowSure(true);
   };
 
@@ -39,8 +39,10 @@ function LiveOrder() {
 
   const [send, setSent] = useState(false);
   // const [text, setText] = useState("");
-  const [playAudio, setPlayAudio] = useState(true);
+  // const [playAudio, setPlayAudio] = useState(true);
   const [disableButton, setDisableButton] = useState(true);
+
+  const audio = new Audio(sound);
 
   const handleSend = async (text, email) => {
     setSent(true);
@@ -50,7 +52,7 @@ function LiveOrder() {
         emailTo: email,
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -58,43 +60,58 @@ function LiveOrder() {
     if (e.target.value === "" || e.target.value === "etc.") {
       setDisableButton(true);
     }
-    console.log(e.target.value);
+    //console.log(e.target.value);
     setDisableButton(false);
     setReason(e.target.value);
-    setPlayAudio(false);
+    //setPlayAudio(false);
   }
 
   function handleETCReason(e) {
     setDisableButton(false);
-    setPlayAudio(false);
+    //setPlayAudio(false);
     setETC(e.target.value);
   }
   const handleShowReason = (liveorder, key) => {
     setOrderTemp([liveorder, key]);
     setShowReason(true);
-    setPlayAudio(false);
+    //setPlayAudio(false);
   };
 
-  window.setTimeout(function () {
-    window.location.reload();
-  }, 60000);
+  // window.setTimeout(function () {
+  //   window.location.reload();
+  // }, 60000);
 
   const [clear, setClear] = useState(true);
 
-  function GetLiveOrderFromFirebase() {
-    const getLiveOrderFromFirebase = [];
-    const [liveOrders, setLiveOrders] = useState();
-    useEffect(async () => {
-      const snapshot = await fs.collection("liveorder").get();
+  // function GetLiveOrderFromFirebase() {
+  //   const getLiveOrderFromFirebase = [];
+  //   const [liveOrders, setLiveOrders] = useState();
+  //   useEffect(async () => {
+  //     const snapshot = await fs.collection("liveorder").get();
+  //     snapshot.docs.map((doc) => {
+  //       getLiveOrderFromFirebase.push({ ...doc.data(), key: doc.id });
+  //     });
+  //     setLiveOrders(getLiveOrderFromFirebase);
+  //     setPlayAudio(true);
+  //   }, []);
+  //   return liveOrders;
+  // }
+  // const liveOrders = GetLiveOrderFromFirebase();
+
+  const [liveOrders, setLiveOrders] = useState([]);
+
+  useEffect(() => {
+    fs.collection("liveorder").onSnapshot((snapshot) => {
+      const getLiveOrderFromFirebase = [];
       snapshot.docs.map((doc) => {
         getLiveOrderFromFirebase.push({ ...doc.data(), key: doc.id });
       });
       setLiveOrders(getLiveOrderFromFirebase);
-      setPlayAudio(true);
-    }, []);
-    return liveOrders;
-  }
-  const liveOrders = GetLiveOrderFromFirebase();
+      // setPlayAudio(true);
+      audio.play();
+      //console.log("audio play");
+    });
+  }, []);
 
   function ChangeBackground() {
     const interval = setInterval(() => {
@@ -1276,7 +1293,7 @@ function LiveOrder() {
           "Popup",
           "toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=300, height=500"
         );
-        window.location.reload(false);
+        // window.location.reload(false);
         newWindow.print();
         window.addEventListener(
           "beforeunload",
@@ -1289,6 +1306,8 @@ function LiveOrder() {
   }
 
   function handleDecline() {
+    setShowSure(false);
+    setShowReason(false);
     let detailsOrder = `<table
     class="es-content"
     cellspacing="0"
@@ -2437,26 +2456,26 @@ function LiveOrder() {
       .doc(orderTemp[1])
       .delete()
       .then(() => {
-        window.location.reload(false);
+        // window.location.reload(false);
       });
   }
 
-  // console.log(liveOrders);
+  // //console.log(liveOrders);
 
   if (!isLogIn) {
     return <Redirect to="/login" />;
   }
   if (!isAdmin) {
-    console.log(isAdmin);
+    //console.log(isAdmin);
     return <Redirect to="/" />;
   }
 
-  function playSound() {
-    if (playAudio) {
-      const audio = new Audio(sound);
-      audio.play();
-    }
-  }
+  // function playSound() {
+  //   if (playAudio) {
+  //     audio.play();
+  //     //console.log("audio play PLAYSOUND");
+  //   }
+  // }
 
   return (
     <div className="wrapper">
@@ -2471,7 +2490,8 @@ function LiveOrder() {
                 <>
                   {liveOrders.length > 0 ? (
                     <>
-                      {playSound()} {ChangeBackground()}
+                      {/* {playSound()} */}
+                      {ChangeBackground()}
                     </>
                   ) : null}
                 </>
@@ -2585,7 +2605,7 @@ function LiveOrder() {
                         <br></br>
                         {liveorder.Coupon ? (
                           <>
-                            Discount: £
+                            Discount: -£
                             {parseFloat(liveorder.Discount).toFixed(2)}
                             <br></br>
                           </>
