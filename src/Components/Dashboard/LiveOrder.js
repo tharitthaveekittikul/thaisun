@@ -46,13 +46,22 @@ function LiveOrder() {
 
   const handleSend = async (text, email) => {
     setSent(true);
+    // const headers = {
+    //   "Content-Type": "text/plain",
+    //   "Access-Control-Allow-Origin": "*",
+    // };
     try {
-      await axios.post("http://localhost:587/send_mail", {
-        text,
-        emailTo: email,
-      });
+      await axios.post(
+        "https://thaisun-backend.xn--l3c0arma9bxa5n.com/send_mail",
+        {
+          text,
+          emailTo: email,
+        },
+        // { headers: headers }
+        { withCredentials: true }
+      );
     } catch (error) {
-      //console.log(error);
+      // console.log(error);
     }
   };
 

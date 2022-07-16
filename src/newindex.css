@@ -420,6 +420,7 @@
   tr
   .c-price {
   text-align: right;
+  width: 90px;
 }
 .checkout-container .checkout-table .c-cart-summary-box .c-payment {
   margin-top: 20px;
