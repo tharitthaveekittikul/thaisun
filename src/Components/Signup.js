@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { auth, fs } from "../Config/Config";
 import { format } from "date-fns";
 import { useMediaQuery } from "react-responsive";
+import { validTel } from "./Regexvalidate";
 
 function Signup() {
   const isLogIn = localStorage.getItem("isLogIn") === "True";
@@ -30,6 +31,40 @@ function Signup() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    let tempTel;
+
+    if (firstNameRef.current.value === "") {
+      return setError("Please fill firstname");
+    } else if (lastNameRef.current.value === "") {
+      return setError("Please fill lastname");
+    } else if (emailRef.current.value === "") {
+      return setError("Please fill email");
+    } else if (passwordRef.current.value === "") {
+      return setError("Please fill password");
+    } else if (passwordConfirmRef.current.value === "") {
+      return setError("Please fill password confirmation");
+    } else if (addressRef.current.value === "") {
+      return setError("Please fill address");
+    } else if (townRef.current.value === "") {
+      return setError("Please fill town / city");
+    } else if (countyRef.current.value === "") {
+      return setError("Please fill county");
+    } else if (postCodeRef.current.value === "") {
+      return setError("Please fill postcode");
+    } else if (telRef.current.value === "") {
+      return setError("Please fill telephone number");
+    }
+
+    if (!validTel.test(telRef.current.value)) {
+      // console.log(telRef.current.value);
+      return setError("Telephone number should be xxxxx-xxx-xxx");
+    } else if (validTel.test(telRef.current.value)) {
+      // console.log(telRef.current.value);
+      tempTel = telRef.current.value;
+      tempTel = tempTel.replaceAll("-", " ");
+      // console.log(tempTel);
+    }
+
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
     }
@@ -55,7 +90,7 @@ function Signup() {
               Town: townRef.current.value,
               County: countyRef.current.value,
               PostCode: postCodeRef.current.value,
-              Telephone: telRef.current.value,
+              Telephone: tempTel,
               isAdmin: false,
               Coupons: [],
               date: String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")),
@@ -241,7 +276,13 @@ function Signup() {
 
                       <Form.Group id="tel" className="mb-3">
                         <Form.Label>Telephone</Form.Label>
-                        <Form.Control type="tel" ref={telRef} required />
+                        <Form.Control
+                          type="text"
+                          ref={telRef}
+                          required
+                          title="Telephone number should be xxxxx-xxx-xxx"
+                          pattern="^\s*(([+]\s?\d[-\s]?\d|0)?\s?\d([-\s]?\d){9}|[(]\s?\d([-\s]?\d)+\s*[)]([-\s]?\d)+)\s*$"
+                        />
                       </Form.Group>
                     </div>
                   </Form>

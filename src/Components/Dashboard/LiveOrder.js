@@ -2570,18 +2570,24 @@ function LiveOrder() {
                           <ListGroupItem
                             style={{ backgroundColor: colors[value] }}
                           >
-                            <p>
-                              {cartProduct.qty} x {cartProduct.title}
+                            <p style={{ fontWeight: "bold" }}>
+                              {cartProduct.qty} x {cartProduct.title} (£{" "}
+                              {parseFloat(
+                                cartProduct.TotalProductPrice
+                              ).toFixed(2)}
+                              )
                             </p>
                             {cartProduct.option.map((option) => (
                               <>
-                                <p style={{ fontWeight: "bold" }}>
-                                  {option.title}{" "}
-                                  <label style={{ fontWeight: "normal" }}>
-                                    - {option.menu} (£
-                                    {parseFloat(option.price).toFixed(2)})
-                                  </label>
-                                </p>
+                                {option.menu ? (
+                                  <p style={{ fontWeight: "bold" }}>
+                                    {option.title}{" "}
+                                    <label style={{ fontWeight: "normal" }}>
+                                      - {option.menu} (£
+                                      {parseFloat(option.price).toFixed(2)})
+                                    </label>
+                                  </p>
+                                ) : null}
                               </>
                             ))}
                             {cartProduct.addOn.map((addon) => (

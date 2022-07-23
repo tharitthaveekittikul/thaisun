@@ -4,6 +4,7 @@ import { auth, fs } from "../Config/Config";
 import { useHistory } from "react-router-dom";
 import Navbar1 from "./Navbar1";
 import { useMediaQuery } from "react-responsive";
+import { validTel } from "./Regexvalidate";
 
 function Profile() {
   const firstNameRef = useRef();
@@ -65,7 +66,9 @@ function Profile() {
             setTown(snapshot.data().Town);
             setCounty(snapshot.data().County);
             setPostCode(snapshot.data().PostCode);
-            setTel(snapshot.data().Telephone);
+            let teleTemp = snapshot.data().Telephone;
+            teleTemp = teleTemp.replaceAll(" ", "-");
+            setTel(teleTemp);
             setIsAdmin(snapshot.data().isAdmin);
           });
       } else {
@@ -75,6 +78,10 @@ function Profile() {
   }, []);
 
   async function handleUpdate(e) {
+    e.preventDefault();
+    setMessage("");
+    setError("");
+    setLoadingMsg("Loading...");
     if (
       firstNameRef.current.value === "" ||
       lastNameRef.current.value === "" ||
@@ -87,10 +94,14 @@ function Profile() {
       setError("Please fill the empty.");
       return;
     }
-    e.preventDefault();
-    setMessage("");
-    setError("");
-    setLoadingMsg("Loading...");
+    let tempTel;
+    if (!validTel.test(telRef.current.value)) {
+      return setError("Telephone number should be xxxxx-xxx-xxx");
+    } else if (validTel.test(telRef.current.value)) {
+      tempTel = telRef.current.value;
+      tempTel = tempTel.replaceAll("-", " ");
+    }
+
     auth.onAuthStateChanged((user) => {
       if (user) {
         fs.collection("users")
@@ -102,7 +113,7 @@ function Profile() {
             Town: townRef.current.value,
             County: countyRef.current.value,
             PostCode: postCodeRef.current.value,
-            Telephone: telRef.current.value,
+            Telephone: tempTel,
           })
           .then(() => {
             setLoadingMsg("");
