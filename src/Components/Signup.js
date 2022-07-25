@@ -13,6 +13,7 @@ function Signup() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
+  const houseRef = useRef();
   const addressRef = useRef();
   const townRef = useRef();
   const countyRef = useRef();
@@ -34,25 +35,29 @@ function Signup() {
     let tempTel;
 
     if (firstNameRef.current.value === "") {
-      return setError("Please fill firstname");
+      return setError("Please fill your first name");
     } else if (lastNameRef.current.value === "") {
-      return setError("Please fill lastname");
+      return setError("Please fill your last name");
     } else if (emailRef.current.value === "") {
-      return setError("Please fill email");
+      return setError("Please fill your email address");
     } else if (passwordRef.current.value === "") {
-      return setError("Please fill password");
+      return setError("Please fill your password");
     } else if (passwordConfirmRef.current.value === "") {
-      return setError("Please fill password confirmation");
+      return setError("Please fill your password confirmation");
+    } else if (houseRef.current.value === "") {
+      return setError(
+        "Please fill your house number / flat Number/ house name"
+      );
     } else if (addressRef.current.value === "") {
-      return setError("Please fill address");
+      return setError("Please fill your address");
     } else if (townRef.current.value === "") {
-      return setError("Please fill town / city");
+      return setError("Please fill your town / city");
     } else if (countyRef.current.value === "") {
-      return setError("Please fill county");
+      return setError("Please fill your county");
     } else if (postCodeRef.current.value === "") {
-      return setError("Please fill postcode");
+      return setError("Please fill your postcode");
     } else if (telRef.current.value === "") {
-      return setError("Please fill telephone number");
+      return setError("Please fill your telephone number");
     }
 
     if (!validTel.test(telRef.current.value)) {
@@ -86,6 +91,7 @@ function Signup() {
               FirstName: firstNameRef.current.value,
               LastName: lastNameRef.current.value,
               Email: emailRef.current.value,
+              House: houseRef.current.value,
               Address: addressRef.current.value,
               Town: townRef.current.value,
               County: countyRef.current.value,
@@ -156,6 +162,13 @@ function Signup() {
                       ref={passwordConfirmRef}
                       required
                     />
+                  </Form.Group>
+
+                  <Form.Group id="house" className="mb-3">
+                    <Form.Label>
+                      House Number/ Flat Number / House Name
+                    </Form.Label>
+                    <Form.Control type="text" ref={houseRef} required />
                   </Form.Group>
 
                   <Form.Group id="address" className="mb-3">
@@ -251,9 +264,27 @@ function Signup() {
                           required
                         />
                       </Form.Group>
+
+                      <Form.Group id="tel" className="mb-3">
+                        <Form.Label>Telephone</Form.Label>
+                        <Form.Control
+                          type="text"
+                          ref={telRef}
+                          required
+                          title="Telephone number should be xxxxx-xxx-xxx"
+                          pattern="^\s*(([+]\s?\d[-\s]?\d|0)?\s?\d([-\s]?\d){9}|[(]\s?\d([-\s]?\d)+\s*[)]([-\s]?\d)+)\s*$"
+                        />
+                      </Form.Group>
                     </div>
 
                     <div className="rightside-signup">
+                      <Form.Group id="house" className="mb-3">
+                        <Form.Label>
+                          House Number/ Flat Number / House Name
+                        </Form.Label>
+                        <Form.Control type="text" ref={houseRef} required />
+                      </Form.Group>
+
                       <Form.Group id="address" className="mb-3">
                         <Form.Label>Address</Form.Label>
                         <Form.Control type="text" ref={addressRef} required />
@@ -273,29 +304,23 @@ function Signup() {
                         <Form.Label>Postcode</Form.Label>
                         <Form.Control type="text" ref={postCodeRef} required />
                       </Form.Group>
-
-                      <Form.Group id="tel" className="mb-3">
-                        <Form.Label>Telephone</Form.Label>
-                        <Form.Control
-                          type="text"
-                          ref={telRef}
-                          required
-                          title="Telephone number should be xxxxx-xxx-xxx"
-                          pattern="^\s*(([+]\s?\d[-\s]?\d|0)?\s?\d([-\s]?\d){9}|[(]\s?\d([-\s]?\d)+\s*[)]([-\s]?\d)+)\s*$"
-                        />
-                      </Form.Group>
+                      <div
+                        className="queryProfilebtn"
+                        style={{
+                          marginTop: "48px",
+                        }}
+                      >
+                        <Button
+                          variant="danger"
+                          disabled={loading}
+                          className="w-100"
+                          onClick={handleSubmit}
+                        >
+                          Sign Up
+                        </Button>
+                      </div>
                     </div>
                   </Form>
-                </div>
-                <div className="queryProfilebtn">
-                  <Button
-                    variant="danger"
-                    disabled={loading}
-                    className="w-100"
-                    onClick={handleSubmit}
-                  >
-                    Sign Up
-                  </Button>
                 </div>
               </Card.Body>
             </Card>

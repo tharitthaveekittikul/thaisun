@@ -13,6 +13,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { format } from "date-fns";
 import Navbar1 from "./Navbar1";
+import { faHomeUser } from "@fortawesome/free-solid-svg-icons";
 
 function Checkout() {
   const local = useLocation();
@@ -22,6 +23,7 @@ function Checkout() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [house, setHouse] = useState("");
   const [address, setAddress] = useState("");
   const [town, setTown] = useState("");
   const [county, setCounty] = useState("");
@@ -41,6 +43,8 @@ function Checkout() {
 
   const addressRef = useRef();
 
+  const houseRef = useRef();
+
   const countyRef = useRef();
 
   const [deliveryChange, setDeliveryChange] = useState(false);
@@ -55,6 +59,7 @@ function Checkout() {
             setFirstName(snapshot.data().FirstName);
             setLastName(snapshot.data().LastName);
             setEmail(snapshot.data().Email);
+            setHouse(snapshot.data().House);
             setAddress(snapshot.data().Address);
             setTown(snapshot.data().Town);
             setCounty(snapshot.data().County);
@@ -391,6 +396,7 @@ function Checkout() {
   const handleSubmit = (type, detailp) => {
     let total = 0;
     let pOrder;
+    let houseTemp;
     let addressTemp;
     let townTemp;
     let countyTemp;
@@ -403,6 +409,7 @@ function Checkout() {
     }
     const delState = localStorage.getItem("Delivery") === "true";
     if (delState == true) {
+      houseTemp = houseRef.current.value;
       addressTemp = addressRef.current.value;
       // townTemp = townRef.current.value;
       townTemp = town;
@@ -411,6 +418,7 @@ function Checkout() {
       postCodeTemp = postCode;
       // console.log("delivery=================");
     } else {
+      houseTemp = house;
       addressTemp = address;
       townTemp = town;
       countyTemp = county;
@@ -438,6 +446,7 @@ function Checkout() {
                 instructionToRes: textInstructionRef.current.value,
                 user: firstName + " " + lastName,
                 email: email,
+                house: houseTemp,
                 address: addressTemp,
                 town: townTemp,
                 county: countyTemp,
@@ -479,6 +488,7 @@ function Checkout() {
                                 textInstructionRef.current.value,
                               user: firstName + " " + lastName,
                               email: email,
+                              house: houseTemp,
                               address: addressTemp,
                               town: townTemp,
                               county: countyTemp,
@@ -567,6 +577,19 @@ function Checkout() {
                   <div></div>
                 ) : (
                   <div>
+                    <FormLabel>
+                      House Number/ Flat Number / House Name{" "}
+                      <span style={{ color: "#e80532", fontWeight: "500" }}>
+                        *
+                      </span>
+                    </FormLabel>
+                    <Form.Control
+                      type="text"
+                      ref={houseRef}
+                      defaultValue={house}
+                      required
+                      style={{ marginBottom: "20px" }}
+                    />
                     <FormLabel>
                       Address{" "}
                       <span style={{ color: "#e80532", fontWeight: "500" }}>

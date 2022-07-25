@@ -10,6 +10,7 @@ function Profile() {
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const emailRef = useRef();
+  const houseRef = useRef();
   const addressRef = useRef();
   const townRef = useRef();
   const countyRef = useRef();
@@ -20,6 +21,7 @@ function Profile() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [house, setHouse] = useState("");
   const [address, setAddress] = useState("");
   const [postCode, setPostCode] = useState("");
   const [tel, setTel] = useState("");
@@ -62,6 +64,7 @@ function Profile() {
             setFirstName(snapshot.data().FirstName);
             setLastName(snapshot.data().LastName);
             setEmail(snapshot.data().Email);
+            setHouse(snapshot.data().House);
             setAddress(snapshot.data().Address);
             setTown(snapshot.data().Town);
             setCounty(snapshot.data().County);
@@ -85,6 +88,7 @@ function Profile() {
     if (
       firstNameRef.current.value === "" ||
       lastNameRef.current.value === "" ||
+      houseRef.current.value === "" ||
       addressRef.current.value === "" ||
       townRef.current.value === "" ||
       countyRef.current.value === "" ||
@@ -96,6 +100,7 @@ function Profile() {
     }
     let tempTel;
     if (!validTel.test(telRef.current.value)) {
+      setLoadingMsg("");
       return setError("Telephone number should be xxxxx-xxx-xxx");
     } else if (validTel.test(telRef.current.value)) {
       tempTel = telRef.current.value;
@@ -109,6 +114,7 @@ function Profile() {
           .update({
             FirstName: firstNameRef.current.value,
             LastName: lastNameRef.current.value,
+            House: houseRef.current.value,
             Address: addressRef.current.value,
             Town: townRef.current.value,
             County: countyRef.current.value,
@@ -121,6 +127,7 @@ function Profile() {
           });
       } else {
         setError("Cannot update your profile.");
+        setLoadingMsg("");
       }
     });
   }
@@ -169,6 +176,18 @@ function Profile() {
                       required
                       defaultValue={email}
                       readOnly
+                    />
+                  </Form.Group>
+
+                  <Form.Group id="house" className="mb-3">
+                    <Form.Label>
+                      House Number/ Flat Number / House Name
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      ref={houseRef}
+                      required
+                      defaultValue={house}
                     />
                   </Form.Group>
 
@@ -279,6 +298,18 @@ function Profile() {
                         />
                       </Form.Group>
 
+                      <Form.Group id="house" className="mb-3">
+                        <Form.Label>
+                          House Number/ Flat Number / House Name
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          ref={houseRef}
+                          required
+                          defaultValue={house}
+                        />
+                      </Form.Group>
+
                       <Form.Group id="address" className="mb-3">
                         <Form.Label>Address</Form.Label>
                         <Form.Control
@@ -330,15 +361,17 @@ function Profile() {
                           defaultValue={tel}
                         />
                       </Form.Group>
+
+                      <Button
+                        style={{ marginTop: "32px" }}
+                        disabled={loading}
+                        className="w-100"
+                        onClick={handleUpdate}
+                      >
+                        Update
+                      </Button>
                     </div>
                   </Form>
-                  <Button
-                    disabled={loading}
-                    className="w-100"
-                    onClick={handleUpdate}
-                  >
-                    Update
-                  </Button>
                 </div>
               </Card.Body>
             </Card>
