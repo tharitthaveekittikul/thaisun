@@ -37,6 +37,9 @@ function Profile() {
   const [error, setError] = useState("");
   const [loadingMsg, setLoadingMsg] = useState("");
 
+  const [townTemp, setTownTemp] = useState("");
+  const [postCodeTemp, setPostCodeTemp] = useState("");
+
   // state of totalProducts
   const [totalProducts, setTotalProducts] = useState(0);
   // getting cart products
@@ -66,9 +69,9 @@ function Profile() {
             setEmail(snapshot.data().Email);
             setHouse(snapshot.data().House);
             setAddress(snapshot.data().Address);
-            setTown(snapshot.data().Town);
+            // setTown(snapshot.data().Town);
             setCounty(snapshot.data().County);
-            setPostCode(snapshot.data().PostCode);
+            // setPostCode(snapshot.data().PostCode);
             let teleTemp = snapshot.data().Telephone;
             teleTemp = teleTemp.replaceAll(" ", "-");
             setTel(teleTemp);
@@ -80,24 +83,36 @@ function Profile() {
     });
   }, []);
 
+  function handleChangeTown(e) {
+    setTown(e.target.value);
+  }
+
+  function handleChangePostCode(e) {
+    setPostCode(e.target.value);
+  }
+
   async function handleUpdate(e) {
     e.preventDefault();
     setMessage("");
     setError("");
-    setLoadingMsg("Loading...");
+
     if (
       firstNameRef.current.value === "" ||
       lastNameRef.current.value === "" ||
       houseRef.current.value === "" ||
       addressRef.current.value === "" ||
-      townRef.current.value === "" ||
       countyRef.current.value === "" ||
-      postCodeRef.current.value === "" ||
       telRef.current.value === ""
     ) {
       setError("Please fill the empty.");
       return;
     }
+    if (town === "") {
+      return setError("Please select town.");
+    } else if (postCode === "") {
+      return setError("Please select postcode.");
+    }
+
     let tempTel;
     if (!validTel.test(telRef.current.value)) {
       setLoadingMsg("");
@@ -106,7 +121,7 @@ function Profile() {
       tempTel = telRef.current.value;
       tempTel = tempTel.replaceAll("-", " ");
     }
-
+    setLoadingMsg("Loading...");
     auth.onAuthStateChanged((user) => {
       if (user) {
         fs.collection("users")
@@ -116,9 +131,9 @@ function Profile() {
             LastName: lastNameRef.current.value,
             House: houseRef.current.value,
             Address: addressRef.current.value,
-            Town: townRef.current.value,
+            Town: town,
             County: countyRef.current.value,
-            PostCode: postCodeRef.current.value,
+            PostCode: postCode,
             Telephone: tempTel,
           })
           .then(() => {
@@ -203,12 +218,32 @@ function Profile() {
 
                   <Form.Group id="postCode" className="mb-3">
                     <Form.Label>Town / City</Form.Label>
-                    <Form.Control
+                    {/* <Form.Control
                       type="text"
                       ref={townRef}
                       required
                       defaultValue={town}
-                    />
+                    /> */}
+                    <select
+                      className="form-control"
+                      required
+                      onChange={(e) => {
+                        handleChangeTown(e);
+                      }}
+                      defaultValue={town}
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <option value="" disabled={true}>
+                        Select Town
+                      </option>
+                      <option value="Calvery">Calvery</option>
+                      <option value="Bramley">Bramley</option>
+                      <option value="Armley">Armley</option>
+                      <option value="Rodley">Rodley</option>
+                      <option value="Horstforth">Horstforth</option>
+                      <option value="Stanningley">Stanningley</option>
+                      <option value="Pudsey">Pudsey</option>
+                    </select>
                   </Form.Group>
 
                   <Form.Group id="postCode" className="mb-3">
@@ -223,12 +258,29 @@ function Profile() {
 
                   <Form.Group id="postCode" className="mb-3">
                     <Form.Label>Postcode</Form.Label>
-                    <Form.Control
+                    {/* <Form.Control
                       type="text"
                       ref={postCodeRef}
                       required
                       defaultValue={postCode}
-                    />
+                    /> */}
+                    <select
+                      className="form-control"
+                      required
+                      onChange={(e) => {
+                        handleChangePostCode(e);
+                      }}
+                      defaultValue={postCode}
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <option value="" disabled={true}>
+                        Select Postcode
+                      </option>
+                      <option value="LS12">LS12</option>
+                      <option value="LS13">LS13</option>
+                      <option value="LS18">LS18</option>
+                      <option value="LS28">LS28</option>
+                    </select>
                   </Form.Group>
 
                   <Form.Group id="tel" className="mb-3">
@@ -324,12 +376,32 @@ function Profile() {
                     <div className="rightside-profile">
                       <Form.Group id="postCode" className="mb-3">
                         <Form.Label>Town / City</Form.Label>
-                        <Form.Control
+                        {/* <Form.Control
                           type="text"
                           ref={townRef}
                           required
                           defaultValue={town}
-                        />
+                        /> */}
+                        <select
+                          className="form-control"
+                          required
+                          onChange={(e) => {
+                            handleChangeTown(e);
+                          }}
+                          defaultValue={town}
+                          style={{ marginBottom: "10px" }}
+                        >
+                          <option value="" disabled={true}>
+                            Select Town
+                          </option>
+                          <option value="Calvery">Calvery</option>
+                          <option value="Bramley">Bramley</option>
+                          <option value="Armley">Armley</option>
+                          <option value="Rodley">Rodley</option>
+                          <option value="Horstforth">Horstforth</option>
+                          <option value="Stanningley">Stanningley</option>
+                          <option value="Pudsey">Pudsey</option>
+                        </select>
                       </Form.Group>
 
                       <Form.Group id="postCode" className="mb-3">
@@ -344,12 +416,29 @@ function Profile() {
 
                       <Form.Group id="postCode" className="mb-3">
                         <Form.Label>Postcode</Form.Label>
-                        <Form.Control
+                        {/* <Form.Control
                           type="text"
                           ref={postCodeRef}
                           required
                           defaultValue={postCode}
-                        />
+                        /> */}
+                        <select
+                          className="form-control"
+                          required
+                          onChange={(e) => {
+                            handleChangePostCode(e);
+                          }}
+                          defaultValue={postCode}
+                          style={{ marginBottom: "10px" }}
+                        >
+                          <option value="" disabled={true}>
+                            Select Postcode
+                          </option>
+                          <option value="LS12">LS12</option>
+                          <option value="LS13">LS13</option>
+                          <option value="LS18">LS18</option>
+                          <option value="LS28">LS28</option>
+                        </select>
                       </Form.Group>
 
                       <Form.Group id="tel" className="mb-3">

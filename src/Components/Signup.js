@@ -23,12 +23,22 @@ function Signup() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const signUpQuery = useMediaQuery({ query: "(min-width: 600px)" });
-
+  const [postCode, setPostCode] = useState("");
+  const [town, setTown] = useState("");
   const history = useHistory();
 
   if (isLogIn) {
     history.push("/");
   }
+
+  function handleChangeTown(e) {
+    setTown(e.target.value);
+  }
+
+  function handleChangePostCode(e) {
+    setPostCode(e.target.value);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -46,16 +56,12 @@ function Signup() {
       return setError("Please fill your password confirmation");
     } else if (houseRef.current.value === "") {
       return setError(
-        "Please fill your house number / flat Number/ house name"
+        "Please fill your house number / flat number / house name"
       );
     } else if (addressRef.current.value === "") {
       return setError("Please fill your address");
-    } else if (townRef.current.value === "") {
-      return setError("Please fill your town / city");
     } else if (countyRef.current.value === "") {
       return setError("Please fill your county");
-    } else if (postCodeRef.current.value === "") {
-      return setError("Please fill your postcode");
     } else if (telRef.current.value === "") {
       return setError("Please fill your telephone number");
     }
@@ -72,6 +78,11 @@ function Signup() {
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
+    }
+    if (town === "") {
+      return setError("Please select town.");
+    } else if (postCode === "") {
+      return setError("Please select postcode.");
     }
 
     try {
@@ -176,19 +187,56 @@ function Signup() {
                     <Form.Control type="text" ref={addressRef} required />
                   </Form.Group>
 
-                  <Form.Group id="postCode" className="mb-3">
+                  <Form.Group id="town" className="mb-3">
                     <Form.Label>Town / City</Form.Label>
-                    <Form.Control type="text" ref={townRef} required />
+                    {/* <Form.Control type="text" ref={townRef} required /> */}
+                    <select
+                      className="form-control"
+                      required
+                      onChange={(e) => {
+                        handleChangeTown(e);
+                      }}
+                      defaultValue={town}
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <option value="" disabled={true}>
+                        Select Town
+                      </option>
+                      <option value="Calvery">Calvery</option>
+                      <option value="Bramley">Bramley</option>
+                      <option value="Armley">Armley</option>
+                      <option value="Rodley">Rodley</option>
+                      <option value="Horstforth">Horstforth</option>
+                      <option value="Stanningley">Stanningley</option>
+                      <option value="Pudsey">Pudsey</option>
+                    </select>
                   </Form.Group>
 
-                  <Form.Group id="postCode" className="mb-3">
+                  <Form.Group id="county" className="mb-3">
                     <Form.Label>County</Form.Label>
                     <Form.Control type="text" ref={countyRef} required />
                   </Form.Group>
 
                   <Form.Group id="postCode" className="mb-3">
                     <Form.Label>Postcode</Form.Label>
-                    <Form.Control type="text" ref={postCodeRef} required />
+                    {/* <Form.Control type="text" ref={postCodeRef} required /> */}
+                    <select
+                      className="form-control"
+                      required
+                      onChange={(e) => {
+                        handleChangePostCode(e);
+                      }}
+                      defaultValue={postCode}
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <option value="" disabled={true}>
+                        Select Postcode
+                      </option>
+                      <option value="LS12">LS12</option>
+                      <option value="LS13">LS13</option>
+                      <option value="LS18">LS18</option>
+                      <option value="LS28">LS28</option>
+                    </select>
                   </Form.Group>
 
                   <Form.Group id="tel" className="mb-3">
@@ -290,19 +338,56 @@ function Signup() {
                         <Form.Control type="text" ref={addressRef} required />
                       </Form.Group>
 
-                      <Form.Group id="postCode" className="mb-3">
+                      <Form.Group id="town" className="mb-3">
                         <Form.Label>Town / City</Form.Label>
-                        <Form.Control type="text" ref={townRef} required />
+                        {/* <Form.Control type="text" ref={townRef} required /> */}
+                        <select
+                          className="form-control"
+                          required
+                          onChange={(e) => {
+                            handleChangeTown(e);
+                          }}
+                          defaultValue={town}
+                          style={{ marginBottom: "10px" }}
+                        >
+                          <option value="" disabled={true}>
+                            Select Town
+                          </option>
+                          <option value="Calvery">Calvery</option>
+                          <option value="Bramley">Bramley</option>
+                          <option value="Armley">Armley</option>
+                          <option value="Rodley">Rodley</option>
+                          <option value="Horstforth">Horstforth</option>
+                          <option value="Stanningley">Stanningley</option>
+                          <option value="Pudsey">Pudsey</option>
+                        </select>
                       </Form.Group>
 
-                      <Form.Group id="postCode" className="mb-3">
+                      <Form.Group id="county" className="mb-3">
                         <Form.Label>County</Form.Label>
                         <Form.Control type="text" ref={countyRef} required />
                       </Form.Group>
 
                       <Form.Group id="postCode" className="mb-3">
                         <Form.Label>Postcode</Form.Label>
-                        <Form.Control type="text" ref={postCodeRef} required />
+                        {/* <Form.Control type="text" ref={postCodeRef} required /> */}
+                        <select
+                          className="form-control"
+                          required
+                          onChange={(e) => {
+                            handleChangePostCode(e);
+                          }}
+                          defaultValue={postCode}
+                          style={{ marginBottom: "10px" }}
+                        >
+                          <option value="" disabled={true}>
+                            Select Postcode
+                          </option>
+                          <option value="LS12">LS12</option>
+                          <option value="LS13">LS13</option>
+                          <option value="LS18">LS18</option>
+                          <option value="LS28">LS28</option>
+                        </select>
                       </Form.Group>
                       <div
                         className="queryProfilebtn"

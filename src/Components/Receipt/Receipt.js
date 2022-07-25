@@ -148,7 +148,9 @@ function Receipt() {
               <br />
               {orders.user}
               <br />
-              {orders.address +
+              {orders.house +
+                " " +
+                orders.address +
                 " " +
                 orders.town +
                 " " +

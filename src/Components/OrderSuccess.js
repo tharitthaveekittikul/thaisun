@@ -65,6 +65,7 @@ function OrderSuccess() {
           Town: local.state.town,
           County: local.state.county,
           Postcode: local.state.postCode,
+          house: local.state.house,
           Telephone: local.state.Telephone,
           orderNo: local.state.orderNo,
           date: local.state.date,
@@ -97,7 +98,8 @@ function OrderSuccess() {
             <span>{fromCart.User}</span>
             <span>{fromCart.Address}</span>
             <span>
-              {fromCart.Town}, {fromCart.County}, {fromCart.Postcode}
+              {fromCart.house}, {fromCart.Town}, {fromCart.County},{" "}
+              {fromCart.Postcode}
             </span>
             <span>{fromCart.Telephone}</span>
             {fromCart.instructionToRes == "" ? null : (

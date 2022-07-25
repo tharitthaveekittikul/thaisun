@@ -302,6 +302,17 @@ function Checkout() {
     setPostCodeTemp(postCode);
   }, [buttonDisable]);
 
+  const handleModalPaypal = () => {
+    if (town === "") {
+      setModalShow(false);
+      return setError("Please select town");
+    } else if (postCode === "") {
+      setModalShow(false);
+      return setError("Please select postcode");
+    }
+    setModalShow(true);
+  };
+
   function handleChangeState(event) {
     if (event.target.value == "pickup") {
       // console.log("pickup");
@@ -394,6 +405,18 @@ function Checkout() {
   }, []);
 
   const handleSubmit = (type, detailp) => {
+    if (town === "") {
+      setError("Please select town");
+      return setButtonDisable(false);
+    } else if (postCode === "") {
+      setError("Please select postcode");
+      return setButtonDisable(false);
+    }
+
+    if (houseRef.current.value === "") {
+      setError("House number shouldn't be empty");
+      return setButtonDisable(false);
+    }
     let total = 0;
     let pOrder;
     let houseTemp;
@@ -618,7 +641,9 @@ function Checkout() {
                       defaultValue={townTemp}
                       style={{ marginBottom: "10px" }}
                     >
-                      <option value="">Select Town</option>
+                      <option value="" disabled={true}>
+                        Select Town
+                      </option>
                       <option value="Calvery">Calvery</option>
                       <option value="Bramley">Bramley</option>
                       <option value="Armley">Armley</option>
@@ -655,7 +680,9 @@ function Checkout() {
                       defaultValue={postCodeTemp}
                       style={{ marginBottom: "10px" }}
                     >
-                      <option value="">Select Postcode</option>
+                      <option value="" disabled={true}>
+                        Select Postcode
+                      </option>
                       <option value="LS12">LS12</option>
                       <option value="LS13">LS13</option>
                       <option value="LS18">LS18</option>
@@ -782,7 +809,7 @@ function Checkout() {
                     <Button
                       variant="danger"
                       disabled={buttonDisable}
-                      onClick={() => setModalShow(true)}
+                      onClick={() => handleModalPaypal()}
                     >
                       Pay with PayPal/Credit Card
                     </Button>
@@ -792,8 +819,8 @@ function Checkout() {
                       variant="danger"
                       disabled={buttonDisable}
                       onClick={() => [
-                        handleSubmit("cash", null),
                         setButtonDisable(true),
+                        handleSubmit("cash", null),
                       ]}
                     >
                       Pay with Cash

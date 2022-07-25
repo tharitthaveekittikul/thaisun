@@ -53,6 +53,7 @@ function LiveOrder() {
     try {
       await axios.post(
         "https://thaisun-backend.xn--l3c0arma9bxa5n.com/send_mail",
+        // "http://localhost:5001/send_mail",
         {
           text,
           emailTo: email,
@@ -443,7 +444,7 @@ function LiveOrder() {
                               font-size: 14px;
                             "
                           >
-                            ${liveorder.address}
+                            ${liveorder.house}, ${liveorder.address} , ${liveorder.town}
                           </p>
                           <p
                             style="
@@ -458,7 +459,7 @@ function LiveOrder() {
                               font-size: 14px;
                             "
                           >
-                            ${liveorder.postCode}
+                            ${liveorder.county}, ${liveorder.postCode}
                           </p>
                         </td>
                       </tr>
@@ -1612,7 +1613,7 @@ function LiveOrder() {
                               font-size: 14px;
                             "
                           >
-                            ${orderTemp[0].user}
+                            ${orderTemp[0].house}, ${orderTemp[0].user}, ${orderTemp[0].town}
                           </p>
                           <p
                             style="
@@ -1627,7 +1628,7 @@ function LiveOrder() {
                               font-size: 14px;
                             "
                           >
-                            ${orderTemp[0].address}
+                            ${orderTemp[0].county}, ${orderTemp[0].address}
                           </p>
                           <p
                             style="
@@ -2644,15 +2645,12 @@ function LiveOrder() {
                       <br></br>
 
                       <Card.Text>
-                        {liveorder.user +
-                          " " +
-                          liveorder.address +
-                          " " +
-                          liveorder.town +
-                          " " +
-                          liveorder.county +
-                          " " +
-                          liveorder.postCode}
+                        Customer: {liveorder.user} <br></br>
+                        House: {liveorder.house} <br></br>
+                        Address: {liveorder.address} <br></br>
+                        Town: {liveorder.town} <br></br>
+                        County: {liveorder.county} <br></br>
+                        Postcode: {liveorder.postCode} <br></br>
                       </Card.Text>
                       {liveorder.instructionToRes ? (
                         <Card.Text>

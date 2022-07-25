@@ -105,6 +105,7 @@ function Order() {
                         <div className="leftside-orderdetails">
                           <p>Date: </p>
                           <p>Name: </p>
+                          <p>House: </p>
                           <p>Address: </p>
                           <p>Town: </p>
                           <p>County: </p>
@@ -121,6 +122,7 @@ function Order() {
                         <div className="rightside-orderdetails">
                           <p>{orders.date}</p>
                           <p>{orders.user}</p>
+                          {orders.house ? <p>{orders.house}</p> : <p>-----</p>}
                           <p>{orders.address}</p>
                           <p>{orders.town}</p>
                           <p>{orders.county}</p>
