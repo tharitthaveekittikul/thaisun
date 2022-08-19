@@ -89,12 +89,6 @@ function Order() {
 
                     <div className="text-center mb-3">
                       <Button
-                        variant="secondary"
-                        style={{ marginBottom: "20px", marginRight: "10px" }}
-                      >
-                        Completed
-                      </Button>
-                      <Button
                         variant="success"
                         onClick={handlePrint}
                         style={{ marginBottom: "20px" }}

@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { auth, fs } from "../Config/Config";
 import { format } from "date-fns";
 import { useMediaQuery } from "react-responsive";
-import { validTel } from "./Regexvalidate";
+import { validTel, formatPhoneNumber } from "./Regexvalidate";
 
 function Signup() {
   const isLogIn = localStorage.getItem("isLogIn") === "True";
@@ -16,27 +16,45 @@ function Signup() {
   const houseRef = useRef();
   const addressRef = useRef();
   const townRef = useRef();
-  const countyRef = useRef();
+  // const countyRef = useRef();
   const postCodeRef = useRef();
   const telRef = useRef();
+  const telConfirmRef = useRef();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const signUpQuery = useMediaQuery({ query: "(min-width: 600px)" });
-  const [postCode, setPostCode] = useState("");
+  // const [postCode, setPostCode] = useState("");
   const [town, setTown] = useState("");
   const history = useHistory();
+  const [showOthers, setShowOthers] = useState(false);
+  const [tel, setTel] = useState("");
+  const [telComfirm, setTelComfirm] = useState("");
 
   if (isLogIn) {
     history.push("/");
   }
 
   function handleChangeTown(e) {
+    setShowOthers(false);
     setTown(e.target.value);
+    if (e.target.value == "others") {
+      setShowOthers(true);
+    }
   }
 
-  function handleChangePostCode(e) {
-    setPostCode(e.target.value);
+  // function handleChangePostCode(e) {
+  //   setPostCode(e.target.value);
+  // }
+
+  function handleTelephone(e) {
+    const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+    setTel(formattedPhoneNumber);
+  }
+
+  function handleTelephoneConfirm(e) {
+    const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+    setTelComfirm(formattedPhoneNumber);
   }
 
   async function handleSubmit(e) {
@@ -45,30 +63,34 @@ function Signup() {
     let tempTel;
 
     if (firstNameRef.current.value === "") {
-      return setError("Please fill your first name");
+      return setError("Please fill your first name.");
     } else if (lastNameRef.current.value === "") {
-      return setError("Please fill your last name");
+      return setError("Please fill your last name.");
     } else if (emailRef.current.value === "") {
-      return setError("Please fill your email address");
+      return setError("Please fill your email address.");
     } else if (passwordRef.current.value === "") {
-      return setError("Please fill your password");
+      return setError("Please fill your password.");
     } else if (passwordConfirmRef.current.value === "") {
-      return setError("Please fill your password confirmation");
+      return setError("Please fill your password confirmation.");
     } else if (houseRef.current.value === "") {
       return setError(
-        "Please fill your house number / flat number / house name"
+        "Please fill your house number / flat number / house name."
       );
     } else if (addressRef.current.value === "") {
-      return setError("Please fill your address");
-    } else if (countyRef.current.value === "") {
-      return setError("Please fill your county");
+      return setError("Please fill your address.");
     } else if (telRef.current.value === "") {
-      return setError("Please fill your telephone number");
+      return setError("Please fill your telephone number.");
+    } else if (postCodeRef.current.value === "") {
+      return setError("Please fill your postcode.");
+    } else if (telConfirmRef.current.value === "") {
+      return setError("Please fill your telephone number confirmation.");
+    } else if (townRef.current.value === "") {
+      return setError("Please fill your town.");
     }
 
     if (!validTel.test(telRef.current.value)) {
       // console.log(telRef.current.value);
-      return setError("Telephone number should be xxxxx-xxx-xxx");
+      return setError("Telephone number should be 0xxxx-xxx-xxx");
     } else if (validTel.test(telRef.current.value)) {
       // console.log(telRef.current.value);
       tempTel = telRef.current.value;
@@ -77,12 +99,13 @@ function Signup() {
     }
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match");
+      return setError("Passwords do not match.");
+    }
+    if (telRef.current.value !== telConfirmRef.current.value) {
+      return setError("Telephone number do not match.");
     }
     if (town === "") {
       return setError("Please select town.");
-    } else if (postCode === "") {
-      return setError("Please select postcode.");
     }
 
     try {
@@ -105,7 +128,6 @@ function Signup() {
               House: houseRef.current.value,
               Address: addressRef.current.value,
               Town: townRef.current.value,
-              County: countyRef.current.value,
               PostCode: postCodeRef.current.value,
               Telephone: tempTel,
               isAdmin: false,
@@ -189,7 +211,6 @@ function Signup() {
 
                   <Form.Group id="town" className="mb-3">
                     <Form.Label>Town / City</Form.Label>
-                    {/* <Form.Control type="text" ref={townRef} required /> */}
                     <select
                       className="form-control"
                       required
@@ -209,18 +230,27 @@ function Signup() {
                       <option value="Horstforth">Horstforth</option>
                       <option value="Stanningley">Stanningley</option>
                       <option value="Pudsey">Pudsey</option>
+                      <option value="others">Others Town</option>
                     </select>
                   </Form.Group>
+                  {showOthers ? (
+                    <Form.Group id="town-ref" className="mb-3">
+                      <Form.Label>Others Town</Form.Label>
+                      <Form.Control type="text" ref={townRef} required />
+                    </Form.Group>
+                  ) : (
+                    <></>
+                  )}
 
-                  <Form.Group id="county" className="mb-3">
+                  {/* <Form.Group id="county" className="mb-3">
                     <Form.Label>County</Form.Label>
                     <Form.Control type="text" ref={countyRef} required />
-                  </Form.Group>
+                  </Form.Group> */}
 
                   <Form.Group id="postCode" className="mb-3">
                     <Form.Label>Postcode</Form.Label>
-                    {/* <Form.Control type="text" ref={postCodeRef} required /> */}
-                    <select
+                    <Form.Control type="text" ref={postCodeRef} required />
+                    {/* <select
                       className="form-control"
                       required
                       onChange={(e) => {
@@ -236,12 +266,31 @@ function Signup() {
                       <option value="LS13">LS13</option>
                       <option value="LS18">LS18</option>
                       <option value="LS28">LS28</option>
-                    </select>
+                    </select> */}
                   </Form.Group>
 
                   <Form.Group id="tel" className="mb-3">
                     <Form.Label>Telephone</Form.Label>
-                    <Form.Control type="tel" ref={telRef} required />
+                    <Form.Control
+                      type="tel"
+                      ref={telRef}
+                      onChange={(e) => handleTelephone(e)}
+                      value={tel}
+                      required
+                      maxLength={13}
+                    />
+                  </Form.Group>
+
+                  <Form.Group id="tel-confirm" className="mb-3">
+                    <Form.Label>Telephone Confirmation</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      ref={telConfirmRef}
+                      required
+                      maxLength={13}
+                      onChange={(e) => handleTelephoneConfirm(e)}
+                      value={telComfirm}
+                    />
                   </Form.Group>
 
                   <div className="queryProfilebtn">
@@ -313,26 +362,15 @@ function Signup() {
                         />
                       </Form.Group>
 
-                      <Form.Group id="tel" className="mb-3">
-                        <Form.Label>Telephone</Form.Label>
-                        <Form.Control
-                          type="text"
-                          ref={telRef}
-                          required
-                          title="Telephone number should be xxxxx-xxx-xxx"
-                          pattern="^\s*(([+]\s?\d[-\s]?\d|0)?\s?\d([-\s]?\d){9}|[(]\s?\d([-\s]?\d)+\s*[)]([-\s]?\d)+)\s*$"
-                        />
-                      </Form.Group>
-                    </div>
-
-                    <div className="rightside-signup">
                       <Form.Group id="house" className="mb-3">
                         <Form.Label>
                           House Number/ Flat Number / House Name
                         </Form.Label>
                         <Form.Control type="text" ref={houseRef} required />
                       </Form.Group>
+                    </div>
 
+                    <div className="rightside-signup">
                       <Form.Group id="address" className="mb-3">
                         <Form.Label>Address</Form.Label>
                         <Form.Control type="text" ref={addressRef} required />
@@ -340,7 +378,6 @@ function Signup() {
 
                       <Form.Group id="town" className="mb-3">
                         <Form.Label>Town / City</Form.Label>
-                        {/* <Form.Control type="text" ref={townRef} required /> */}
                         <select
                           className="form-control"
                           required
@@ -360,18 +397,28 @@ function Signup() {
                           <option value="Horstforth">Horstforth</option>
                           <option value="Stanningley">Stanningley</option>
                           <option value="Pudsey">Pudsey</option>
+                          <option value="others">Others Town</option>
                         </select>
                       </Form.Group>
 
-                      <Form.Group id="county" className="mb-3">
+                      {showOthers ? (
+                        <Form.Group id="town-ref" className="mb-3">
+                          <Form.Label>Others Town</Form.Label>
+                          <Form.Control type="text" ref={townRef} required />
+                        </Form.Group>
+                      ) : (
+                        <></>
+                      )}
+
+                      {/* <Form.Group id="county" className="mb-3">
                         <Form.Label>County</Form.Label>
                         <Form.Control type="text" ref={countyRef} required />
-                      </Form.Group>
+                      </Form.Group> */}
 
                       <Form.Group id="postCode" className="mb-3">
                         <Form.Label>Postcode</Form.Label>
-                        {/* <Form.Control type="text" ref={postCodeRef} required /> */}
-                        <select
+                        <Form.Control type="text" ref={postCodeRef} required />
+                        {/* <select
                           className="form-control"
                           required
                           onChange={(e) => {
@@ -387,25 +434,51 @@ function Signup() {
                           <option value="LS13">LS13</option>
                           <option value="LS18">LS18</option>
                           <option value="LS28">LS28</option>
-                        </select>
+                        </select> */}
                       </Form.Group>
-                      <div
-                        className="queryProfilebtn"
-                        style={{
-                          marginTop: "48px",
-                        }}
-                      >
-                        <Button
-                          variant="danger"
-                          disabled={loading}
-                          className="w-100"
-                          onClick={handleSubmit}
-                        >
-                          Sign Up
-                        </Button>
-                      </div>
+
+                      <Form.Group id="tel" className="mb-3">
+                        <Form.Label>Telephone</Form.Label>
+                        <Form.Control
+                          type="text"
+                          ref={telRef}
+                          required
+                          onChange={(e) => handleTelephone(e)}
+                          value={tel}
+                          title="Telephone number should be xxxxx-xxx-xxx"
+                          maxLength={13}
+                          pattern="^\s*(([+]\s?\d[-\s]?\d|0)?\s?\d([-\s]?\d){9}|[(]\s?\d([-\s]?\d)+\s*[)]([-\s]?\d)+)\s*$"
+                        />
+                      </Form.Group>
+
+                      <Form.Group id="tel-confirm" className="mb-3">
+                        <Form.Label>Telephone Confirmation</Form.Label>
+                        <Form.Control
+                          type="tel"
+                          ref={telConfirmRef}
+                          required
+                          maxLength={13}
+                          onChange={(e) => handleTelephoneConfirm(e)}
+                          value={telComfirm}
+                        />
+                      </Form.Group>
                     </div>
                   </Form>
+                  <div
+                    className="queryProfilebtn"
+                    // style={{
+                    //   marginTop: "48px",
+                    // }}
+                  >
+                    <Button
+                      variant="danger"
+                      disabled={loading}
+                      className="w-100"
+                      onClick={handleSubmit}
+                    >
+                      Sign Up
+                    </Button>
+                  </div>
                 </div>
               </Card.Body>
             </Card>

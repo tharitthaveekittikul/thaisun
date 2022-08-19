@@ -1029,7 +1029,7 @@ function LiveOrder() {
                           color: #d48344;
                         "
                       >
-                        <strong>£ ${liveorder.Total}</strong>
+                        <strong>£ ${Number(liveorder.Total).toFixed(2)}</strong>
                       </td>
                     </tr>
                   </table>
@@ -1503,7 +1503,9 @@ function LiveOrder() {
                                     font-size: 14px;
                                     line-height: 21px;
                                   "
-                                  >£ ${orderTemp[0].Total}</span
+                                  >£ ${Number(orderTemp[0].Total).toFixed(
+                                    2
+                                  )}</span
                                 >
                               </td>
                             </tr>
@@ -1613,7 +1615,9 @@ function LiveOrder() {
                               font-size: 14px;
                             "
                           >
-                            ${orderTemp[0].house}, ${orderTemp[0].user}, ${orderTemp[0].town}
+                            ${orderTemp[0].house}, ${orderTemp[0].user}, ${
+      orderTemp[0].town
+    }
                           </p>
                           <p
                             style="
@@ -2015,7 +2019,9 @@ function LiveOrder() {
                               text-align: center;
                             "
                           >
-                          £ ${orderTemp[0].cartProducts[i].TotalProductPrice}
+                          £ ${Number(
+                            orderTemp[0].cartProducts[i].TotalProductPrice
+                          ).toFixed(2)}
                           </td>
                         </tr>
                       </table>
@@ -2138,7 +2144,7 @@ function LiveOrder() {
                           line-height: 27px;
                         "
                       >
-                      £ ${orderTemp[0].Subtotal}
+                      £ ${Number(orderTemp[0].Subtotal).toFixed(2)}
                       </td>
                     </tr>
                     <tr style="border-collapse: collapse">
@@ -2187,7 +2193,9 @@ function LiveOrder() {
                           color: #d48344;
                         "
                       >
-                        <strong>£ ${orderTemp[0].Total}</strong>
+                        <strong>£ ${Number(orderTemp[0].Total).toFixed(
+                          2
+                        )}</strong>
                       </td>
                     </tr>
                   </table>

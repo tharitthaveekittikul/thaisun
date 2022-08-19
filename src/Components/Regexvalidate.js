@@ -7,3 +7,20 @@
 // );
 
 export const validTel = new RegExp("^0\\d{4}[\\-]\\d{3}[\\-]\\d{3}?$");
+
+export function formatPhoneNumber(value) {
+  if (!value) return value;
+  // clear input for any non-digit values
+  const phoneNumber = value.replace(/[^\d]/g, "");
+
+  const phoneNumberLength = phoneNumber.length;
+  if (phoneNumberLength < 6) return phoneNumber;
+
+  if (phoneNumberLength < 10) {
+    return `${phoneNumber.slice(0, 5)}-${phoneNumber.slice(5)}`;
+  }
+  return `${phoneNumber.slice(0, 5)}-${phoneNumber.slice(
+    5,
+    8
+  )}-${phoneNumber.slice(8, 11)}`;
+}
