@@ -84,8 +84,13 @@ function Signup() {
       return setError("Please fill your postcode.");
     } else if (telConfirmRef.current.value === "") {
       return setError("Please fill your telephone number confirmation.");
-    } else if (townRef.current.value === "") {
-      return setError("Please fill your town.");
+    }
+
+    if (town === "others") {
+      if (townRef.current.value === "") {
+        return setError("Please fill your town.");
+      }
+      setTown(townRef.current.value);
     }
 
     if (!validTel.test(telRef.current.value)) {
@@ -127,7 +132,7 @@ function Signup() {
               Email: emailRef.current.value,
               House: houseRef.current.value,
               Address: addressRef.current.value,
-              Town: townRef.current.value,
+              Town: town,
               PostCode: postCodeRef.current.value,
               Telephone: tempTel,
               isAdmin: false,

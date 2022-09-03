@@ -4,7 +4,7 @@ import { auth, fs } from "../Config/Config";
 import { useHistory } from "react-router-dom";
 import Navbar1 from "./Navbar1";
 import { useMediaQuery } from "react-responsive";
-import { validTel } from "./Regexvalidate";
+import { validTel, formatPhoneNumber } from "./Regexvalidate";
 
 function Profile() {
   const firstNameRef = useRef();
@@ -13,7 +13,7 @@ function Profile() {
   const houseRef = useRef();
   const addressRef = useRef();
   const townRef = useRef();
-  const countyRef = useRef();
+  // const countyRef = useRef();
   const postCodeRef = useRef();
   const telRef = useRef();
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,8 @@ function Profile() {
   const [postCode, setPostCode] = useState("");
   const [tel, setTel] = useState("");
   const [town, setTown] = useState("");
-  const [county, setCounty] = useState("");
+  const [showOthers, setShowOthers] = useState(false);
+  // const [county, setCounty] = useState("");
   const yourProfileQuery = useMediaQuery({ query: "(min-width: 600px)" });
 
   const history = useHistory();
@@ -42,6 +43,15 @@ function Profile() {
 
   // state of totalProducts
   const [totalProducts, setTotalProducts] = useState(0);
+  const defaultTown = [
+    "Calvery",
+    "Bramley",
+    "Armley",
+    "Rodley",
+    "Horstforth",
+    "Stanningley",
+    "Pudsey",
+  ];
   // getting cart products
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -69,13 +79,18 @@ function Profile() {
             setEmail(snapshot.data().Email);
             setHouse(snapshot.data().House);
             setAddress(snapshot.data().Address);
-            // setTown(snapshot.data().Town);
-            setCounty(snapshot.data().County);
+            setTown(snapshot.data().Town);
+            setTownTemp(snapshot.data().Town);
+            // setCounty(snapshot.data().County);
             // setPostCode(snapshot.data().PostCode);
             let teleTemp = snapshot.data().Telephone;
             teleTemp = teleTemp.replaceAll(" ", "-");
             setTel(teleTemp);
             setIsAdmin(snapshot.data().isAdmin);
+            if (!defaultTown.includes(snapshot.data().Town)) {
+              setShowOthers(true);
+              setTownTemp("others");
+            }
           });
       } else {
         history.push("/login");
@@ -84,11 +99,26 @@ function Profile() {
   }, []);
 
   function handleChangeTown(e) {
+    setShowOthers(false);
     setTown(e.target.value);
+    setTownTemp(e.target.value);
+    if (e.target.value == "others") {
+      setShowOthers(true);
+      setTown("");
+    }
+  }
+
+  function handleChangeTownOthers() {
+    setTown(townRef.current.value);
   }
 
   function handleChangePostCode(e) {
     setPostCode(e.target.value);
+  }
+
+  function handleTelephone(e) {
+    const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+    setTel(formattedPhoneNumber);
   }
 
   async function handleUpdate(e) {
@@ -101,16 +131,19 @@ function Profile() {
       lastNameRef.current.value === "" ||
       houseRef.current.value === "" ||
       addressRef.current.value === "" ||
-      countyRef.current.value === "" ||
       telRef.current.value === ""
     ) {
       setError("Please fill the empty.");
       return;
     }
-    if (town === "") {
-      return setError("Please select town.");
-    } else if (postCode === "") {
+    if (postCode === "") {
       return setError("Please select postcode.");
+    }
+    if (townTemp === "others") {
+      if (townRef.current.value === "") {
+        return setError("Please fill your town.");
+      }
+      setTown(townRef.current.value);
     }
 
     let tempTel;
@@ -132,7 +165,7 @@ function Profile() {
             House: houseRef.current.value,
             Address: addressRef.current.value,
             Town: town,
-            County: countyRef.current.value,
+            // County: countyRef.current.value,
             PostCode: postCode,
             Telephone: tempTel,
           })
@@ -216,7 +249,7 @@ function Profile() {
                     />
                   </Form.Group>
 
-                  <Form.Group id="postCode" className="mb-3">
+                  <Form.Group id="town" className="mb-3">
                     <Form.Label>Town / City</Form.Label>
                     {/* <Form.Control
                       type="text"
@@ -230,7 +263,7 @@ function Profile() {
                       onChange={(e) => {
                         handleChangeTown(e);
                       }}
-                      defaultValue={town}
+                      value={townTemp}
                       style={{ marginBottom: "10px" }}
                     >
                       <option value="" disabled={true}>
@@ -243,10 +276,27 @@ function Profile() {
                       <option value="Horstforth">Horstforth</option>
                       <option value="Stanningley">Stanningley</option>
                       <option value="Pudsey">Pudsey</option>
+                      <option value="others">Others Town</option>
                     </select>
                   </Form.Group>
+                  {showOthers ? (
+                    <Form.Group id="town-ref" className="mb-3">
+                      <Form.Label>Others Town</Form.Label>
+                      <Form.Control
+                        type="text"
+                        ref={townRef}
+                        required
+                        defaultValue={town}
+                        onChange={() => {
+                          handleChangeTownOthers();
+                        }}
+                      />
+                    </Form.Group>
+                  ) : (
+                    <></>
+                  )}
 
-                  <Form.Group id="postCode" className="mb-3">
+                  {/* <Form.Group id="postCode" className="mb-3">
                     <Form.Label>County</Form.Label>
                     <Form.Control
                       type="text"
@@ -254,7 +304,7 @@ function Profile() {
                       required
                       defaultValue={county}
                     />
-                  </Form.Group>
+                  </Form.Group> */}
 
                   <Form.Group id="postCode" className="mb-3">
                     <Form.Label>Postcode</Form.Label>
@@ -374,7 +424,7 @@ function Profile() {
                     </div>
 
                     <div className="rightside-profile">
-                      <Form.Group id="postCode" className="mb-3">
+                      <Form.Group id="town" className="mb-3">
                         <Form.Label>Town / City</Form.Label>
                         {/* <Form.Control
                           type="text"
@@ -388,7 +438,7 @@ function Profile() {
                           onChange={(e) => {
                             handleChangeTown(e);
                           }}
-                          defaultValue={town}
+                          value={townTemp}
                           style={{ marginBottom: "10px" }}
                         >
                           <option value="" disabled={true}>
@@ -401,10 +451,27 @@ function Profile() {
                           <option value="Horstforth">Horstforth</option>
                           <option value="Stanningley">Stanningley</option>
                           <option value="Pudsey">Pudsey</option>
+                          <option value="others">Others Town</option>
                         </select>
                       </Form.Group>
+                      {showOthers ? (
+                        <Form.Group id="town-ref" className="mb-3">
+                          <Form.Label>Others Town</Form.Label>
+                          <Form.Control
+                            type="text"
+                            ref={townRef}
+                            required
+                            defaultValue={town}
+                            onChange={() => {
+                              handleChangeTownOthers();
+                            }}
+                          />
+                        </Form.Group>
+                      ) : (
+                        <></>
+                      )}
 
-                      <Form.Group id="postCode" className="mb-3">
+                      {/* <Form.Group id="postCode" className="mb-3">
                         <Form.Label>County</Form.Label>
                         <Form.Control
                           type="text"
@@ -412,7 +479,7 @@ function Profile() {
                           required
                           defaultValue={county}
                         />
-                      </Form.Group>
+                      </Form.Group> */}
 
                       <Form.Group id="postCode" className="mb-3">
                         <Form.Label>Postcode</Form.Label>
@@ -448,6 +515,9 @@ function Profile() {
                           ref={telRef}
                           required
                           defaultValue={tel}
+                          value={tel}
+                          onChange={(e) => handleTelephone(e)}
+                          maxLength={13}
                         />
                       </Form.Group>
 
