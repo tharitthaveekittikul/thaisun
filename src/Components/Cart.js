@@ -563,6 +563,30 @@ export default function Cart() {
           </div>
         </div>
       )}
+      <div className="w-100 text-center mt-3">
+        IF YOU WOULD LIKE{" "}
+        <p style={{ fontWeight: "500", display: "inline" }}>MORE or LESS</p>{" "}
+        SPICY PLEASE INFORM WHEN YOU PLACE ORDER <br></br>
+        <br></br>
+        <hr style={{ width: "50%", margin: "auto" }} />
+        <br></br>"<p style={{ color: "red", display: "inline" }}>**</p>the times
+        given are estimated times only, this may be subject to the number of
+        order but we will endeavour to deliver on time"<br></br> <br></br>
+        ESTIMATED TIME FOR COLLECTION within 30 minute
+        <p style={{ color: "red", display: "inline" }}>**</p> <br></br>ESTIMATED
+        TIME FOR DELIVERY within 60 minute
+        <p style={{ color: "red", display: "inline" }}>**</p>
+        <br></br>
+        <br></br> FRIDAY & SATURDAY DELIVERY MAY TAKE{" "}
+        <p style={{ color: "red", display: "inline", fontWeight: "500" }}>
+          LONGER
+        </p>
+        , COLLECTION RECOMMENDED!! <br></br>
+        <br></br>
+        <p style={{ fontSize: "25px", fontWeight: "500" }}>
+          MINIMUM ORDER FOR DELIVERY £10.00
+        </p>
+      </div>
 
       <Modal
         show={modalShow}

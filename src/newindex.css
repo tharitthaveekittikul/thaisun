@@ -331,7 +331,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 85vh;
+  height: 50vh;
 }
 .basket-empty h1 {
   font-size: 26px;
