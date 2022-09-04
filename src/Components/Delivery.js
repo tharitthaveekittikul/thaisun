@@ -11,13 +11,15 @@ function Delivery() {
 
   const [address, setAddress] = useState("");
   const [town, setTown] = useState("");
-  const [county, setCounty] = useState("");
+  const townRef = useRef();
+  const [showOthers, setShowOthers] = useState(false);
+  // const [county, setCounty] = useState("");
   const [postCode, setPostCode] = useState("");
 
   const history = useHistory();
 
   const addressRef = useRef();
-  const countyRef = useRef();
+  // const countyRef = useRef();
 
   const [loadingMsg, setLoadingMsg] = useState("");
 
@@ -66,7 +68,7 @@ function Delivery() {
           .get()
           .then((snapshot) => {
             setAddress(snapshot.data().Address);
-            setCounty(snapshot.data().County);
+            // setCounty(snapshot.data().County);
           });
       } else {
       }
@@ -97,6 +99,12 @@ function Delivery() {
       setError("Please select postcode");
       return;
     }
+    if (town === "others") {
+      if (townRef.current.value === "") {
+        return setError("Please fill your town.");
+      }
+      setTown(townRef.current.value);
+    }
     if (
       postCode.toUpperCase() === "LS12" ||
       postCode.toUpperCase() === "LS13" ||
@@ -116,7 +124,7 @@ function Delivery() {
               .update({
                 Address: addressRef.current.value,
                 Town: town,
-                County: countyRef.current.value,
+                // County: countyRef.current.value,
                 PostCode: postCode,
               })
               .then(() => {
@@ -132,19 +140,23 @@ function Delivery() {
         });
       } else {
         setError(
-          "Your postcode is not available for delivery please call restaurant 01133187268."
+          "Your postcode is not available for delivery please call restaurant 01133-187-268."
         );
         setChangePickup(true);
       }
     } else {
       setError(
-        "Your postcode is not available for delivery. Please change to collection or call restaurant 01133187268."
+        "Your postcode is not available for delivery. Please change to collection or call restaurant 01133-187-268."
       );
     }
   }
 
   function handleChangeTown(e) {
+    setShowOthers(false);
     setTown(e.target.value);
+    if (e.target.value == "others") {
+      setShowOthers(true);
+    }
   }
 
   function handleChangePostCode(e) {
@@ -195,10 +207,20 @@ function Delivery() {
                 <option value="Horstforth">Horstforth</option>
                 <option value="Stanningley">Stanningley</option>
                 <option value="Pudsey">Pudsey</option>
+                <option value="others">Others Town</option>
               </select>
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            {showOthers ? (
+              <Form.Group id="town-ref" className="mb-3">
+                <Form.Label>Others Town</Form.Label>
+                <Form.Control type="text" ref={townRef} required />
+              </Form.Group>
+            ) : (
+              <></>
+            )}
+
+            {/* <Form.Group className="mb-3">
               <Form.Label>County</Form.Label>
               <Form.Control
                 type="text"
@@ -206,7 +228,7 @@ function Delivery() {
                 ref={countyRef}
                 required
               />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group className="mb-3">
               <Form.Label>Post Code</Form.Label>
               {/* <Form.Control

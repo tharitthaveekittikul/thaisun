@@ -695,7 +695,7 @@ function Checkout() {
                 <Form.Control
                   type="text"
                   ref={textInstructionRef}
-                  placeholder="Eg. If you arrive, please ring the bell."
+                  placeholder="Pickup time, allergy."
                   style={{ marginBottom: "20px" }}
                 />
               </Form>

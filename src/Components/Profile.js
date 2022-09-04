@@ -149,7 +149,7 @@ function Profile() {
     let tempTel;
     if (!validTel.test(telRef.current.value)) {
       setLoadingMsg("");
-      return setError("Telephone number should be xxxxx-xxx-xxx");
+      return setError("Telephone number should be 0xxxx-xxx-xxx");
     } else if (validTel.test(telRef.current.value)) {
       tempTel = telRef.current.value;
       tempTel = tempTel.replaceAll("-", " ");

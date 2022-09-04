@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Form, Card, Button, Container, Alert } from "react-bootstrap";
+import { Form, Card, Button, Container, Alert, Modal } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { auth, fs } from "../Config/Config";
 import { format } from "date-fns";
@@ -7,6 +7,9 @@ import { useMediaQuery } from "react-responsive";
 import { validTel, formatPhoneNumber } from "./Regexvalidate";
 
 function Signup() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const isLogIn = localStorage.getItem("isLogIn") === "True";
   const firstNameRef = useRef();
   const lastNameRef = useRef();
@@ -141,13 +144,14 @@ function Signup() {
             })
             .then(async () => {
               setSuccess(
-                "Signup Successful. Check your email to verify account."
+                "Signup successful. Check your email to verify account."
               );
+              handleShow();
               window.scrollTo(0, 0);
               await auth.signOut();
-              setTimeout(() => {
-                history.push("/login");
-              }, 2000);
+              // setTimeout(() => {
+              //   history.push("/login");
+              // }, 2000);
             });
         })
         .catch((error) => {
@@ -159,6 +163,7 @@ function Signup() {
       setError("Failed to create an account");
     }
   }
+  const handleLogin = () => history.push("/login");
   return (
     <>
       {!signUpQuery ? (
@@ -240,7 +245,7 @@ function Signup() {
                   </Form.Group>
                   {showOthers ? (
                     <Form.Group id="town-ref" className="mb-3">
-                      <Form.Label>Others Town</Form.Label>
+                      <Form.Label>Other Town</Form.Label>
                       <Form.Control type="text" ref={townRef} required />
                     </Form.Group>
                   ) : (
@@ -402,13 +407,13 @@ function Signup() {
                           <option value="Horstforth">Horstforth</option>
                           <option value="Stanningley">Stanningley</option>
                           <option value="Pudsey">Pudsey</option>
-                          <option value="others">Others Town</option>
+                          <option value="others">Other Town</option>
                         </select>
                       </Form.Group>
 
                       {showOthers ? (
                         <Form.Group id="town-ref" className="mb-3">
-                          <Form.Label>Others Town</Form.Label>
+                          <Form.Label>Other Town</Form.Label>
                           <Form.Control type="text" ref={townRef} required />
                         </Form.Group>
                       ) : (
@@ -450,7 +455,7 @@ function Signup() {
                           required
                           onChange={(e) => handleTelephone(e)}
                           value={tel}
-                          title="Telephone number should be xxxxx-xxx-xxx"
+                          title="Telephone number should be 0xxxx-xxx-xxx"
                           maxLength={13}
                           pattern="^\s*(([+]\s?\d[-\s]?\d|0)?\s?\d([-\s]?\d){9}|[(]\s?\d([-\s]?\d)+\s*[)]([-\s]?\d)+)\s*$"
                         />
@@ -496,6 +501,27 @@ function Signup() {
           </div>
         </Container>
       )}
+      <Modal show={show}>
+        <Modal.Header closeButton>
+          <Modal.Title>Thank You!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>
+            Thank you for sign up with Thai Sun. Unfortunately your account can
+            order collection only or please contact restaurant 01133-187-268.
+          </div>
+          <br></br>
+          <div>Please check your email to verify this account.</div>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="w-100 text-center mt-2">
+            Go back to{" "}
+            <Link style={{ color: "#e80532" }} to="/login">
+              Login
+            </Link>
+          </div>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
