@@ -82,7 +82,7 @@ function Profile() {
             setTown(snapshot.data().Town);
             setTownTemp(snapshot.data().Town);
             // setCounty(snapshot.data().County);
-            // setPostCode(snapshot.data().PostCode);
+            setPostCode(snapshot.data().PostCode);
             let teleTemp = snapshot.data().Telephone;
             teleTemp = teleTemp.replaceAll(" ", "-");
             setTel(teleTemp);
@@ -166,7 +166,7 @@ function Profile() {
             Address: addressRef.current.value,
             Town: town,
             // County: countyRef.current.value,
-            PostCode: postCode,
+            PostCode: postCodeRef.current.value,
             Telephone: tempTel,
           })
           .then(() => {
@@ -308,13 +308,13 @@ function Profile() {
 
                   <Form.Group id="postCode" className="mb-3">
                     <Form.Label>Postcode</Form.Label>
-                    {/* <Form.Control
+                    <Form.Control
                       type="text"
                       ref={postCodeRef}
                       required
                       defaultValue={postCode}
-                    /> */}
-                    <select
+                    />
+                    {/* <select
                       className="form-control"
                       required
                       onChange={(e) => {
@@ -330,7 +330,7 @@ function Profile() {
                       <option value="LS13">LS13</option>
                       <option value="LS18">LS18</option>
                       <option value="LS28">LS28</option>
-                    </select>
+                    </select> */}
                   </Form.Group>
 
                   <Form.Group id="tel" className="mb-3">
@@ -483,13 +483,13 @@ function Profile() {
 
                       <Form.Group id="postCode" className="mb-3">
                         <Form.Label>Postcode</Form.Label>
-                        {/* <Form.Control
+                        <Form.Control
                           type="text"
                           ref={postCodeRef}
                           required
                           defaultValue={postCode}
-                        /> */}
-                        <select
+                        />
+                        {/* <select
                           className="form-control"
                           required
                           onChange={(e) => {
@@ -505,7 +505,7 @@ function Profile() {
                           <option value="LS13">LS13</option>
                           <option value="LS18">LS18</option>
                           <option value="LS28">LS28</option>
-                        </select>
+                        </select> */}
                       </Form.Group>
 
                       <Form.Group id="tel" className="mb-3">

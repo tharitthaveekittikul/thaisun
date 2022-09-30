@@ -33,6 +33,8 @@ function Signup() {
   const [showOthers, setShowOthers] = useState(false);
   const [tel, setTel] = useState("");
   const [telComfirm, setTelComfirm] = useState("");
+  // let textSubmit = "";
+  const [textSubmit, setTextSubmit] = useState("");
 
   if (isLogIn) {
     history.push("/");
@@ -58,6 +60,15 @@ function Signup() {
   function handleTelephoneConfirm(e) {
     const formattedPhoneNumber = formatPhoneNumber(e.target.value);
     setTelComfirm(formattedPhoneNumber);
+  }
+
+  function checkLS(post) {
+    let code = post;
+    const searchTerm = "LS";
+    const indexLS = code.indexOf(searchTerm);
+    code = code.slice(indexLS, indexLS + 4); //LS12 ex: L is index 0 so 2 is index 4 (+4)
+    // console.log(code);
+    return code;
   }
 
   async function handleSubmit(e) {
@@ -115,7 +126,20 @@ function Signup() {
     if (town === "") {
       return setError("Please select town.");
     }
-
+    const postCodeCanDeliver = ["LS12", "LS13", "LS28"];
+    // postCodeRef check LS for change text show model
+    if (postCodeCanDeliver.includes(checkLS(postCodeRef.current.value))) {
+      // console.log("INN LS12");
+      setTextSubmit(
+        "Thank you for sign up with ThaiSun.<br/>Estimated time for collection within 30 minutes**.<br/>Estimated time for delivery within 60 minutes**.<br/>*The times given are estimated times only, this may be subject to the number of order but we will endeavor to deliver on time.<br/>Noted: Friday & Saturday delivery may take longer, Collection recommended!!"
+      );
+      // console.log(textSubmit);
+    } else {
+      setTextSubmit(
+        "Thank you for sign up with Thai Sun.<br/>Unfortunately your account can order collection only or please contact restaurant 01133-187-268."
+      );
+      // console.log(textSubmit);
+    }
     try {
       setError("");
       setLoading(true);
@@ -502,14 +526,11 @@ function Signup() {
         </Container>
       )}
       <Modal show={show}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>Thank You!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>
-            Thank you for sign up with Thai Sun. Unfortunately your account can
-            order collection only or please contact restaurant 01133-187-268.
-          </div>
+          <div dangerouslySetInnerHTML={{ __html: textSubmit }}></div>
           <br></br>
           <div>Please check your email to verify this account.</div>
         </Modal.Body>

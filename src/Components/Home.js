@@ -518,7 +518,7 @@ export default function Home(props) {
                       <span>Subtotal:</span>
                       <span>£{Number(subtotalPrice).toFixed(2)}</span>
                     </div>
-                    {localStorage.getItem("Delivery") == "true" &&
+                    {/* {localStorage.getItem("Delivery") == "true" &&
                     Array.isArray(cartProducts) &&
                     cartProducts.length ? (
                       <>
@@ -530,7 +530,7 @@ export default function Home(props) {
                           {town}&nbsp;{postCode}
                         </span>
                       </>
-                    ) : null}
+                    ) : null} */}
                     <div>
                       <span className="t-total">Total:</span>
                       <span className="t-total">
@@ -788,7 +788,7 @@ export default function Home(props) {
                   <span>Subtotal:</span>
                   <span>£{Number(subtotalPrice).toFixed(2)}</span>
                 </div>
-                {localStorage.getItem("Delivery") == "true" ? (
+                {/* {localStorage.getItem("Delivery") == "true" ? (
                   <>
                     <div>
                       <span>Delivery Fee:</span>
@@ -798,7 +798,7 @@ export default function Home(props) {
                       {town}&nbsp;{postCode}
                     </span>
                   </>
-                ) : null}
+                ) : null} */}
                 <div>
                   <span className="t-total">Total:</span>
                   <span className="t-total">

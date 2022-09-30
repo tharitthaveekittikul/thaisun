@@ -10,7 +10,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import AddProducts from "./Components/Dashboard/AddProducts";
 import Cart from "./Components/Cart";
 import ManageAdmin from "./Components/Dashboard/ManageAdmin";
-import Method from "./Components/Method";
+// import Method from "./Components/Method";
 import Receipt from "./Components/Receipt/Receipt";
 import ManageProducts from "./Components/Dashboard/ManageProducts";
 import EditProducts from "./Components/Dashboard/EditProducts";
@@ -37,7 +37,7 @@ export const App = () => {
         <Route path="/addproducts" component={AddProducts} />
         <Route path="/manageadmin" component={ManageAdmin} />
         <Route path="/order" component={Cart} />
-        <Route path="/method" component={Method} />
+        {/* <Route path="/method" component={Method} /> */}
         <Route path="/receipt" component={Receipt} />
         <Route path="/manageproducts" component={ManageProducts} />
         <Route path="/editproducts" component={EditProducts} />
