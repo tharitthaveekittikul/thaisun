@@ -1322,6 +1322,10 @@ function LiveOrder() {
     //คืนสินค้าใส่ตะกร้าลูกค้า uid นั้น
     let uidTemp = orderTemp[0].uiduser;
     let cartProductsTemp = orderTemp[0].cartProducts;
+    // cartProductsTemp = delete cartProductsTemp.DOC_ID;
+    cartProductsTemp.forEach((element) => {
+      delete element.DOC_ID;
+    });
 
     for (let i = 0; i < cartProductsTemp.length; i++) {
       fs.collection("Cart " + uidTemp)
