@@ -459,7 +459,7 @@ function LiveOrder() {
                               font-size: 14px;
                             "
                           >
-                            ${liveorder.county}, ${liveorder.postCode}
+                             ${liveorder.postCode}
                           </p>
                         </td>
                       </tr>
@@ -1651,7 +1651,7 @@ function LiveOrder() {
                               font-size: 14px;
                             "
                           >
-                            ${orderTemp[0].county}, ${orderTemp[0].address}
+                             ${orderTemp[0].address}
                           </p>
                           <p
                             style="
@@ -2676,7 +2676,6 @@ function LiveOrder() {
                         House: {liveorder.house} <br></br>
                         Address: {liveorder.address} <br></br>
                         Town: {liveorder.town} <br></br>
-                        County: {liveorder.county} <br></br>
                         Postcode: {liveorder.postCode} <br></br>
                       </Card.Text>
                       {liveorder.instructionToRes ? (

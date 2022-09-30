@@ -102,7 +102,6 @@ function Order() {
                           <p>House: </p>
                           <p>Address: </p>
                           <p>Town: </p>
-                          <p>County: </p>
                           <p>Postcode: </p>
                           <p>Phone Number: </p>
                           <p>Email: </p>
@@ -119,7 +118,6 @@ function Order() {
                           {orders.house ? <p>{orders.house}</p> : <p>-----</p>}
                           <p>{orders.address}</p>
                           <p>{orders.town}</p>
-                          <p>{orders.county}</p>
                           <p>{orders.postCode}</p>
                           <p>{orders.Telephone}</p>
                           <p>{orders.email}</p>

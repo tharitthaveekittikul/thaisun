@@ -154,8 +154,6 @@ function Receipt() {
                 " " +
                 orders.town +
                 " " +
-                orders.county +
-                " " +
                 orders.postCode}
               <br />
               PHONE: {orders.Telephone}

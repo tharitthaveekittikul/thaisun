@@ -274,7 +274,7 @@ function Checkout() {
         history.push("/");
       }
     }
-  }, [town, postCode, buttonDisable, deliveryChange]);
+  }, [town, postCode, deliveryChange]);
 
   useEffect(() => {
     try {
