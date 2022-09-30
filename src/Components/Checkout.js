@@ -30,6 +30,7 @@ function Checkout() {
   const [postCode, setPostCode] = useState("");
   const [tel, setTel] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [uidUser, setUidUser] = useState("");
 
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -67,6 +68,8 @@ function Checkout() {
             setCounty(snapshot.data().County);
             setPostCode(snapshot.data().PostCode);
             setTel(snapshot.data().Telephone);
+            setUidUser(user.uid);
+            console.log(user.uid);
             Coupons = snapshot.data().Coupons;
             setButtonDisable(false);
           });
@@ -104,7 +107,7 @@ function Checkout() {
   Coupons = GetCouponsUser();
   const [fromCart, setFromCart] = useState(null);
 
-  let fee = 2;
+  let fee = 0;
   useEffect(() => {
     try {
       // setFee(local.state.Fee);
@@ -124,6 +127,16 @@ function Checkout() {
   const miles = 3; //default 3 miles
   useEffect(() => {
     if (localStorage.getItem("Delivery") == "true") {
+      if (
+        checkLS(postCode).toUpperCase() != "LS12" &&
+        checkLS(postCode).toUpperCase() != "LS13" &&
+        checkLS(postCode).toUpperCase() != "LS28"
+      ) {
+        setButtonDisable(true);
+      } else {
+        setButtonDisable(false);
+      }
+
       // setFee(2);
       let fee_temp = 2;
       if (town === "Calvery") {
@@ -340,6 +353,7 @@ function Checkout() {
 
   function handleChangeState(event) {
     if (event.target.value == "pickup") {
+      setButtonDisable(false);
       // console.log("pickup");
       setPickupState(true);
       localStorage.setItem("Delivery", false);
@@ -430,6 +444,8 @@ function Checkout() {
   }, []);
 
   const handleSubmit = (type, detailp) => {
+    const delState = localStorage.getItem("Delivery") === "true";
+
     if (town === "") {
       setError("Please select town");
       return setButtonDisable(false);
@@ -437,8 +453,7 @@ function Checkout() {
       setError("Please select postcode");
       return setButtonDisable(false);
     }
-
-    if (houseRef.current.value === "") {
+    if (delState && houseRef.current.value === "") {
       setError("House number shouldn't be empty");
       return setButtonDisable(false);
     }
@@ -447,7 +462,6 @@ function Checkout() {
     let houseTemp;
     let addressTemp;
     let townTemp;
-    let countyTemp;
     let postCodeTemp;
     if (type == "paypal") {
       pOrder = { type: "paypal", detail: detailp };
@@ -455,13 +469,12 @@ function Checkout() {
     if (type == "cash") {
       pOrder = { type: "cash" };
     }
-    const delState = localStorage.getItem("Delivery") === "true";
+
     if (delState == true) {
       houseTemp = houseRef.current.value;
       addressTemp = addressRef.current.value;
       // townTemp = townRef.current.value;
       townTemp = town;
-      countyTemp = countyRef.current.value;
       // postCodeTemp = postCodeRef.current.value;
       postCodeTemp = postCode;
       // console.log("delivery=================");
@@ -469,13 +482,14 @@ function Checkout() {
       houseTemp = house;
       addressTemp = address;
       townTemp = town;
-      countyTemp = county;
       postCodeTemp = postCode;
     }
 
     setMessage("");
     setError("");
     // console.log("coupons : " + Coupons);
+
+    console.log(uidUser);
 
     fs.collection("orderHistory")
       .get()
@@ -488,6 +502,9 @@ function Checkout() {
             // console.log("liveorder " + live.docs.length);
             total = total + live.docs.length;
             let totalOrder = Number(total) + 1;
+
+            console.log(fromCart.cartProducts);
+
             fs.collection("liveorder")
               .add({
                 ...fromCart,
@@ -497,7 +514,6 @@ function Checkout() {
                 house: houseTemp,
                 address: addressTemp,
                 town: townTemp,
-                county: countyTemp,
                 postCode: postCodeTemp,
                 Telephone: tel,
                 pickupState: pickupState,
@@ -505,6 +521,7 @@ function Checkout() {
                 date: String(format(new Date(), "LLLL dd, yyyy kk:mm:ss")),
                 payment: pOrder,
                 orderNo: totalOrder,
+                uiduser: uidUser,
               })
               .then(() => {
                 fs.collection("users")
@@ -539,7 +556,6 @@ function Checkout() {
                               house: houseTemp,
                               address: addressTemp,
                               town: townTemp,
-                              county: countyTemp,
                               postCode: postCodeTemp,
                               Telephone: tel,
                               pickupState: pickupState,
@@ -574,7 +590,7 @@ function Checkout() {
               <Form onSubmit={(e) => e.preventDefault()}>
                 <FormControl>
                   <FormLabel style={{ color: "#6b6b6b" }}>
-                    Pick Up or Delivery{" "}
+                    Collection or Delivery{" "}
                     <span style={{ color: "#e80532", fontWeight: "500" }}>
                       *
                     </span>
@@ -590,7 +606,7 @@ function Checkout() {
                         <FormControlLabel
                           value="pickup"
                           control={<Radio style={{ color: "#e80532" }} />}
-                          label="Pick Up"
+                          label="Collection"
                         />
                         <FormControlLabel
                           value="delivery"
@@ -610,7 +626,7 @@ function Checkout() {
                         <FormControlLabel
                           value="pickup"
                           control={<Radio style={{ color: "#e80532" }} />}
-                          label="Pick Up"
+                          label="Collection"
                         />
                         <FormControlLabel
                           value="delivery"
@@ -625,6 +641,20 @@ function Checkout() {
                   <div></div>
                 ) : (
                   <div>
+                    <span
+                      style={{
+                        fontWeight: "400",
+                        fontSize: "16px",
+                        color: "#e80532",
+                        textTransform: "none",
+                      }}
+                    >
+                      {" "}
+                      Delivery only available in LS12, LS13, LS28. If not please
+                      call the restaurant 01133-187-268 or change to collection.
+                    </span>
+                    <br></br>
+                    <br></br>
                     <FormLabel>
                       House Number/ Flat Number / House Name{" "}
                       <span style={{ color: "#e80532", fontWeight: "500" }}>

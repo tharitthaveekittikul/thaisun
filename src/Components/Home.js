@@ -359,11 +359,11 @@ export default function Home(props) {
 
   const [hideScroll, setHideScroll] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setHideScroll(true);
-    }, 5000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setHideScroll(true);
+  //   }, 5000);
+  // }, []);
 
   return (
     <>
@@ -514,10 +514,10 @@ export default function Home(props) {
                   <br></br>
 
                   <div className="total-section">
-                    <div>
+                    {/* <div>
                       <span>Subtotal:</span>
                       <span>£{Number(subtotalPrice).toFixed(2)}</span>
-                    </div>
+                    </div> */}
                     {/* {localStorage.getItem("Delivery") == "true" &&
                     Array.isArray(cartProducts) &&
                     cartProducts.length ? (
@@ -532,9 +532,9 @@ export default function Home(props) {
                       </>
                     ) : null} */}
                     <div>
-                      <span className="t-total">Total:</span>
+                      <span className="t-total">Subtotal:</span>
                       <span className="t-total">
-                        £{Number(totalPrice).toFixed(2)}
+                        £{Number(subtotalPrice).toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -568,8 +568,8 @@ export default function Home(props) {
         }}
         className="shadow"
         onScroll={() => setHideScroll(true)}
-        autoHide={hideScroll}
-        autoHideTimeout={500}
+        // autoHide={hideScroll}
+        // autoHideTimeout={500}
         renderThumbHorizontal={({ style }) => (
           <div
             style={{
@@ -784,10 +784,10 @@ export default function Home(props) {
               <br></br>
 
               <div className="total-section">
-                <div>
+                {/* <div>
                   <span>Subtotal:</span>
                   <span>£{Number(subtotalPrice).toFixed(2)}</span>
-                </div>
+                </div> */}
                 {/* {localStorage.getItem("Delivery") == "true" ? (
                   <>
                     <div>
@@ -800,9 +800,9 @@ export default function Home(props) {
                   </>
                 ) : null} */}
                 <div>
-                  <span className="t-total">Total:</span>
+                  <span className="t-total">Subtotal:</span>
                   <span className="t-total">
-                    £{Number(totalPrice).toFixed(2)}
+                    £{Number(subtotalPrice).toFixed(2)}
                   </span>
                 </div>
               </div>

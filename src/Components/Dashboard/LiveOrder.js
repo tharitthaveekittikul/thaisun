@@ -1318,6 +1318,21 @@ function LiveOrder() {
   function handleDecline() {
     setShowSure(false);
     setShowReason(false);
+
+    //คืนสินค้าใส่ตะกร้าลูกค้า uid นั้น
+    let uidTemp = orderTemp[0].uiduser;
+    let cartProductsTemp = orderTemp[0].cartProducts;
+
+    for (let i = 0; i < cartProductsTemp.length; i++) {
+      fs.collection("Cart " + uidTemp)
+        .add({
+          ...cartProductsTemp[i],
+        })
+        .then(() => {
+          // console.log("increment added");
+        });
+    }
+
     let detailsOrder = `<table
     class="es-content"
     cellspacing="0"
